@@ -30,12 +30,12 @@ public class Errorservlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
-//		response.setContentType("text/html;charset=utf-8");
-//		PrintWriter out=response.getWriter();
-//		out.println("µÇÂ½Ê§°Ü");
-//		out.close();
-		response.setStatus(response.SC_MOVED_TEMPORARILY);
-		response.setHeader("Location", "/RXDS/NewFile.html");
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out=response.getWriter();
+		out.println("µÇÂ½Ê§°Ü");
+		out.close();
+		//response.setStatus(response.SC_MOVED_TEMPORARILY);
+		//response.setHeader("Location", "/RXDS/NewFile.html");
 	}
 
 	/**

@@ -37,11 +37,11 @@ public class Loginservlet extends HttpServlet {
 		try {
 			if(user.Query("test")){
 				System.out.println("true");
-				response.sendRedirect("/RXDS/Welcome");
+				response.sendRedirect("/REDS/Welcome");
 			}
 			else{
 				//System.out.println("false");
-				response.sendRedirect("/RXDS/Error");
+				response.sendRedirect("/REDS/Error");
 			}
 		} catch (Exception e) {
 			// TODO 自动生成的 catch 块
