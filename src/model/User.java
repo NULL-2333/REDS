@@ -21,5 +21,9 @@ public class User {
 		DBhelper db=new DBhelper();
 		return db.Query(keyword);
 	}
-	
+	//在数据库中创建对应的用户
+	public boolean Create(){
+		
+		return true;
+	}
 }
