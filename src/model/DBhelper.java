@@ -1,5 +1,4 @@
 package model;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.bson.Document;
@@ -15,33 +14,34 @@ import com.mongodb.client.model.Filters;
 
 
 public class DBhelper {
+	
 	public static void main(String args[]){
-		MongoDatabase mongoDatabase = DBconnect("mycol");
-		MongoCollection<Document> mongoCollection = CollectionBuild("test",mongoDatabase);
-		MongoCollection<Document> mongoCollection2 = CollectionBuild("test2",mongoDatabase);
+		DBhelper db = new DBhelper("test","myFirst");
 		Document document = new Document("title", "MongoDB").  
 		         append("description", "database").  
 		         append("likes", 100).  
-		         append("by", "Fly"); 
-		InsertOneDocument(mongoCollection,document);
-		InsertOneDocument(mongoCollection2,document);
-		//FindAll(mongoCollection);
-		//FindManyNotEqualDocument(mongoCollection, "by","Fly");
-		//DeleteManyEqualDocument(mongoCollection,"by","Fly");
-		//FindAll(mongoCollection);
-		//FindManyNotEqualDocument(mongoCollection, "by","Fly");
-		//DeleteCollection(mongoCollection);
-		DeleteCollection(mongoDatabase);
+		         append("by", "Fly");
+		db.InsertOneDocument(collection, document);
+		db.DeleteCollection(collection);
+		db.DeleteDatabase(database);
 	}
+	protected static MongoDatabase database = null;
+	protected static MongoCollection<Document> collection = null;
+	//构造函数
+	public DBhelper(String databaseName,String collectionName){
+		database = DatabaseConnect(databaseName);
+  		collection = CollectionConnect(collectionName, database);
+	}
+	
 	//数据库连接
-	private static MongoDatabase DBconnect(String databaseName) {
+	public MongoDatabase DatabaseConnect(String databaseName) {
 		// TODO Auto-generated method stub
 		try{
 			//连接到 mongodb 服务
 	        MongoClient mongoClient = new MongoClient( "localhost" , 27017 );
 	        //连接到数据库
 	        MongoDatabase mongoDatabase = mongoClient.getDatabase(databaseName);
-	        System.out.println("Connect to database successfully");
+	        System.out.println("Connect to database successfully!");
 	        return mongoDatabase;
 		}catch(Exception e){
 	        System.err.println( e.getClass().getName() + ": " + e.getMessage() );
@@ -51,166 +51,204 @@ public class DBhelper {
 	}
 	
 	//数据库表的选择
-	public static MongoCollection<Document> CollectionBuild(String name, MongoDatabase mongoDatabase){
+	public MongoCollection<Document> CollectionConnect(String name, MongoDatabase mongoDatabase){
 		MongoCollection<Document> collection = mongoDatabase.getCollection(name);
-		System.out.println("Connect to collection successfully");
+		System.out.println("Connect to collection successfully!");
 		return collection;
 	}
 
 	//在数据库表中插入单个文档
-	public static void InsertOneDocument(MongoCollection<Document> mongoCollection, Document document){
+	public void InsertOneDocument(MongoCollection<Document> mongoCollection, Document document){
 		mongoCollection.insertOne(document);  
-		System.out.println("Document Insertion Succeed");
+		System.out.println("Single document insertion succeed");
 	}
 	
 	//在数据库表中插入多个文档
-	public static void InsertManyDocument(MongoCollection<Document> mongoCollection, List<Document> documents){ 
+	public void InsertManyDocument(MongoCollection<Document> mongoCollection, List<Document> documents){ 
 		mongoCollection.insertMany(documents);  
-		System.out.println("Documents Insertion Succeed");
+		System.out.println("Multiple documents insertion succeed");
 	}
 	
 	//打印该数据库集合中的所有文档
-	public static void FindAll(MongoCollection<Document> collection){
+	public void FindAll(MongoCollection<Document> collection){
 		FindIterable<Document> findIterable = collection.find();  
-        MongoCursor<Document> mongoCursor = findIterable.iterator();  
+        MongoCursor<Document> mongoCursor = findIterable.iterator(); 
+        System.out.println("------------------------------------------------");
+        System.out.println("All documents:");
         while(mongoCursor.hasNext()){  
            System.out.println(mongoCursor.next());  
         }
+        System.out.println("------------------------------------------------");
 	}
 	
 	//查找数据库集合中满足某一条件的所有文档（相等）
-	public static void FindManyEqualDocument(MongoCollection<Document> collection, String attribute, String value){
+	public void FindManyEqualDocument(MongoCollection<Document> collection, String attribute, String value){
 		FindIterable<Document> iter = collection.find(Filters.eq(attribute,value));
+        System.out.println("------------------------------------------------");
+        System.out.println("Find all documents with "+ attribute + " = " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				System.out.println(doc.toJson());
 				}
 			});
+        System.out.println("------------------------------------------------");
 	}
 	
 	//删除数据库集合中满足某一条件的所有文档（相等）
-	public static void DeleteManyEqualDocument(MongoCollection<Document> collection, String attribute, String value){
+	public void DeleteManyEqualDocument(MongoCollection<Document> collection, String attribute, String value){
 		FindIterable<Document> iter = collection.find(Filters.eq(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Delete all documents with "+ attribute + " = " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				collection.deleteMany(doc);
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//查找数据库集合中满足某一条件的所有文档（不等）
-	public static void FindManyNotEqualDocument(MongoCollection<Document> collection, String attribute, String value){
+	public void FindManyNotEqualDocument(MongoCollection<Document> collection, String attribute, String value){
 		FindIterable<Document> iter = collection.find(Filters.ne(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Find all documents with "+ attribute + " != " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				System.out.println(doc.toJson());
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//删除数据库集合中满足某一条件的所有文档（不等）
-	public static void DeleteManyNotEqualDocument(MongoCollection<Document> collection, String attribute, String value){
+	public void DeleteManyNotEqualDocument(MongoCollection<Document> collection, String attribute, String value){
 		FindIterable<Document> iter = collection.find(Filters.ne(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Delete all documents with "+ attribute + " != " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				collection.deleteMany(doc);
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//查找数据库集合中满足某一条件的所有文档（大于）
-	public static void FindManyGreaterDocument(MongoCollection<Document> collection, String attribute, Float value){
+	public void FindManyGreaterDocument(MongoCollection<Document> collection, String attribute, Float value){
 		FindIterable<Document> iter = collection.find(Filters.gt(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Find all documents with "+ attribute + " > " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				System.out.println(doc.toJson());
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//删除数据库集合中满足某一条件的所有文档（大于）
-	public static void DeleteManyGreaterDocument(MongoCollection<Document> collection, String attribute, Float value){
+	public void DeleteManyGreaterDocument(MongoCollection<Document> collection, String attribute, Float value){
 		FindIterable<Document> iter = collection.find(Filters.gt(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Delete all documents with "+ attribute + " > " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				collection.deleteMany(doc);
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//查找数据库集合中满足某一条件的所有文档（小于）
-	public static void FindManyLessDocument(MongoCollection<Document> collection, String attribute, Float value){
+	public void FindManyLessDocument(MongoCollection<Document> collection, String attribute, Float value){
 		FindIterable<Document> iter = collection.find(Filters.lt(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Find all documents with "+ attribute + " < " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				System.out.println(doc.toJson());
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//删除数据库集合中满足某一条件的所有文档（小于）
-	public static void DeleteManyLessDocument(MongoCollection<Document> collection, String attribute, Float value){
+	public void DeleteManyLessDocument(MongoCollection<Document> collection, String attribute, Float value){
 		FindIterable<Document> iter = collection.find(Filters.lt(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Delete all documents with "+ attribute + " < " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				collection.deleteMany(doc);
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//查找数据库集合中满足某一条件的所有文档（大于等于）
-	public static void FindManyGreaterEqualDocument(MongoCollection<Document> collection, String attribute, Float value){
+	public void FindManyGreaterEqualDocument(MongoCollection<Document> collection, String attribute, Float value){
 		FindIterable<Document> iter = collection.find(Filters.gte(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Find all documents with "+ attribute + " >= " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				System.out.println(doc.toJson());
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//删除数据库集合中满足某一条件的所有文档（大于等于）
-	public static void DeleteManyGreaterEqualDocument(MongoCollection<Document> collection, String attribute, Float value){
+	public void DeleteManyGreaterEqualDocument(MongoCollection<Document> collection, String attribute, Float value){
 		FindIterable<Document> iter = collection.find(Filters.gte(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Delete all documents with "+ attribute + " >= " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				collection.deleteMany(doc);
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//查找数据库集合中满足某一条件的所有文档（小于等于）
-	public static void FindManyLessEqualDocument(MongoCollection<Document> collection, String attribute, Float value){
+	public void FindManyLessEqualDocument(MongoCollection<Document> collection, String attribute, Float value){
 		FindIterable<Document> iter = collection.find(Filters.lte(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Find all documents with "+ attribute + " <= " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				System.out.println(doc.toJson());
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//删除数据库集合中满足某一条件的所有文档（小于等于）
-	public static void DeleteManyLessEqualDocument(MongoCollection<Document> collection, String attribute, Float value){
+	public void DeleteManyLessEqualDocument(MongoCollection<Document> collection, String attribute, Float value){
 		FindIterable<Document> iter = collection.find(Filters.lte(attribute,value));
+		System.out.println("------------------------------------------------");
+        System.out.println("Delete all documents with "+ attribute + " <= " + value + ":");
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				collection.deleteMany(doc);
 				}
 			});
+		System.out.println("------------------------------------------------");
 	}
 	
 	//删除数据库集合
-	public static void DeleteCollection(MongoCollection<Document> collection){
+	public void DeleteCollection(MongoCollection<Document> collection){
 		collection.drop();
+		System.out.println("Collection: " + collection.getNamespace()+" has been deleted!");
 	}
 	
 	//删除数据库
-	public static void DeleteDatabase(MongoDatabase database){
+	public void DeleteDatabase(MongoDatabase database){
 		database.drop();
+		System.out.println("Database: " + database.getName()+" has been deleted!");
 	}
 	
-  	public DBhelper(){
-		
-	}
 	
 	
 }
