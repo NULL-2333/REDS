@@ -52,7 +52,6 @@ public class DBhelper {
 			JsonParser parser = new JsonParser();
 			JsonObject object;
 			object = (JsonObject) parser.parse(new FileReader(jsonName));
-			//System.out.println(object.get("id").getAsString());
 			Document document = new Document();
 			for(int i = 0;i < attrNum;i++){
 				document.append(attrList[i], object.get(attrList[i]).getAsString());
