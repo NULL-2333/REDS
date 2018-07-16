@@ -1,6 +1,7 @@
 {
-	"category":"it",
-	"languages":"C#",
-	"id":1,
-	"pop":true
+	"category":["it"],
+	"languages":["C#"],
+	"info":["a","b","c"],
+	"id":[1],
+	"pop":[true]
 }

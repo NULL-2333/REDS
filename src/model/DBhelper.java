@@ -30,8 +30,9 @@ public class DBhelper {
 		//         append("languages", "c#").  
 		//         append("id", 1).  
 		//         append("pop", true);
-		String[] attrList={"category","languages","id","pop"};
-		Document document = new Document(db.Json2Document("test.json", attrList, 4));
+		String[] attrList={"category","languages","id","info","pop"};
+		//db.Json2Document("test.json", attrList, 5);
+		Document document = new Document(db.Json2Document("test.json", attrList, 5));
 		db.InsertOneDocument(collection, document);
 		//db.DeleteCollection(collection);
 		//db.DeleteDatabase(database);
@@ -54,7 +55,8 @@ public class DBhelper {
 			object = (JsonObject) parser.parse(new FileReader(jsonName));
 			Document document = new Document();
 			for(int i = 0;i < attrNum;i++){
-				document.append(attrList[i], object.get(attrList[i]).getAsString());
+				document.append(attrList[i], object.get(attrList[i]).getAsJsonArray().toString());
+				System.out.println(object.get(attrList[i]).getAsJsonArray().toString());
 			}
 			return document;
 		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
