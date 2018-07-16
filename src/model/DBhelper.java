@@ -1,4 +1,7 @@
 package model;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.List;
 
 import org.bson.Document;
@@ -12,18 +15,27 @@ import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonIOException;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
+
 
 public class DBhelper {
 	
 	public static void main(String args[]){
 		DBhelper db = new DBhelper("test","myFirst");
-		Document document = new Document("title", "MongoDB").  
-		         append("description", "database").  
-		         append("likes", 100).  
-		         append("by", "Fly");
+		//Document document = new Document("category", "it").  
+		//         append("languages", "c#").  
+		//         append("id", 1).  
+		//         append("pop", true);
+		String[] attrList={"category","languages","id","pop"};
+		Document document = new Document(db.Json2Document("test.json", attrList, 4));
 		db.InsertOneDocument(collection, document);
-		db.DeleteCollection(collection);
-		db.DeleteDatabase(database);
+		//db.DeleteCollection(collection);
+		//db.DeleteDatabase(database);
+		
 	}
 	protected static MongoDatabase database = null;
 	protected static MongoCollection<Document> collection = null;
@@ -33,6 +45,29 @@ public class DBhelper {
   		collection = CollectionConnect(collectionName, database);
 	}
 	
+	//JSON转Document
+	public Document Json2Document(String jsonName, String[] attrList, int attrNum){
+		try {
+			
+			JsonParser parser = new JsonParser();
+			JsonObject object;
+			object = (JsonObject) parser.parse(new FileReader(jsonName));
+			//System.out.println(object.get("id").getAsString());
+			Document document = new Document();
+			for(int i = 0;i < attrNum;i++){
+				document.append(attrList[i], object.get(attrList[i]).getAsString());
+			}
+			return document;
+		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+		
+		
+		
+		
+	}
 	//数据库连接
 	public MongoDatabase DatabaseConnect(String databaseName) {
 		// TODO Auto-generated method stub
