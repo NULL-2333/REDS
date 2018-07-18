@@ -24,20 +24,20 @@ import com.google.gson.JsonSyntaxException;
 
 public class DBhelper {
 	
-	public static void main(String args[]){
-		DBhelper db = new DBhelper("test","myFirst");
-		//Document document = new Document("category", "it").  
-		//         append("languages", "c#").  
-		//         append("id", 1).  
-		//         append("pop", true);
-		String[] attrList={"category","languages","id","info","pop"};
-		//db.Json2Document("test.json", attrList, 5);
-		Document document = new Document(db.Json2Document("test.json", attrList, 5));
-		db.InsertOneDocument(collection, document);
-		//db.DeleteCollection(collection);
-		//db.DeleteDatabase(database);
-		
-	}
+//	public static void main(String args[]){
+//		DBhelper db = new DBhelper("test","myFirst");
+//		//Document document = new Document("category", "it").  
+//		//         append("languages", "c#").  
+//		//         append("id", 1).  
+//		//         append("pop", true);
+//		String[] attrList={"category","languages","id","info","pop"};
+//		//db.Json2Document("test.json", attrList, 5);
+//		Document document = new Document(db.Json2Document("test.json", attrList, 5));
+//		db.InsertOneDocument(collection, document);
+//		//db.DeleteCollection(collection);
+//		//db.DeleteDatabase(database);
+//		
+//	}
 	protected static MongoDatabase database = null;
 	protected static MongoCollection<Document> collection = null;
 	//¹¹Ôìº¯Êý

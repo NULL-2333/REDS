@@ -35,7 +35,7 @@ public class Loginservlet extends HttpServlet {
 		//创建用户
 		User user = new User(account,password);
 		try {
-			if(user.Query("test")){
+			if(user.Query(account,password)){
 				System.out.println("true");
 				response.sendRedirect("/REDS/Welcome");
 			}

@@ -9,14 +9,17 @@ public class Relation {
 	private String entity2;//实体关系2
 	private ArrayList<String> labels;//标签
 	private String note;//备注
+	//添加标签
 	public boolean AddLabel(String label){
 		labels.add(label);
 		return true;
 	}
+	//删除标签
 	public boolean RemoveLabel(String label){
 		labels.remove(label);
 		return true;
 	}
+	//更新备注
 	public boolean UpdateNote(String note){
 		return true;
 	}
@@ -26,5 +29,5 @@ public class Relation {
 		//对String进行划分，为相关的变量赋值
 		
 	}
-	
+
 }

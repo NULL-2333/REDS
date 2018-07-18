@@ -1,7 +1,11 @@
 package model;
+import org.bson.Document;
+
 public class User {
 	private String account;
 	private String password;
+	private MyFile[] MyFiles;
+	
 	public User(String account,String password){
 		this.account=account;
 		this.password=password;
@@ -14,16 +18,35 @@ public class User {
 	}
 	public boolean isExist(){
 		User user=new User(account,password);
-		
+		DBhelper db=new DBhelper("UserInfo","User");
+		//db.FindManyEqualDocument("User", attribute, value);
 		return false;
 	}
-	public boolean Query(String keyword){
-		DBhelper db=new DBhelper();
-		return db.Query(keyword);
+	//查询登陆信息
+	public boolean Query(String account,String password){
+		DBhelper db=new DBhelper("UserInfo","User");		
+		Document document = new Document("account",account).append("password",password);
+		try {
+			//db.InsertOneDocument(db.collection, document);
+			db.FindManyEqualDocument(db.collection, "account", account);
+			return true;
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+			return false;
+		}
 	}
 	//在数据库中创建对应的用户
-	public boolean Create(){
-		
-		return true;
+	public boolean Create(){		
+		DBhelper db=new DBhelper("UserInfo","User");
+		Document document = new Document("account",account).append("password",password);
+		try {
+			db.InsertOneDocument(db.collection, document);
+			return true;
+		} catch (Exception e) {
+			// TODO 自动生成的 catch 块
+			e.printStackTrace();
+			return false;
+		}
 	}
 }
