@@ -122,8 +122,10 @@ public class Uploadservlet extends HttpServlet {
                 InputStream in = item.getInputStream();
                 //得到文件保存的名称
                 String saveFilename = makeFileName(filename);
+                System.out.println("保存的文件名是："+saveFilename);
                 //得到文件的保存目录
                 String realSavePath = makePath(saveFilename, savePath);
+                System.out.println("保存目录是："+realSavePath);
                 //创建一个文件输出流
                 FileOutputStream out = new FileOutputStream(realSavePath + "\\" + saveFilename);
                 //创建一个缓冲区
@@ -141,7 +143,7 @@ public class Uploadservlet extends HttpServlet {
                 out.close();
                 //删除处理文件上传时生成的临时文件
                 //item.delete();
-                response.getWriter().println("<script type='text/javascript'>alert('上传失败！')</script>");
+                response.getWriter().println("<script type='text/javascript'>alert('upload failed')</script>");
             }
         }
         }

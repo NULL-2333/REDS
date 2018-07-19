@@ -8,6 +8,7 @@ public class FileDao {
 	List<MyFile> files=null;
 	public void UpFile(MyFile my_file){
 		//调用dbhelper中的上传
+		System.out.println("use function Upfile...");
 	}
 	
 }
