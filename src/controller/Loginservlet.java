@@ -29,10 +29,10 @@ public class Loginservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//½ÓÊÜÓÃ»§Ìá½»µÄÓÃ»§ÃûºÍÃÜÂë
+		//æ¥å—ç”¨æˆ·åæäº¤çš„ç”¨æˆ·å¯†ç 
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
-		//´´½¨ÓÃ»§
+		//åˆ›å»ºç”¨æˆ·
 		User user = new User(account,password);
 		try {
 			if(user.Query(account,password)){
@@ -40,11 +40,11 @@ public class Loginservlet extends HttpServlet {
 				response.sendRedirect("/REDS/Welcome");
 			}
 			else{
-				//System.out.println("false");
+				System.out.println("false");
 				response.sendRedirect("/REDS/Error");
 			}
 		} catch (Exception e) {
-			// TODO ×Ô¶¯Éú³ÉµÄ catch ¿é
+			// TODO è‡ªåŠ¨ç”Ÿæˆçš„ catch å—
 			e.printStackTrace();
 		}
 
