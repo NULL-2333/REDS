@@ -51,7 +51,7 @@ public class Uploadservlet extends HttpServlet {
 		//得到上传时生成的临时文件保存目录
 		String tempPath=this.getServletContext().getRealPath("/WEB-INF/temp");
 		//得到上传文件的保存目录
-		String savePath=this.getServletContext().getRealPath("/WEB-INF/upload");
+		String savePath=this.getServletContext().getRealPath("AttFilePath");
 		File tempFile=new File(tempPath);
 		//若临时文件不存在，则创建目录
 		if(!tempFile.exists()){
@@ -102,7 +102,6 @@ public class Uploadservlet extends HttpServlet {
                 filename = filename.substring(filename.lastIndexOf("\\")+1);
                 /**
                  * 将上传的文件保存到数据库
-                 * @author baicai
                  * time上传时间
                  * filename文件名
                  * savePath文件路径

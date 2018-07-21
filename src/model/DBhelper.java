@@ -7,6 +7,7 @@ import java.util.List;
 import org.bson.Document;
 
 import com.mongodb.Block;
+import com.mongodb.DBCollection;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
@@ -129,6 +130,25 @@ public class DBhelper {
 			});
         System.out.println("------------------------------------------------");
 	}
+	
+	//test for user login
+	//find whether there's certain document in database
+	//by JC
+	public boolean FindCertainDocument(Document document){
+		FindIterable<Document> iter = collection.find(document);
+		 MongoCursor<Document> cursor = iter.iterator();
+		 while(cursor.hasNext()){
+			 Document doc = cursor.next();  
+             System.out.println("符合条件的:" + doc.toJson());
+             cursor.close();
+             return true;
+		 }
+		 cursor.close();
+		return false;
+	}
+	
+	
+	
 	
 	//删除数据库集合中满足某一条件的所有文档（相等）
 	public void DeleteManyEqualDocument(MongoCollection<Document> collection, String attribute, String value){

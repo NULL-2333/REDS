@@ -24,12 +24,14 @@ public class User {
 	}
 	//查询登陆信息
 	public boolean Query(String account,String password){
-		DBhelper db=new DBhelper("UserInfo","User");		
+		DBhelper db=new DBhelper("UserInfo","User");	
 		Document document = new Document("account",account).append("password",password);
+		System.out.println("printing document...");
+		System.out.println(document);
+		System.out.println("finished");
 		try {
 			//db.InsertOneDocument(db.collection, document);
-			db.FindManyEqualDocument(db.collection, "account", account);
-			return true;
+			return db.FindCertainDocument(document);
 		} catch (Exception e) {
 			// TODO 自动生成的 catch 块
 			e.printStackTrace();

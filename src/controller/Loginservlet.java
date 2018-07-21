@@ -32,7 +32,6 @@ public class Loginservlet extends HttpServlet {
 		//接受用户提交的用户名和密码
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
-		//创建用户
 		User user = new User(account,password);
 		try {
 			if(user.Query(account,password)){
