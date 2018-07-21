@@ -1,18 +1,54 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>表单</title>
-</head>
-<body>
-	<h1>用户登陆</h1>
-	<form action="/REDS/Login" method="post">
-	账号<input type="text" name="account"/>
-		<br>
-	密码<input type="password" name="password"/>
-		<br>
-		<input type="submit" value="提交"/>
-	</form>
+	<meta charset="UTF-8">
+	<title> REDS </title>
+	<style type="text/css">
+		.a{
+			background-color:white;
+			margin:0px auto; 
+			width:300px;
+			border:0.5px solid gray;
+			border-radius:10px;
+		}
 		
+		label{
+            cursor: pointer;
+            display: inline-block;
+            padding: 3px 6px;
+            text-align: right;
+            width: 60px;
+            vertical-align: top;
+        }
+        
+        body{
+        	font-family:Microsoft YaHei;
+        	font-weight:200;
+        }
+	</style>
+
+</head>
+
+<body bgcolor="#f9f9f9">
+	<form action="/REDS/Login" method="post" >
+		<div class="a">
+			<h3 align="center">欢迎使用智能诊断系统</h3>
+			<p>
+				<label for="user" >User:</label>
+				<input type="text" name="account" style="border-radius:5px;" >
+			</p>
+			<p>
+				<label for="password" >Pwd:</label>
+				<input type="text" name="password" style="border-radius:5px;">
+			</p>
+			<p>
+				<input type="submit" value="Sign in" style="background:#34d058;color:#ffffff;border:#28a745;margin:0 76px;width:172px;height:20px">
+			</p>
+			
+			
+		</div>
+	</form> 
 </body>
+
 </html>

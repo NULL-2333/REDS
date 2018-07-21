@@ -29,7 +29,6 @@ public class Loginservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//接受用户提交的用户名和密码
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
 		User user = new User(account,password);
@@ -39,11 +38,10 @@ public class Loginservlet extends HttpServlet {
 				response.sendRedirect("/REDS/Welcome");
 			}
 			else{
-				//System.out.println("false");
+				System.out.println("false");
 				response.sendRedirect("/REDS/Error");
 			}
 		} catch (Exception e) {
-			// TODO 自动生成的 catch 块
 			e.printStackTrace();
 		}
 
