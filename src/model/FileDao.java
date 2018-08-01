@@ -32,7 +32,7 @@ public class FileDao {
 				scanner.close();
 			}
 		}
-		JsonObject object=
+		
 	}
 	
 }

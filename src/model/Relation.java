@@ -87,10 +87,10 @@ public class Relation {
 	private void setEntity2(String entity2) {
 		this.entity2 = entity2;
 	}
-	public ArrayList<String> getLabels() {
+	public String getLabels() {
 		return labels;
 	}
-	private void setLabels(ArrayList<String> labels) {
+	private void setLabels(String labels) {
 		this.labels = labels;
 	}
 	public String getNote() {
