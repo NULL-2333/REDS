@@ -1,7 +1,10 @@
 package model;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Scanner;
 import com.google.gson.JsonObject;
@@ -14,25 +17,32 @@ public class FileDao {
 	List<MyFile> files=null;
 	public void UpFile(MyFile my_file){
 		//调用dbhelper中的上传
-		Relation re=new Relation();
-		String fileName=my_file.getFilePath()+"/"+my_file.getFileName();
+		//Relation re=new Relation();
+		String fileName=my_file.getFilePath()+"\\"+my_file.getFileName();
+		System.out.println(fileName);
 		File file=new File(fileName);
-		StringBuilder buffer=new StringBuilder();
-		Scanner scanner=null;
-		try {
-			scanner=new Scanner(file);
-			while(scanner.hasNextLine()){
-				buffer.append(scanner.nextLine());
-			}
-		} catch (FileNotFoundException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}finally{
-			if(scanner!=null){
-				scanner.close();
-			}
-		}
+		Long filelength=file.length();
+		String text=null;
+		String encoding = "UTF-8"; 
+		byte[] filecontent = new byte[filelength.intValue()];  
+        try {  
+            FileInputStream in = new FileInputStream(file);  
+            in.read(filecontent);  
+            in.close();  
+        } catch (FileNotFoundException e) {  
+            e.printStackTrace();  
+        } catch (IOException e) {  
+            e.printStackTrace();  
+        }  
+        try {  
+            text= new String(filecontent, encoding);  
+        } catch (UnsupportedEncodingException e) {  
+            System.err.println("The OS does not support " + encoding);  
+            e.printStackTrace();  
+        }  
 		
+		db.InsertManyDocument(text);
+		System.out.println("loading...");
 	}
 	
 }

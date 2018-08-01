@@ -111,7 +111,7 @@ public class Uploadservlet extends HttpServlet {
     			String time=format.format(date);
             	FileDao file=new FileDao();
             	MyFile my_file=new MyFile(filename,savePath,time);
-            	file.UpFile(my_file);
+            	//file.UpFile(my_file);
             	
                 //得到上传文件的扩展名
                 String fileExtName = filename.substring(filename.lastIndexOf(".")+1);
@@ -142,7 +142,12 @@ public class Uploadservlet extends HttpServlet {
                 out.close();
                 //删除处理文件上传时生成的临时文件
                 //item.delete();
-                response.getWriter().println("<script type='text/javascript'>alert('upload failed')</script>");
+                MyFile tempfile=new MyFile(saveFilename,realSavePath,time);
+                System.out.println("starting...");
+                System.out.println(tempfile.getFileName());
+                System.out.println(tempfile.getFilePath());
+                file.UpFile(tempfile);
+                response.getWriter().println("<script type='text/javascript'>alert('upload success!')</script>");
             }
         }
         }

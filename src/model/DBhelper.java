@@ -8,14 +8,14 @@ import org.bson.Document;
 
 import com.mongodb.Block;
 import com.mongodb.DBCollection;
+import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-
-
+import com.mongodb.util.JSON;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
@@ -101,10 +101,19 @@ public class DBhelper {
 	}
 	
 	//在数据库表中插入多个文档
-	public void InsertManyDocument(MongoCollection<Document> mongoCollection, List<Document> documents){ 
-		mongoCollection.insertMany(documents);  
+	public void InsertManyDocument(String json){ 
+		Document document=Document.parse(json);
+		//this.mongoCollection.insertOne(bson);
+		collection.insertOne(document);
 		System.out.println("Multiple documents insertion succeed");
 	}
+	//+++++++++++++++++++
+//	public void InsertManyDocument(MongoCollection<Document> mongoCollection, List<Document> documents){ 
+//		@SuppressWarnings("deprecation")
+//		DBObject bson=(DBObject)JSON.parse(json);
+//		mongoCollection.insertMany(documents);  
+//		System.out.println("Multiple documents insertion succeed");
+//	}
 	
 	//打印该数据库集合中的所有文档
 	public void FindAll(MongoCollection<Document> collection){
