@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -35,7 +37,13 @@ public class Loginservlet extends HttpServlet {
 		try {
 			if(user.Query(account,password)){
 				System.out.println("true");
-				response.sendRedirect("/REDS/Welcome");
+				//dispatch 转发servlet
+				//request.setAttribute("account", account);
+				//RequestDispatcher dispatcher=request.getRequestDispatcher("Main");
+				//dispatcher.forward(request, response);
+				//直接重定向
+				response.sendRedirect("/REDS/Main?account=" + account + "");
+				return;
 			}
 			else{
 				System.out.println("false");

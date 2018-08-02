@@ -16,7 +16,6 @@ public class FileDao {
 	MyFile my_file=null;
 	List<MyFile> files=null;
 	public void UpFile(MyFile my_file){
-		//调用dbhelper中的上传
 		//Relation re=new Relation();
 		String fileName=my_file.getFilePath()+"\\"+my_file.getFileName();
 		System.out.println(fileName);
