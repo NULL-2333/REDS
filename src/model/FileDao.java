@@ -40,7 +40,7 @@ public class FileDao {
             e.printStackTrace();  
         }  
 		
-		db.InsertManyDocument(text);
+		//db.InsertManyDocument(text);
 		System.out.println("loading...");
 	}
 	
