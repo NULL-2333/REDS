@@ -32,8 +32,15 @@ public class Errorservlet extends HttpServlet {
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out=response.getWriter();
-		out.println("µÇÂ½Ê§°Ü");
-		out.close();
+		out.println("test1-1");
+		//out.close();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response.sendRedirect("/REDS/Login");
 		//response.setStatus(response.SC_MOVED_TEMPORARILY);
 		//response.setHeader("Location", "/RXDS/NewFile.html");
 	}
