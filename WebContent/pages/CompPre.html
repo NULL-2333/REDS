@@ -42,12 +42,6 @@
         <!-- Navigation -->
         <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
                 <a class="navbar-brand" href="MainMenu.html">Relation Extraction Diagnostic System</a>
             </div>
             <!-- /.navbar-header -->
@@ -58,9 +52,7 @@
                         Projects <i class="fa fa-caret-down"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-user">
-                        <li><a href="#">All projects</a>
-                        </li>
-                        <li><a href="#">Starred projects</a>
+                        <li><a href="AllProjects.html">All projects</a>
                         </li>
                     </ul>
                     <!-- /.dropdown-user -->
@@ -97,10 +89,10 @@
 							</ul>
 						</li>
 						<li><a href="CompPre.html"><i class="fa fa-medkit fa-fw"></i> Diagnose</a></li>
-						<li><a href="#"><i class="fa fa-file-text fa-fw"></i> Data Manage</a></li>
-						<li><a href="#"><i class="fa fa-tags fa-fw"></i> Label Manage</a></li>
-						<li><a href="#"><i class="fa fa-search fa-fw"></i> Rule Manage</a></li>
-						<li><a href="#"><i class="fa fa-filter fa-fw"></i> Filter Manage</a></li>
+						<li><a href="DataManage.html"><i class="fa fa-file-text fa-fw"></i> Data Manage</a></li>
+						<li><a href="LabelManage.html"><i class="fa fa-tags fa-fw"></i> Label Manage</a></li>
+						<li><a href="RuleManage.html"><i class="fa fa-search fa-fw"></i> Rule Manage</a></li>
+						<li><a href="FilterManage.html"><i class="fa fa-filter fa-fw"></i> Filter Manage</a></li>
 					</ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -109,87 +101,86 @@
         </nav>
 
         <div id="page-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="page-header">Horizontal Comparison</h2>
-                </div>
-            </div>
-            <div class="form-group">
-            	<label>Select first project and plan</label>
-            	<select class="form-control">
-                	<option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <div class="form-group">   
-                <select class="form-control">
-                	<option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <div class="form-group">
-            	<label>Select second project and plan</label>
-            	<select class="form-control">
-                	<option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <div class="form-group">      
-                <select class="form-control">
-                	<option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <button type="button" class="btn btn-info btn-lg btn-block">Compare</button>
+			<div class="row">
+				<div class="col-lg-4">
+					<h2 class="page-header">Horizontal Comparison</h2>
+					<div class="form-group">
+						<label>Select first project and plan</label> <select
+							class="form-control">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Select second project and plan</label> <select
+							class="form-control">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<select class="form-control">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+					<button type="button" class="btn btn-info btn-lg btn-block">Compare</button>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-lg-4">
+					<h2 class="page-header">Vertical Comparison</h2>
+					<div class="form-group">
+						<label>Select a project</label> <select class="form-control">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Select first plan</label> <select class="form-control">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<label>Select second plan</label> <select class="form-control">
+							<option>1</option>
+							<option>2</option>
+							<option>3</option>
+							<option>4</option>
+							<option>5</option>
+						</select>
+					</div>
+					<button type="button" class="btn btn-info btn-lg btn-block">Compare</button>
+				</div>
+			</div>
             
-            <div class="row">
-                <div class="col-lg-12">
-                    <h2 class="page-header">Vertical Comparison</h2>
-                </div>
-            </div>
-            <div class="form-group">
-            	<label>Select a project</label>
-            	<select class="form-control">
-                	<option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <div class="form-group">
-            	<label>Select first plan</label>
-            	<select class="form-control">
-                	<option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <div class="form-group">
-            	<label>Select second plan</label>      
-                <select class="form-control">
-                	<option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-            </div>
-            <button type="button" class="btn btn-info btn-lg btn-block">Compare</button>
         </div>
         <!-- /#page-wrapper -->
 
