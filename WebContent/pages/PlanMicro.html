@@ -93,6 +93,7 @@
 							<ul class="nav nav-second-level">
 								<li><a href="PlanMacro.html">plan 1</a></li>
 								<li><a href="PlanMacro.html">plan 2</a></li>
+								<li><a href="NewPlan.html">New Plan</a></li>
 							</ul></li>
 						<li><a href="#"><i class="fa fa-th-list fa-fw"></i>
 								Diagnose<span class="fa arrow"></span></a>
@@ -131,6 +132,7 @@
 								<li><a href="#">Micro<i class="fa fa-angle-left  fa-fw"></i></a></li>
 							</ul>
 						</div>
+						<button type="button" class="btn btn-danger" style="float: right">Delete</button>
 					</h1>
 				</div>
 				<!-- /.col-lg-12 -->
@@ -345,6 +347,7 @@
 										<th>Label</th>
 										<th>Prediction</th>
 										<th>Attributes</th>
+										<th>Operate</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -354,16 +357,8 @@
 										<td>8001</td>
 										<td>Message-Topic</td>
 										<td>Message-Topic</td>
-										<td><div class="alert alert-default alert-dismissable">
-												<button type="button" class="close" data-dismiss="alert"
-													aria-hidden="true">&times;</button>
-												AttributeA: choiceA
-											</div>
-											<div class="alert alert-default alert-dismissable">
-												<button type="button" class="close" data-dismiss="alert"
-													aria-hidden="true">&times;</button>
-												AttributeA: choiceA
-											</div></td>
+										<td>"property1":"a","property2":"b","property3":null</td>
+										<td></td>
 									</tr>
 									<tr class="even gradeC">
 										<td>The &lt;e1&gt;company&lt;/e1&gt; fabricates plastic
@@ -372,6 +367,7 @@
 										<td>Product-Produce</td>
 										<td>Product-Produce</td>
 										<td>"property1":"a","property2":"b","property3":null</td>
+										<td></td>
 									</tr>
 								</tbody>
 							</table>
@@ -411,7 +407,18 @@
 	<script>
     $(document).ready(function() {
         $('#dataTables').DataTable({
-            responsive: true
+        	"columnDefs" : [ {
+        		// 定义操作列,######以下是重点########
+        		"targets" : 5,//操作按钮目标列
+        		"data" : null,
+        		"render" : function(data, type,row) {
+        		var id = '"' + row.id + '"';
+        		var html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-arrow-up'></i> Add</a>"
+        		html += "<a href='javascript:void(0);' class='up btn btn-default btn-xs'><i class='fa fa-times'></i> Delete</a>"
+        		return html;
+        		}
+        	} ],
+            responsive: true,
         });
     });
     </script>

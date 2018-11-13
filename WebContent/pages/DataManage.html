@@ -27,7 +27,7 @@
 <!-- DataTables Responsive CSS -->
 <link href="../vendor/datatables-responsive/dataTables.responsive.css"
 	rel="stylesheet">
-	
+
 <!-- Morris Charts CSS -->
 <link href="../vendor/morrisjs/morris.css" rel="stylesheet">
 
@@ -93,6 +93,7 @@
 							<ul class="nav nav-second-level">
 								<li><a href="PlanMacro.html">plan 1</a></li>
 								<li><a href="PlanMacro.html">plan 2</a></li>
+								<li><a href="NewPlan.html">New Plan</a></li>
 							</ul></li>
 						<li><a href="#"><i class="fa fa-th-list fa-fw"></i>
 								Diagnose<span class="fa arrow"></span></a>
@@ -127,7 +128,6 @@
 									<th>Sentence</th>
 									<th>Id</th>
 									<th>Label</th>
-									<th>Attributes</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -136,27 +136,25 @@
 										&lt;e2&gt;waste&lt;/e2&gt; and recycling.</td>
 									<td>8001</td>
 									<td>Message-Topic</td>
-									<td><div class="alert alert-default alert-dismissable">
-											<button type="button" class="close" data-dismiss="alert"
-												aria-hidden="true">&times;</button>
-											AttributeA: choiceA
-										</div>
-										<div class="alert alert-default alert-dismissable">
-											<button type="button" class="close" data-dismiss="alert"
-												aria-hidden="true">&times;</button>
-											AttributeA: choiceA
-										</div></td>
 								</tr>
 								<tr class="even gradeC">
 									<td>The &lt;e1&gt;company&lt;/e1&gt; fabricates plastic
 										&lt;e2&gt;chairs&lt;/e2&gt;.</td>
 									<td>8002</td>
 									<td>Product-Produce</td>
-									<td>"property1":"a","property2":"b","property3":null</td>
 								</tr>
 							</tbody>
 						</table>
 					</div>
+				</div>
+			</div>
+			<hr></hr>
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="form-group">
+						<label>New File</label> <input type="file">
+					</div>
+					<button type="button" class="btn btn-danger">Commit</button>
 				</div>
 			</div>
 		</div>
@@ -186,14 +184,14 @@
 
 	<!-- Custom Theme JavaScript -->
 	<script src="../dist/js/reds.js"></script>
-	
+
 	<script>
-    $(document).ready(function() {
-        $('#dataTables').DataTable({
-            responsive: true
-        });
-    });
-    </script>
+		$(document).ready(function() {
+			$('#dataTables').DataTable({
+				responsive : true
+			});
+		});
+	</script>
 </body>
 
 </html>
