@@ -31,23 +31,22 @@ public class Loginservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("test");
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
 		User user = new User(account,password);
 		try {
+			
 			if(user.Query(account,password)){
 				System.out.println("true");
-				//dispatch 转发servlet
-				//request.setAttribute("account", account);
-				//RequestDispatcher dispatcher=request.getRequestDispatcher("Main");
-				//dispatcher.forward(request, response);
-				//直接重定向
-				response.sendRedirect("/REDS/Main?account=" + account + "");
+				System.out.println("redirecting");
+				//request.getRequestDispatcher("/pages/MainMenu.html").forward(request, response);
+				response.sendRedirect("/REDS/pages/MainMenu.html");
 				return;
 			}
 			else{
-				System.out.println("false");
-				response.sendRedirect("/REDS/Error");
+				System.out.println("false....");
+				response.sendRedirect("/Error");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,6 +59,7 @@ public class Loginservlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("test");
 		doGet(request, response);
 	}
 

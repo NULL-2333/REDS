@@ -17,6 +17,7 @@ public class User {
 		return password;
 	}
 	public boolean isExist(){
+		System.out.println("call User.isExit");
 		User user=new User(account,password);
 		DBhelper db=new DBhelper("UserInfo","User");
 		//db.FindManyEqualDocument("User", attribute, value);
@@ -27,10 +28,12 @@ public class User {
 		DBhelper db=new DBhelper("UserInfo","User");	
 		Document document = new Document("account",account).append("password",password);
 		System.out.println("printing document...");
+		System.out.println("hhhhhhh");
 		System.out.println(document);
 		System.out.println("finished");
 		try {
 			//db.InsertOneDocument(db.collection, document);
+			System.out.println("query:");
 			return db.FindCertainDocument(document);
 		} catch (Exception e) {
 			// TODO 自动生成的 catch 块

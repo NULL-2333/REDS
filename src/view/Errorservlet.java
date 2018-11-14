@@ -30,10 +30,18 @@ public class Errorservlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
+		System.out.println("errorservlet");
 		response.setContentType("text/html;charset=utf-8");
 		PrintWriter out=response.getWriter();
-		out.println("µÇÂ½Ê§°Ü");
-		out.close();
+		out.println("test1-1");
+		//out.close();
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		response.sendRedirect("/REDS/pages/Login");
 		//response.setStatus(response.SC_MOVED_TEMPORARILY);
 		//response.setHeader("Location", "/RXDS/NewFile.html");
 	}
