@@ -87,6 +87,7 @@ public class Uploadservlet extends HttpServlet {
                 //解决普通输入项的数据的中文乱码问题
                 String value = item.getString("UTF-8");
                 //value = new String(value.getBytes("iso8859-1"),"UTF-8");
+                System.out.println("getting plan name...");
                 System.out.println(name + "=" + value);
             }else{
                 //得到上传的文件名称，
@@ -147,7 +148,8 @@ public class Uploadservlet extends HttpServlet {
                 System.out.println(tempfile.getFileName());
                 System.out.println(tempfile.getFilePath());
                 file.UpFile(tempfile);
-                response.getWriter().println("<script type='text/javascript'>alert('upload success!')</script>");
+                response.getWriter().println("<script type='text/javascript'>alert('upload success!');window.location.href='/REDS/pages/NewPlan.html';</script>");
+                //response.sendRedirect("/REDS/pages/NewPlan.html");
             }
         }
         }
@@ -158,10 +160,10 @@ public class Uploadservlet extends HttpServlet {
 	        return;
 	    }catch (FileUploadBase.SizeLimitExceededException e) {
 	        e.printStackTrace();
-	        response.getWriter().println("<script type='text/javascript'>alert('sum out of range!')</script>");
+	        response.getWriter().println("<script type='text/javascript'>alert('sum out of range!');window.location.href='/REDS/pages/NewPlan.html';</script>");
 	        return;
 	    }catch (Exception e) {
-	    	response.getWriter().println("<script type='text/javascript'>alert('upload failed!')</script>");
+	    	response.getWriter().println("<script type='text/javascript'>alert('upload failed!');window.location.href='/REDS/pages/NewPlan.html';</script>");
 	        e.printStackTrace();
 	    }
 	}
