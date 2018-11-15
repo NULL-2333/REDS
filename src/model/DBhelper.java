@@ -84,6 +84,7 @@ public class DBhelper {
 		}
 		return null;	
 	}
+	//.....
 	//Vector<Document>תJsonBean
 	public static JsonBean Document2Json(Vector<Document> vd){
 		JsonBean jb = new JsonBean();
