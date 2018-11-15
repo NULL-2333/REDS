@@ -1,10 +1,11 @@
 package model;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Vector;
+import java.io.IOException;
+import java.util.*;
+
 import org.bson.Document;
 
 import com.mongodb.Block;
@@ -17,26 +18,25 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import com.mongodb.util.JSON;
+
+import model.JsonBean.*;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
 
 public class DBhelper {
 	
-	//public static void main(String args[]){
-		//DBhelper db = new DBhelper("test","myFirst");
-		//Vector<Document> r = Json2Document("testdata.json");
-		
-		//for(int i = 0;i< r.size();i++){
-		//	Document2Json(r.get(i));
-		//}
-		
-		//Document2Json(r.get(0));
-		//Json2Document(Document2Json(r.get(0)));
-	//}
+	public static void main(String args[]){
+		Vector<Document> vd = Json2Document("testdata.json");
+		JsonBean jb = Document2Json(vd);
+		System.out.println(jb);
+	}
 	
 	protected static MongoDatabase database = null;
 	protected static MongoCollection<Document> collection = null;
@@ -50,29 +50,60 @@ public class DBhelper {
 	//JSON转Vector<Document>
 	public static Vector<Document> Json2Document(String jsonName){
 		try {
-			Vector<Document> res = new Vector<Document>();
-			JsonParser parser = new JsonParser();
-			JsonObject object = (JsonObject) parser.parse(new FileReader(jsonName));
-			JsonArray ja = object.get("data").getAsJsonArray();
-			int size = ja.size();
-			
-			for(int i = 0;i < size;i++){
-				JsonObject ob = ja.get(i).getAsJsonObject();
-				String[] keys = new String[ob.keySet().size()];
-				ob.keySet().toArray(keys);
-				Document document = new Document();
-				for(int i1 = 0;i1 < keys.length;i1++){
-					document.append(keys[i1], ob.get(keys[i1]).toString());
-				}
-				res.add(document);
+			File file = new File(jsonName);
+			FileReader fileReader = new FileReader(file);
+			BufferedReader bReader = new BufferedReader(fileReader);
+			StringBuilder sb = new StringBuilder();
+			String s = "";
+			while((s = bReader.readLine()) != null){
+				sb.append(s + "\n");
 			}
-			return res;	
-		} catch (JsonIOException | JsonSyntaxException | FileNotFoundException e) {
+			bReader.close();
+			String jsonContent = sb.toString();
+			
+			Gson gson = new Gson();
+			java.lang.reflect.Type type = new TypeToken<JsonBean>(){}.getType();
+			JsonBean jsonBean = gson.fromJson(jsonContent, type);
+			Vector<Document> res = new Vector<Document>();
+			int len = jsonBean.data.size();
+			for(int i = 0; i < len; i++){
+				Document d = new Document();
+				d.append("file", jsonBean.file);
+				d.append("description", jsonBean.description);
+				d.append("id", jsonBean.data.get(i).id);
+				d.append("text", jsonBean.data.get(i).text);
+				d.append("relation", jsonBean.data.get(i).relation);
+				d.append("comment", jsonBean.data.get(i).comment);
+				d.append("label", jsonBean.data.get(i).label);
+				res.add(d);
+			}
+			return res;
+			} catch (JsonIOException | JsonSyntaxException | IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return null;	
 	}
+	//Vector<Document>转JsonBean
+	public static JsonBean Document2Json(Vector<Document> vd){
+		JsonBean jb = new JsonBean();
+		jb.file = vd.get(0).getString("file");
+		jb.description = vd.get(0).getString("description");
+		jb.data  = new ArrayList<Data>();
+		int len = vd.size();
+		for(int i = 0; i < len; i++){
+			Document d = vd.get(i);
+			Data data = new Data();
+			data.id = d.getString("id");
+			data.text = d.getString("text");
+			data.relation = d.getString("relation");
+			data.comment = d.getString("comment");
+			data.label = (Label) d.get("label");
+			jb.data.add(data);
+		}
+		return jb;
+	}
+		
 	//JsonObject转Document
 	public static Document Json2Document(JsonObject jo){
 		Document d = new Document();
@@ -104,6 +135,8 @@ public class DBhelper {
 		//System.out.println(jo);
 		return jo;
 	}
+	
+	
 	//数据库连接
 	@SuppressWarnings("resource")
 	public MongoDatabase DatabaseConnect(String databaseName) {
