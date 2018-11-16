@@ -32,11 +32,32 @@ import com.google.gson.reflect.TypeToken;
 
 public class DBhelper {
 	
-	public static void main(String args[]){
-		Vector<Document> vd = Json2Document("testdata.json");
-		JsonBean jb = Document2Json(vd);
-		System.out.println(jb);
-	}
+//	public static void main(String args[]) throws IOException{
+//		File file = new File("testdata.json");
+//		FileReader fileReader = new FileReader(file);
+//		BufferedReader bReader = new BufferedReader(fileReader);
+//		StringBuilder sb = new StringBuilder();
+//		String s = "";
+//		while((s = bReader.readLine()) != null){
+//			sb.append(s + "\n");
+//		}
+//		bReader.close();
+//		String jsonContent = sb.toString();
+//		
+//		Gson gson = new Gson();
+//		java.lang.reflect.Type type = new TypeToken<JsonBean>(){}.getType();
+//		JsonBean jsonBean = gson.fromJson(jsonContent, type);
+//		
+//		Vector<Document> vd = Json2Document(jsonBean);
+//		
+//		Document d = vd.get(0);
+//		
+//		DBhelper db = new DBhelper("test","test");
+//		db.collection.insertMany(vd);
+//		db.UpdateDocument(db.collection, "eee:www", "8001");
+//		System.out.println("eeeee");
+//		
+//	}
 	
 	protected static MongoDatabase database = null;
 	protected static MongoCollection<Document> collection = null;
@@ -48,22 +69,22 @@ public class DBhelper {
 	}
 	
 	//JSON转Vector<Document>
-	public static Vector<Document> Json2Document(String jsonName){
+	public static Vector<Document> Json2Document(JsonBean jsonBean){
 		try {
-			File file = new File(jsonName);
-			FileReader fileReader = new FileReader(file);
-			BufferedReader bReader = new BufferedReader(fileReader);
-			StringBuilder sb = new StringBuilder();
-			String s = "";
-			while((s = bReader.readLine()) != null){
-				sb.append(s + "\n");
-			}
-			bReader.close();
-			String jsonContent = sb.toString();
-			
-			Gson gson = new Gson();
-			java.lang.reflect.Type type = new TypeToken<JsonBean>(){}.getType();
-			JsonBean jsonBean = gson.fromJson(jsonContent, type);
+//			File file = new File(jsonName);
+//			FileReader fileReader = new FileReader(file);
+//			BufferedReader bReader = new BufferedReader(fileReader);
+//			StringBuilder sb = new StringBuilder();
+//			String s = "";
+//			while((s = bReader.readLine()) != null){
+//				sb.append(s + "\n");
+//			}
+//			bReader.close();
+//			String jsonContent = sb.toString();
+//			
+//			Gson gson = new Gson();
+//			java.lang.reflect.Type type = new TypeToken<JsonBean>(){}.getType();
+//			JsonBean jsonBean = gson.fromJson(jsonContent, type);
 			Vector<Document> res = new Vector<Document>();
 			int len = jsonBean.data.size();
 			for(int i = 0; i < len; i++){
@@ -74,11 +95,14 @@ public class DBhelper {
 				d.append("text", jsonBean.data.get(i).text);
 				d.append("relation", jsonBean.data.get(i).relation);
 				d.append("comment", jsonBean.data.get(i).comment);
-				d.append("label", jsonBean.data.get(i).label);
+				//String label = "";//jsonBean.data.get(i).label
+				List<String> label = new ArrayList<String>();
+				label.add("relation_type:" + jsonBean.data.get(i).label.relation_type);
+				d.append("label", label);
 				res.add(d);
 			}
 			return res;
-			} catch (JsonIOException | JsonSyntaxException | IOException e) {
+			} catch (JsonIOException | JsonSyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -172,13 +196,42 @@ public class DBhelper {
 	
 	//在数据库表中插入多个文档
 	public boolean InsertManyDocument(MongoCollection<Document> mongoCollection, Vector<Document> vDocument){ 
+		List<Document> ld = new ArrayList<Document>();
 		for(int i = 0;i < vDocument.size();i++){
-			collection.insertOne(vDocument.get(i));
+			System.out.println(vDocument.get(i).toString());
+//			collection.insertOne(vDocument.get(i));
+			ld.add(vDocument.get(i));
 		}
+		collection.insertMany(ld);
 		System.out.println("Multiple documents insertion succeed");
 		return true;
 	}
 	
+	//在数据库表中更新文档标签
+	public boolean UpdateDocument(MongoCollection<Document> mongoCollection, String labelWithValue, String id){
+		String label = labelWithValue.split(":")[0];
+		String value = labelWithValue.split(":")[1];
+		FindIterable<Document> findIterable = collection.find();  
+        MongoCursor<Document> mongoCursor = findIterable.iterator(); 
+        while(mongoCursor.hasNext()){  
+        	Document d = mongoCursor.next();
+        	String currentId = d.get("id").toString();
+        	if(currentId.equals(id)){
+        		collection.updateOne(Filters.eq("id", currentId), new Document("$push", new Document("label",labelWithValue)));
+        		//((List<String>)(d.get("label"))).add(labelWithValue);
+        	}
+        	else{
+        		collection.updateMany(Filters.eq("id", currentId), new Document("$push", new Document("label",label + ":null")));
+        		//((List<String>)(d.get("label"))).add(label + ":null");
+        	}
+        	
+        	
+        	
+        }
+		System.out.println("Update succeed");
+		return true;
+	}
+		
 	//打印该数据库集合中的所有文档
 	public Vector<Document> FindAll(MongoCollection<Document> collection){
 		Vector<Document> res = new Vector<Document>();
