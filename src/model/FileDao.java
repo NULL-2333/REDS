@@ -7,15 +7,24 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Vector;
+
+import org.bson.Document;
+
+import com.google.gson.Gson;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.mongodb.util.JSON;
+
+import model.DBhelper.*;
+
 
 @SuppressWarnings("deprecation")
 public class FileDao {
 	private DBhelper db=new DBhelper("test","MyFirst");
 	MyFile my_file=null;
 	List<MyFile> files=null;
-	public void UpFile(MyFile my_file){
+	public void UpFile(String filename, MyFile my_file){
 		//Relation re=new Relation();
 		String fileName=my_file.getFilePath()+"\\"+my_file.getFileName();
 		System.out.println(fileName);
@@ -39,8 +48,16 @@ public class FileDao {
             System.err.println("The OS does not support " + encoding);  
             e.printStackTrace();  
         }  
+        
+        Gson gson = new Gson();
+		java.lang.reflect.Type type = new TypeToken<JsonBean>(){}.getType();
+		JsonBean jsonBean = gson.fromJson(text, type);
+//		System.out.println(text);
+		jsonBean.file = filename;
+		Vector<Document> vd = DBhelper.Json2Document(jsonBean);
 		
-		//db.InsertManyDocument(text);
+		DBhelper dbh = new DBhelper("ProjectData", filename);
+		dbh.InsertManyDocument(dbh.collection, vd);
 		System.out.println("loading...");
 	}
 	
