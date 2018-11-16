@@ -8,6 +8,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -46,7 +47,7 @@ public class Uploadservlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub		
 		System.out.println("file start here:");
 		//得到上传时生成的临时文件保存目录
 		String tempPath=this.getServletContext().getRealPath("/WEB-INF/temp");
@@ -147,7 +148,7 @@ public class Uploadservlet extends HttpServlet {
                 System.out.println("starting...");
                 System.out.println(tempfile.getFileName());
                 System.out.println(tempfile.getFilePath());
-                file.UpFile(tempfile);
+                //file.UpFile(tempfile);
                 response.getWriter().println("<script type='text/javascript'>alert('upload success!');window.location.href='/REDS/pages/NewPlan.html';</script>");
                 //response.sendRedirect("/REDS/pages/NewPlan.html");
             }
