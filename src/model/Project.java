@@ -1,6 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Vector;
+
+import org.bson.Document;
 
 public class Project {
 	private String projectname;
@@ -9,7 +12,7 @@ public class Project {
 	
 	public Project(String projectname){
 		this.projectname=projectname;
-		DBhelper db = new DBhelper(projectname,"aaa");
+		DBhelper db = new DBhelper(projectname,"info");
 		//System.out.println(db.GetCollectionName());
 		this.plans = db.GetCollectionName();
 	}
@@ -54,10 +57,28 @@ public class Project {
 	}
 	//change plans into a string separated by "#"
 	public String changePlanstoString(){
-		String str="plans";
+		String str="info";
 		for(int i=0;i<this.plans.size();i++){
+			if(this.plans.get(i).equals("info"))	continue;
 			str = str + "#" + this.plans.get(i);
 		}
+		System.out.println(str);
+		return str;
+	}
+	//get all document from the given collection
+	public String getdata(String collection){
+		DBhelper db = new DBhelper(projectname,collection);
+		Vector<Document> vd = db.FindAll();
+		String str="[";
+		for(int i=0;i<vd.size();i++){
+			if (i!=vd.size()-1){
+				str = str + vd.get(i).toJson()+",";
+			}
+			else{
+				str = str + vd.get(i).toJson();
+			}
+		}
+		str+="]";
 		System.out.println(str);
 		return str;
 	}

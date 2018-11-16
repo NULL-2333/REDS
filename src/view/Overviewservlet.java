@@ -37,8 +37,11 @@ public class Overviewservlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		//创建project对象
 		Project project = new Project("ProjectData");
-		//获取当前数据库名下的所有plan名字,用#隔开，第一个默认为plans用于说明
+		//获取当前数据库名下的所有plan名字,用#隔开，第一个默认为info用于说明
 		String result = project.changePlanstoString();
+		String temp = project.getdata("info");
+		//拼接结果
+		result = result+"#####"+temp+"#####"+project.getProjectname();
 		out.println(result);//将数据传到前端
 	}
 

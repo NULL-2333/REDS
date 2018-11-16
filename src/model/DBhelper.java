@@ -245,7 +245,7 @@ public class DBhelper {
 	}
 		
 	//打印该数据库集合中的所有文档
-	public Vector<Document> FindAll(MongoCollection<Document> collection){
+	public Vector<Document> FindAll(){
 		Vector<Document> res = new Vector<Document>();
 		FindIterable<Document> findIterable = collection.find();  
         MongoCursor<Document> mongoCursor = findIterable.iterator(); 
