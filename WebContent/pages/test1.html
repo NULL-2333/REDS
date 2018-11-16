@@ -17,7 +17,9 @@ window.onload=function (){
          data: $('#form').serialize(),      //传的数据  form表单 里面的数据
          success: function(result){       //传数据成功之后的操作   result是servlet传过来的数据  这个函数对result进行处理，让它显示在 输入框中
          $("#result").val(result);           //找到输入框 并且将result的值 传进去
-         }
+		 var temp = '<h3>'+result+'</h3>';
+		 $("#test").append('<h3>'+result+'</h3>');       
+}
      });
   }
   
@@ -25,7 +27,7 @@ window.onload=function (){
 </head>
 <body>
 <H1 align="center">请输入两个字符串</H1>
-<div align="center">
+<div align="center" id="test">
 <form id="form">
         first:<input type="text" name="first" id="first" value="2">
         second:<input type="text" name="second" id="second" value="3">

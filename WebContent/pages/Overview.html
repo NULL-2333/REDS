@@ -1,6 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js""></script>
+<script type="text/javascript">
+//window.onload 是加载页面时执行，这里是把两个输入框里的值送过去
+//servlet里面也能直接获取，直接能够根据标签的name来获取值
+//servlet里面进行数据的操作，然后返回给ajax
+//ajax里面可以给控件赋值，然后动态添加的话，需要使用js
+
+function one(){
+	$.ajax({
+		         type: "POST",                           //传数据的方式
+		         url: "/REDS/Overview", //servlet地址
+		         data: $('#form').serialize(),      //传的数据  form表单 里面的数据
+		         success: function(result){       //传数据成功之后的操作   result是servlet传过来的数据  这个函数对result进行处理，让它显示在 输入框中
+					var temp = '<h4>Created at 10.21 2018</h4>';
+					$("#test").append(temp);           //找到输入框 并且将result的值 传进去
+		         }
+		     });
+}
+//加载左侧plans信息
+function loadleftplans(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/Overview",
+		datetype:"text",
+		success:function(result){
+			var plans = new Array()
+			var x;
+			var temp;
+			plans = result.split("#");
+			plans.shift();
+			for (x in plans){
+				temp='<li><a href="PlanMacro.html">' + plans[x] + '</a></li>';
+				$("#leftplans").append(temp); 
+			}
+			temp='<li><a href="NewPlan.html">New Plan</a></li>';
+			$("#leftplans").append(temp);
+		}
+	});
+}
+
+$("#test").ready(function(){
+	one();
+});
+$("#leftplans").ready(function(){
+	loadleftplans();
+});
+/* window.onload=function (){
+	alert("aaa"");
+  $.ajax({
+         type: "POST",                           //传数据的方式
+         url: "/REDS/Overview", //servlet地址
+         data: $('#form').serialize(),      //传的数据  form表单 里面的数据
+         success: function(result){       //传数据成功之后的操作   result是servlet传过来的数据  这个函数对result进行处理，让它显示在 输入框中
+         	alert(result);
+			var temp = '<h4>Created at 10.21 2018</h4>';
+			$("#test").append(temp);           //找到输入框 并且将result的值 传进去
+         }
+     });
+} */
+  
+</script>
 <head>
 
     <meta charset="utf-8">
@@ -83,10 +144,12 @@
 						<li><a href="Overview.html"><i class="fa fa-home fa-fw"></i> Overview</a></li>
 						<li><a href="#"><i class="fa fa-th-list fa-fw"></i>
 							All Plans<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="PlanMacro.html">plan 1</a></li>
+							<ul class="nav nav-second-level" id="leftplans">
+								<!-- wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww -->>
+								<!-- <li><a href="PlanMacro.html">plan 1</a></li>
 								<li><a href="PlanMacro.html">plan 2</a></li>
-								<li><a href="NewPlan.html">New Plan</a></li>
+								<li><a href="NewPlan.html">New Plan</a></li> -->
+								
 							</ul>
 						</li>
 						<li><a href="#"><i class="fa fa-th-list fa-fw"></i>
@@ -106,39 +169,23 @@
             </div>
             <!-- /.navbar-static-side -->
         </nav>
-
         <div id="page-wrapper">
         	<div class="row">
-                <div class="col-lg-12">
+        	<form id="form">
+                <div class="col-lg-12" id="test">
                     <h3 class="page-header">Name of plan</h3>
-                    <h4>Created at 10.21 2018</h4>
+                    <!--<h4>Created at 10.21 2018</h4>-->
                 	<div class="well">
                         <h4>Description </h4>
                         <p>...</p>
                     </div>
             	</div>
+            </form>>
         	</div>
     	</div>
         <!-- /#page-wrapper -->
     </div>
-    <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <script src="../vendor/jquery/jquery.min.js"></script>
-
-    <!-- Bootstrap Core JavaScript -->
-    <script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
-
-    <!-- Metis Menu Plugin JavaScript -->
-    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
-
-    <!-- Morris Charts JavaScript -->
-    <script src="../vendor/raphael/raphael.min.js"></script>
-    <script src="../vendor/morrisjs/morris.min.js"></script>
-    <script src="../data/morris-data.js"></script>
-
-    <!-- Custom Theme JavaScript -->
-    <script src="../dist/js/reds.js"></script>
 </body>
 
 </html>

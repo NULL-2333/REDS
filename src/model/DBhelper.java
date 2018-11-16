@@ -16,6 +16,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.MongoIterable;
 import com.mongodb.client.model.Filters;
 import com.mongodb.util.JSON;
 
@@ -178,6 +179,17 @@ public class DBhelper {
 	    }
 		return null;
 		
+	}
+	
+	//获取数据库的所有表名字-----by jc
+	public ArrayList<String> GetCollectionName(){
+		ArrayList<String> plans=new ArrayList<String>();
+		MongoIterable<String> iterator = this.database.listCollectionNames();
+		MongoCursor<String> cursor = iterator.iterator();
+		while(cursor.hasNext()){
+			plans.add(cursor.next());
+		}
+		return plans;
 	}
 	
 	//数据库表的选择
