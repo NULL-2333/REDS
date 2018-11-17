@@ -95,7 +95,7 @@
 								<li><a href="PlanMacro.html">plan 2</a></li>
 								<li><a href="NewPlan.html">New Plan</a></li>
 							</ul></li>
-						<li><a href="#"><i class="fa fa-th-list fa-fw"></i>
+						<li><a href="#"><i class="fa fa-medkit fa-fw"></i>
 								Diagnose<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="HoriCompPre.html">Horizontal</a></li>
@@ -318,8 +318,15 @@
 												<label>Save as</label> <input class="form-control">
 											</div>
 											<button type="button" class="btn btn-default">Save</button>
-
-
+											<hr></hr>
+											<div class="form-group">
+												<select class="form-control">
+													<option>Select a filter</option>
+													<option>filter1</option>
+													<option>filter2</option>
+													<option>filter3</option>
+												</select>
+											</div>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default"
@@ -408,7 +415,6 @@
     $(document).ready(function() {
         $('#dataTables').DataTable({
         	"columnDefs" : [ {
-        		// 定义操作列,######以下是重点########
         		"targets" : 5,//操作按钮目标列
         		"data" : null,
         		"render" : function(data, type,row) {

@@ -237,7 +237,7 @@ function getDataRow(h){
     $(document).ready(function() {        
         var table = $('#ProjectTable').DataTable();
 
-        $('#ProjectTable tbody').on('click', 'tr', function () {
+        $('#ProjectTable tbody').on('dblclick', 'tr', function () {
             var data = table.row( this ).data();
             alert( 'You clicked on '+data[1]+' row' );
         } );
