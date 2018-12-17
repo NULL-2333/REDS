@@ -10,13 +10,14 @@ public class Project {
 	private String projectinfo;
 	private ArrayList<String> plans = new ArrayList<String>();
 	
-	public Project(String projectname){
+	public Project(String projectname, Boolean isDefault){
 		this.projectname=projectname;
+		if (isDefault) return;
 		DBhelper db = new DBhelper(projectname,"info");
 		//System.out.println(db.GetCollectionName());
 		this.plans = db.GetCollectionName();
 	}
-
+	
 	public String getProjectname() {
 		return projectname;
 	}
@@ -59,7 +60,8 @@ public class Project {
 	public String changePlanstoString(){
 		String str="info";
 		for(int i=0;i<this.plans.size();i++){
-			if(this.plans.get(i).equals("info"))	continue;
+			//modified by rhys
+			if(this.plans.get(i).equals("info") || this.plans.get(i).equals("total"))	continue;
 			str = str + "#" + this.plans.get(i);
 		}
 		System.out.println(str);
