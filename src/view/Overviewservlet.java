@@ -31,6 +31,7 @@ public class Overviewservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("turning to overview servlet");
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("UTF-8");
@@ -42,6 +43,7 @@ public class Overviewservlet extends HttpServlet {
 		String temp = project.getdata("info");
 		//拼接结果
 		result = result+"#####"+temp+"#####"+project.getProjectname();
+		System.out.println("result:"+result);
 		out.println(result);//将数据传到前端
 	}
 

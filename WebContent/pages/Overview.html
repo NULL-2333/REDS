@@ -1,20 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
+<script src="../jquery/jquery.min.js"></script>
 <script type="text/javascript">
 //window.onload 是加载页面时执行，这里是把两个输入框里的值送过去
 //servlet里面也能直接获取，直接能够根据标签的name来获取值
 //servlet里面进行数据的操作，然后返回给ajax
 //ajax里面可以给控件赋值，然后动态添加的话，需要使用js
-
 //加载project描述
 function loadprojectdes(){
 	$.ajax({
-		type: "GET",                      //传数据的方式
+		type: "GET",                      //传数据的方式
 		url: "/REDS/Overview", 			//servlet地址
-		//data: $('#form').serialize(),      //传的数据  form表单 里面的数据
-		success: function(result){       	//传数据成功之后的操作   result是servlet传过来的数据  这个函数对result进行处理，让它显示在 输入框中
+		//data: $('#form').serialize(),      //传的数据  form表单 里面的数据
+		success: function(result){       	//传数据成功之后的操作   result是servlet传过来的数据  这个函数对result进行处理，让它显示在 输入框中
 		var projectname = result.split("#####")[2];
 		$("#projectname").append('<h3 class="page-header">'+projectname+'</h3>');
 		result = result.split("#####")[1];
@@ -53,7 +52,6 @@ function loadleftplans(){
 		}
 	});
 }
-
 $("#test").ready(function(){
 	loadprojectdes();
 });
@@ -62,18 +60,18 @@ $("#leftplans").ready(function(){
 });
 /* window.onload=function (){
 	alert("aaa"");
-  $.ajax({
-         type: "POST",                           //传数据的方式
-         url: "/REDS/Overview", //servlet地址
-         data: $('#form').serialize(),      //传的数据  form表单 里面的数据
-         success: function(result){       //传数据成功之后的操作   result是servlet传过来的数据  这个函数对result进行处理，让它显示在 输入框中
-         	alert(result);
+  $.ajax({
+         type: "POST",                           //传数据的方式
+         url: "/REDS/Overview", //servlet地址
+         data: $('#form').serialize(),      //传的数据  form表单 里面的数据
+         success: function(result){       //传数据成功之后的操作   result是servlet传过来的数据  这个函数对result进行处理，让它显示在 输入框中
+         	alert(result);
 			var temp = '<h4>Created at 10.21 2018</h4>';
-			$("#test").append(temp);           //找到输入框 并且将result的值 传进去
-         }
-     });
+			$("#test").append(temp);           //找到输入框 并且将result的值 传进去
+         }
+     });
 } */
-  
+  
 </script>
 <head>
 
@@ -160,7 +158,7 @@ $("#leftplans").ready(function(){
 							<ul class="nav nav-second-level" id="leftplans">								
 							</ul>
 						</li>
-						<li><a href="#"><i class="fa fa-medkit fa-fw"></i>
+						<li><a href="#"><i class="fa fa-th-list fa-fw"></i>
 							Diagnose</a>
 							<ul class="nav nav-second-level">
 								<li><a href="HoriCompPre.html">Horizontal</a></li>

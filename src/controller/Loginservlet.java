@@ -40,8 +40,8 @@ public class Loginservlet extends HttpServlet {
 			if(user.Query(account,password)){
 				System.out.println("true");
 				System.out.println("redirecting");
-				//request.getRequestDispatcher("/pages/MainMenu.html").forward(request, response);
-				response.sendRedirect("/REDS/pages/MainMenu.html");
+				response.sendRedirect("/REDS/pages/Overview.html");
+				//response.sendRedirect("/REDS/pages/Overview.html");
 				return;
 			}
 			else{
