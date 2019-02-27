@@ -50,7 +50,9 @@ public class Uploadservlet extends HttpServlet {
 		// TODO Auto-generated method stub		
 		System.out.println("file start here:");
 		String plan=request.getParameter("filename");
+		String description=request.getParameter("description");
 		System.out.println("HHHHHHHHHHHHHHHHHH"+plan);
+		System.out.println(description);
 		//得到上传时生成的临时文件保存目录
 		String tempPath=this.getServletContext().getRealPath("/WEB-INF/temp");
 		//得到上传文件的保存目录

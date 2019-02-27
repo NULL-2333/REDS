@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Project;
 import model.User;
 
 /**
@@ -16,6 +17,8 @@ import model.User;
  */
 @WebServlet("/Login")
 public class Loginservlet extends HttpServlet {
+	public static Project  currentProject = new Project("Default",true);
+	
 	private static final long serialVersionUID = 1L;
        
     /**
@@ -31,7 +34,6 @@ public class Loginservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("test");
 		String account = request.getParameter("account");
 		String password = request.getParameter("password");
 		User user = new User(account,password);

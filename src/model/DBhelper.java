@@ -69,6 +69,31 @@ public class DBhelper {
   		collection = CollectionConnect(collectionName, database);
 	}
 	
+	//重载构造函数
+	public DBhelper(String databaseName){
+		database = DatabaseConnect(databaseName);
+	}
+		
+	//getDatabase----by rhys
+	public MongoDatabase getDatabase(){
+		return database;
+	}
+	
+	//getCellection
+	public MongoCollection<Document> getCollection(){
+		return collection;
+	}
+	
+	//setDatabase
+	public void setDatabase(MongoDatabase database_){
+		database = database_;
+	}
+		
+	//setCellection
+	public void setCollection(MongoCollection<Document> collection_){
+		collection = collection_;
+	}
+	
 	//JSON转Vector<Document>
 	public static Vector<Document> Json2Document(JsonBean jsonBean){
 		try {
