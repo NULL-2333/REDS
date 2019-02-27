@@ -210,17 +210,19 @@ $("#ProjectTable").ready(function(){
 					</div>
 				</div>
 				</form>
+				<form action="/REDS/DeleteProject" method="post">
 				<div class="col-lg-3">
 					<div class="panel-body">
 						<div class="form-group">
 							<label>Delete Projects</label> <select multiple
-								class="form-control" size=11 id="deleteList">
+								class="form-control" size=11 id="deleteList" name="project_delete">
 								
 							</select>
 						</div>
-						<button type="button" class="btn btn-outline btn-default">Delete</button>
+						<button type="submit" class="btn btn-outline btn-default">Delete</button>
 					</div>
 				</div>
+				</form>
 			</div>
 		</div>
 		<!-- /#page-wrapper -->
