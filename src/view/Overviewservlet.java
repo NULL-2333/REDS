@@ -37,7 +37,8 @@ public class Overviewservlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		//创建project对象
-		Project project = new Project("ProjectData", false);
+		//Project project = new Project("ProjectData", false);
+		Project project=new Project();
 		//获取当前数据库名下的所有plan名字,用#隔开，第一个默认为info用于说明
 		String result = project.changePlanstoString();
 		String temp = project.getdata("info");

@@ -1,23 +1,33 @@
 package model;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Vector;
 
 import org.bson.Document;
 
 public class Project {
-	private String projectname;
-	private String projectinfo;
+	private static String projectname;
+	private static String projectinfo;
+	private static String currentplan;
+	private static boolean flag=false;
 	private ArrayList<String> plans = new ArrayList<String>();
 	
-	public Project(String projectname, Boolean isDefault){
+	public Project(String projectname){
 		this.projectname=projectname;
-		if (isDefault) return;
 		DBhelper db = new DBhelper(projectname,"info");
 		//System.out.println(db.GetCollectionName());
 		this.plans = db.GetCollectionName();
 	}
-	
+	public Project(){
+		
+	}
+	public boolean getFlag(){
+		return flag;
+	}
+	public void isAddproject(){
+		flag=true;
+	}
 	public String getProjectname() {
 		return projectname;
 	}
@@ -41,7 +51,6 @@ public class Project {
 	public void setPlans(ArrayList<String> plans) {
 		this.plans = plans;
 	}
-	
 	//add plan
 	public boolean addPlan(String planname){
 		if(this.plans.add(planname)){

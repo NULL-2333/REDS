@@ -199,12 +199,13 @@ $("#ProjectTable").ready(function(){
 						<div class="form-group">
 							<label>New Project Name</label> <input class="text" name="filename">
 						</div>
+
+						<div class="form-group">
+							<label>Data File</label><p class="help-block">Choose the file of the plan.</p> <input type="file" name="uploadfiles">
+						</div>
 						<div class="form-group">
 							<label>Description</label>
 							<textarea name="description" class="text" rows="3" value="default"></textarea>
-						</div>
-						<div class="form-group">
-							<label>Data File</label><p class="help-block">Choose the file of the plan.</p> <input type="file" name="uploadfiles">
 						</div>
 						<button type="submit" class="btn btn-outline btn-default" formaction="/REDS/Upload" method="post">Create</button>
 					</div>

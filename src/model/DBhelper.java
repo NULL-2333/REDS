@@ -308,7 +308,16 @@ public class DBhelper {
 		 cursor.close();
 		return false;
 	}
-	
+	//对于新建project时，向allproject数据库添加document
+	//格式为，document名为project名，内含project_description和date
+	//by jc
+	public boolean AddProject(String date, String description){
+		Document d=new Document();
+		d.append("project_description", description);
+		d.append("creation_date", date);
+		if(this.InsertOneDocument(this.collection, d))	return true;
+		else return false;
+	}
 	//删除数据库集合中满足某一条件的所有文档（相等）
 	public boolean DeleteManyEqualDocument(MongoCollection<Document> collection, String attribute, String value){
 		FindIterable<Document> iter = collection.find(Filters.eq(attribute,value));

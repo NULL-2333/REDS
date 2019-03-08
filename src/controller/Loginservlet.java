@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Project;
+import model.ProjectManager;
 import model.User;
 
 /**
@@ -17,7 +18,6 @@ import model.User;
  */
 @WebServlet("/Login")
 public class Loginservlet extends HttpServlet {
-	public static Project  currentProject = new Project("Default",true);
 	
 	private static final long serialVersionUID = 1L;
        
@@ -42,7 +42,8 @@ public class Loginservlet extends HttpServlet {
 			if(user.Query(account,password)){
 				System.out.println("true");
 				System.out.println("redirecting");
-				response.sendRedirect("/REDS/pages/Overview.html");
+				ProjectManager pm=new ProjectManager();
+				response.sendRedirect("/REDS/pages/AllProjects.html");
 				//response.sendRedirect("/REDS/pages/Overview.html");
 				return;
 			}

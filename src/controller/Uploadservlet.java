@@ -27,6 +27,8 @@ import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import model.FileDao;
 import model.MyFile;
+import model.Project;
+import model.ProjectManager;
 
 /**
  * Servlet implementation class Upload
@@ -63,6 +65,8 @@ public class Uploadservlet extends HttpServlet {
 			tempFile.mkdirs();
 		}
 		String message="";
+		String project_description="";
+		boolean flag=false;
         try{
 			 //创建一个DiskFileItemFactory工厂
 			DiskFileItemFactory factory=new DiskFileItemFactory();
@@ -86,10 +90,25 @@ public class Uploadservlet extends HttpServlet {
 			//4、使用ServletFileUpload解析器解析上传数据，解析结果返回的是一个List<FileItem>集合，每一个FileItem对应一个Form表单的输入项
 			List<FileItem> list = upload.parseRequest(request);
 			System.out.println("---------------------------");
-			System.out.println(list.size());
-			System.out.println(list.get(0).toString());
-			System.out.println(list.get(1).toString());
+			System.out.println("list_size:"+list.size());
+			System.out.println("list0:"+list.get(0).toString());//name
+			System.out.println("list1:"+list.get(1).toString());//file
+			
 			System.out.println("---------------------------");
+			if(list.size()==3){
+				flag=true;
+				System.out.println("list2:"+list.get(2).toString());//info if possible
+				project_description=(list.get(2)).getString("UTF-8");
+				System.out.println("project_description:"+project_description);
+				System.out.println("在allproject中创建信息...");
+				ProjectManager pm=new ProjectManager();
+				String project_name=list.get(0).getString("UTF-8");
+				System.out.println("project name:"+project_name);
+				if(pm.addProject(project_name, project_description)){
+					pm.setProject(project_name);
+					System.out.println("teeeeeeeeesting");
+				}
+			}
 			//如果fileitem中封装的是普通输入项的数据
 			FileItem item = list.get(0);
 			String name = item.getFieldName();
@@ -157,7 +176,7 @@ public class Uploadservlet extends HttpServlet {
 			System.out.println("starting...");
 			System.out.println(tempfile.getFileName());
 			System.out.println(tempfile.getFilePath());
-			file.UpFile(newfilename, tempfile);
+			file.UpFile(newfilename, tempfile,flag);
 			response.getWriter().println("<script type='text/javascript'>alert('upload success!');window.location.href='/REDS/pages/NewPlan.html';</script>");
 			//response.sendRedirect("/REDS/pages/NewPlan.html");
         }
