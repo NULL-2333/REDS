@@ -34,28 +34,9 @@ import com.google.gson.reflect.TypeToken;
 public class DBhelper {
 	
 //	public static void main(String args[]) throws IOException{
-//		File file = new File("testdata.json");
-//		FileReader fileReader = new FileReader(file);
-//		BufferedReader bReader = new BufferedReader(fileReader);
-//		StringBuilder sb = new StringBuilder();
-//		String s = "";
-//		while((s = bReader.readLine()) != null){
-//			sb.append(s + "\n");
-//		}
-//		bReader.close();
-//		String jsonContent = sb.toString();
 //		
-//		Gson gson = new Gson();
-//		java.lang.reflect.Type type = new TypeToken<JsonBean>(){}.getType();
-//		JsonBean jsonBean = gson.fromJson(jsonContent, type);
-//		
-//		Vector<Document> vd = Json2Document(jsonBean);
-//		
-//		Document d = vd.get(0);
-//		
-//		DBhelper db = new DBhelper("test","test");
-//		db.collection.insertMany(vd);
-//		db.UpdateDocument(db.collection, "eee:www", "8001");
+//		DBhelper db = new DBhelper("D_data");
+//		db.DeleteDatabase(db.database);
 //		System.out.println("eeeee");
 //		
 //	}

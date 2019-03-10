@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.DBhelper;
+import model.ProjectManager;
 
 /**
  * Servlet implementation class DeleteProjectservlet
@@ -30,13 +31,9 @@ public class DeleteProjectservlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		String project=request.getParameter("project_delete");
-		System.out.println(project);
-		DBhelper db = new DBhelper("AllProject",project);
-		if(db.DeleteCollection(db.getCollection())){
-			System.out.println("deleting...");
-			//删除对应该名字的数据库，未完成
-			//****************************
-		}
+		System.out.println("deleteprojectservlet:"+project);
+		ProjectManager pm=new ProjectManager();
+		pm.deleteProject(project);
 		response.sendRedirect("/REDS/pages/AllProjects.html");
 	}
 

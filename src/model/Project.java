@@ -15,8 +15,10 @@ public class Project {
 	
 	public Project(String projectname){
 		this.projectname=projectname;
-		DBhelper db = new DBhelper(projectname,"info");
+		DBhelper db = new DBhelper("AllProject",projectname);
+		projectinfo=db.FindAll().get(0).getString("project_description");
 		//System.out.println(db.GetCollectionName());
+		db=new DBhelper(projectname+"_result");
 		this.plans = db.GetCollectionName();
 	}
 	public Project(){
@@ -79,6 +81,22 @@ public class Project {
 	//get all document from the given collection
 	public String getdata(String collection){
 		DBhelper db = new DBhelper(projectname,collection);
+		Vector<Document> vd = db.FindAll();
+		String str="[";
+		for(int i=0;i<vd.size();i++){
+			if (i!=vd.size()-1){
+				str = str + vd.get(i).toJson()+",";
+			}
+			else{
+				str = str + vd.get(i).toJson();
+			}
+		}
+		str+="]";
+		System.out.println(str);
+		return str;
+	}
+	public String getdes(){
+		DBhelper db = new DBhelper("AllProject",projectname);
 		Vector<Document> vd = db.FindAll();
 		String str="[";
 		for(int i=0;i<vd.size();i++){

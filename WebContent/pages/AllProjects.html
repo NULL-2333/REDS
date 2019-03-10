@@ -46,14 +46,14 @@ function loadTableData(){
 
 		    $('#ProjectTable tbody').on('dblclick', 'tr', function () {
 		        var data = table.row( this ).data();
-		        alert( 'You clicked on '+data[1]+' row' );
+		        window.location.href="/REDS/MainMenu?index="+data[1];
+		        //alert( 'You clicked on '+data[1]+' row' );
 		    } );
 		    
 		    
 		}
 	});
 }
-
 
 function getDataRow(h){
 	//create row

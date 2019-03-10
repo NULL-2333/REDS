@@ -40,14 +40,12 @@ public class ProjectManager {
 		return false;
 	}
 	public void deleteProject(String projectname){
-		System.out.println("project_delete:"+projectname);
+		System.out.println("calling deleteProject...");
 		DBhelper db=new DBhelper("AllProject",projectname);
 		db.DeleteCollection(db.collection);
 		db=new DBhelper(projectname+"_data");
-		db.database.drop();
-		System.out.println("deleted!!!");
+		db.DeleteDatabase(db.database);
 		db=new DBhelper(projectname+"_result");
 		db.DeleteDatabase(db.database);
 	}
-	
 }

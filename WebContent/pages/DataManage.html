@@ -1,6 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
+<script src="../vendor/jquery/jquery.min.js"></script>
+<script type="text/javascript">
+//window.onload 是加载页面时执行，这里是把两个输入框里的值送过去
+//servlet里面也能直接获取，直接能够根据标签的name来获取值
+//servlet里面进行数据的操作，然后返回给ajax
+//ajax里面可以给控件赋值，然后动态添加的话，需要使用js
+//加载左侧plans信息
+function loadleftplans(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/Overview",
+		datetype:"text",
+		success:function(result){
+			var plans = new Array()
+			var x;
+			var temp;
+			$("#leftplans").empty();
+			result = result.split("#####")[0];
+			plans = result.replace(/[\r\n]/g,"");    
+			plans = plans.split("#");
+			plans.shift();
+			for (x in plans){
+				temp='<li><a href="PlanMacro.html">' + plans[x] + '</a></li>';
+				$("#leftplans").append(temp); 
+			}
+			temp='<li><a href="NewPlan.html">New Plan</a></li>';
+			$("#leftplans").append(temp);
+		}
+	});
+}
+$("#leftplans").ready(function(){
+	loadleftplans();
+});
 
+</script>
 <head>
 
 <meta charset="utf-8">
@@ -83,36 +117,30 @@
 			</ul>
 			<!-- /.navbar-top-links -->
 
-			<div class="navbar-default sidebar" role="navigation">
-				<div class="sidebar-nav navbar-collapse">
-					<ul class="nav" id="side-menu">
-						<li><a href="Overview.html"><i class="fa fa-home fa-fw"></i>
-								Overview</a></li>
-						<li><a href="PlanMacro.htm"><i
-								class="fa fa-th-list fa-fw"></i> All Plans<span class="fa arrow"></span></a>
-							<ul class="nav nav-second-level">
-								<li><a href="PlanMacro.html">plan 1</a></li>
-								<li><a href="PlanMacro.html">plan 2</a></li>
-								<li><a href="NewPlan.html">New Plan</a></li>
-							</ul></li>
+			<div class="navbar-default sidebar" role="navigation" id="ttt">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+						<li><a href="Overview.html"><i class="fa fa-home fa-fw"></i> Overview</a></li>
+						<li><a href="#"><i class="fa fa-th-list fa-fw"></i>
+							All Plans<span class="fa arrow"></span></a>
+							<ul class="nav nav-second-level" id="leftplans">								
+							</ul>
+						</li>
 						<li><a href="#"><i class="fa fa-medkit fa-fw"></i>
-								Diagnose<span class="fa arrow"></span></a>
+							Diagnose<span class="fa arrow"></span></a>
 							<ul class="nav nav-second-level">
 								<li><a href="HoriCompPre.html">Horizontal</a></li>
 								<li><a href="VertCompPre.html">Vertical</a></li>
-							</ul></li>
-						<li><a href="DataManage.html"><i
-								class="fa fa-file-text fa-fw"></i> Data Manage</a></li>
-						<li><a href="LabelManage.html"><i
-								class="fa fa-tags fa-fw"></i> Label Manage</a></li>
-						<li><a href="RuleManage.html"><i
-								class="fa fa-search fa-fw"></i> Rule Manage</a></li>
-						<li><a href="FilterManage.html"><i
-								class="fa fa-filter fa-fw"></i> Filter Manage</a></li>
+							</ul>
+						</li>						
+						<li><a href="DataManage.html"><i class="fa fa-file-text fa-fw"></i> Data Manage</a></li>
+						<li><a href="LabelManage.html"><i class="fa fa-tags fa-fw"></i> Label Manage</a></li>
+						<li><a href="RuleManage.html"><i class="fa fa-search fa-fw"></i> Rule Manage</a></li>
+						<li><a href="FilterManage.html"><i class="fa fa-filter fa-fw"></i> Filter Manage</a></li>
 					</ul>
-				</div>
-				<!-- /.sidebar-collapse -->
-			</div>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
 			<!-- /.navbar-static-side -->
 		</nav>
 

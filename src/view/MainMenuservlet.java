@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.ProjectManager;
+
 /**
  * Servlet implementation class MainMenuservlet
  */
@@ -26,7 +28,11 @@ public class MainMenuservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String index=request.getQueryString().split("index=")[1];
+		System.out.println("index:"+index);
+		ProjectManager pm = new ProjectManager();
+		pm.setProject(index);
+		response.sendRedirect("/REDS/pages/Overview.html");
 	}
 
 	/**

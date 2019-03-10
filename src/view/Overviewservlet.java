@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Project;
+import model.ProjectManager;
 
 /**
  * Servlet implementation class Overviewservlet
@@ -31,6 +32,8 @@ public class Overviewservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		String index=request.getQueryString();
+		System.out.println("index:"+index);
 		System.out.println("turning to overview servlet");
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
@@ -38,11 +41,16 @@ public class Overviewservlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		//创建project对象
 		//Project project = new Project("ProjectData", false);
-		Project project=new Project();
+		ProjectManager pm=new ProjectManager();
+		
+		Project project=new Project(pm.getProject());
+		
 		//获取当前数据库名下的所有plan名字,用#隔开，第一个默认为info用于说明
 		String result = project.changePlanstoString();
-		String temp = project.getdata("info");
+		//String temp = project.getdata("info");
 		//拼接结果
+		System.out.println("overviewserv_pro_des:"+project.getProjectinfo());
+		String temp=project.getdes();
 		result = result+"#####"+temp+"#####"+project.getProjectname();
 		System.out.println("result:"+result);
 		out.println(result);//将数据传到前端
