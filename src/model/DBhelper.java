@@ -76,7 +76,7 @@ public class DBhelper {
 	}
 	
 	//JSONתVector<Document>
-	public static Vector<Document> Json2Document(JsonBean jsonBean){
+	public static Vector<Document> Json2Document(JsonBean jsonBean,boolean flag){
 		try {
 //			File file = new File(jsonName);
 //			FileReader fileReader = new FileReader(file);
@@ -94,19 +94,31 @@ public class DBhelper {
 //			JsonBean jsonBean = gson.fromJson(jsonContent, type);
 			Vector<Document> res = new Vector<Document>();
 			int len = jsonBean.data.size();
-			for(int i = 0; i < len; i++){
-				Document d = new Document();
-				d.append("file", jsonBean.file);
-				d.append("description", jsonBean.description);
-				d.append("id", jsonBean.data.get(i).id);
-				d.append("text", jsonBean.data.get(i).text);
-				d.append("relation", jsonBean.data.get(i).relation);
-				d.append("comment", jsonBean.data.get(i).comment);
-				//String label = "";//jsonBean.data.get(i).label
-				List<String> label = new ArrayList<String>();
-				label.add("relation_type:" + jsonBean.data.get(i).label.relation_type);
-				d.append("label", label);
-				res.add(d);
+			if(flag){
+				for(int i = 0; i < len; i++){
+					Document d = new Document();
+					d.append("file", jsonBean.file);
+					d.append("description", jsonBean.description);
+					d.append("id", jsonBean.data.get(i).id);
+					d.append("text", jsonBean.data.get(i).text);
+					d.append("relation", jsonBean.data.get(i).relation);
+					d.append("comment", jsonBean.data.get(i).comment);
+					//String label = "";//jsonBean.data.get(i).label
+					List<String> label = new ArrayList<String>();
+					label.add("relation_type:" + jsonBean.data.get(i).label.relation_type);
+					d.append("label", label);
+					res.add(d);
+				}
+			}
+			else{
+				for(int i = 0; i < len; i++){
+					Document d = new Document();
+					d.append("file", jsonBean.file);
+					d.append("id", jsonBean.data.get(i).id);
+					d.append("relation", jsonBean.data.get(i).relation);
+					d.append("relation_type", jsonBean.data.get(i).relation_type);
+					res.add(d);
+				}
 			}
 			return res;
 			} catch (JsonIOException | JsonSyntaxException e) {

@@ -32,9 +32,6 @@ public class Overviewservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		String index=request.getQueryString();
-		System.out.println("index:"+index);
-		System.out.println("turning to overview servlet");
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("UTF-8");

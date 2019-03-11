@@ -37,7 +37,14 @@ public class Project {
 	public void setProjectname(String projectname) {
 		this.projectname = projectname;
 	}
-
+	
+	public void setCurrentplan(String plan){
+		this.currentplan=plan;
+	}
+	
+	public String getCurrentplan(){
+		return currentplan;
+	}
 	public String getProjectinfo() {
 		return projectinfo;
 	}
@@ -53,6 +60,20 @@ public class Project {
 	public void setPlans(ArrayList<String> plans) {
 		this.plans = plans;
 	}
+	public String getScores(){
+		//计算4个指标，返回string，数据之间用"#####"隔开
+		String result=null;
+		//accuracy
+		
+		
+		//precision
+		
+		//recall
+		
+		//F1
+		
+		return result;
+	}
 	//add plan
 	public boolean addPlan(String planname){
 		if(this.plans.add(planname)){
@@ -66,6 +87,13 @@ public class Project {
 			return true;
 		}
 		return false;
+	}
+	//delete current plan
+	public boolean deleteCurrentplan(){
+		DBhelper db=new DBhelper(projectname+"_result",currentplan);
+		if(db.DeleteCollection(db.collection))	return true;
+		else 
+			return false;
 	}
 	//change plans into a string separated by "#"
 	public String changePlanstoString(){

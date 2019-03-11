@@ -54,7 +54,7 @@ public class FileDao {
 		JsonBean jsonBean = gson.fromJson(text, type);
 //		System.out.println(text);
 		jsonBean.file = filename;
-		Vector<Document> vd = DBhelper.Json2Document(jsonBean);
+		Vector<Document> vd = DBhelper.Json2Document(jsonBean,flag);
 		//创建新的project 上传数据集
 		ProjectManager pm=new ProjectManager();
 		System.out.println("uploadservlet:"+pm.getProject());

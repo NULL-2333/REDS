@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Project;
+import model.ProjectManager;
+
 /**
  * Servlet implementation class Welcomeservlet
  */
@@ -29,25 +32,12 @@ public class Mainservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("call mainservlet");
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		//response.setContentType("text/html;charset=utf-8");
-		//PrintWriter out=response.getWriter();
-		//out.println("登陆成功");
-		//out.close();
-		//String username = request.getParameter("account");   
-//		//设置编码格式  
-//        response.setContentType("text/html;charset=GB18030");           
-//        //返回html页面  
-//        response.getWriter().println("<html>");  
-//        response.getWriter().println("<head>");     
-//        response.getWriter().println("<title>登录信息</title>");      
-//        response.getWriter().println("</head>");    
-//        response.getWriter().println("<body algin=center>");     
-//        response.getWriter().println("欢迎【" + username + "】用户登录成功！！！");    
-//        response.getWriter().println("</body>");    
-//        response.getWriter().println("</html>");  
-		//response.sendRedirect("/REDS/pages/Main.html");
+		String plan=request.getQueryString().split("plan=")[1];
+		System.out.println("plan:"+plan);
+		Project p = new Project();
+		p.setCurrentplan(plan);
+		response.sendRedirect("/REDS/pages/PlanMacro.html");
+		
 	}
 
 	/**

@@ -43,7 +43,7 @@ function loadleftplans(){
 			plans = plans.split("#");
 			plans.shift();
 			for (x in plans){
-				temp='<li><a href="PlanMacro.html">' + plans[x] + '</a></li>';
+				temp='<li><a href="/REDS/Main?plan='+plans[x]+'">' + plans[x] + '</a></li>';
 				$("#leftplans").append(temp); 
 			}
 			temp='<li><a href="NewPlan.html">New Plan</a></li>';

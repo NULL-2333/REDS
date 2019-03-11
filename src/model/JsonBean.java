@@ -14,6 +14,7 @@ public class JsonBean{
 		data = new ArrayList<Data>();
 	}
 	public static class Data{
+		public String relation_type;
 		public String id;
 		public String text;
 		public String relation;

@@ -1,8 +1,6 @@
-package view;
+package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,19 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Project;
-import model.ProjectManager;
 
 /**
- * Servlet implementation class PlanMacroservlet
+ * Servlet implementation class DeletePlan
  */
-@WebServlet("/PlanMacro")
-public class PlanMacroservlet extends HttpServlet {
+@WebServlet("/DeletePlan")
+public class DeletePlanservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public PlanMacroservlet() {
+    public DeletePlanservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,14 +29,13 @@ public class PlanMacroservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("text/html");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
 		Project project=new Project();
-		String result=project.getProjectname()+"#####"+project.getCurrentplan();
-		System.out.println("!!!!"+result);
-		out.println(result);
+		if(project.deleteCurrentplan()){
+			response.sendRedirect("/REDS/pages/Overview.html");
+		}
+		else{
+			response.sendRedirect("/REDS/Error");
+		}
 		
 	}
 
