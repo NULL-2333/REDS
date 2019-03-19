@@ -49,7 +49,7 @@ public class Overviewservlet extends HttpServlet {
 		System.out.println("overviewserv_pro_des:"+project.getProjectinfo());
 		String temp=project.getdes();
 		result = result+"#####"+temp+"#####"+project.getProjectname();
-		System.out.println("result:"+result);
+		System.out.println("Overview result:"+result);
 		out.println(result);//将数据传到前端
 	}
 

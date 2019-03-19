@@ -33,16 +33,25 @@ import com.google.gson.reflect.TypeToken;
 
 public class DBhelper {
 	
-//	public static void main(String args[]) throws IOException{
-//		
-//		DBhelper db = new DBhelper("D_data");
-//		db.DeleteDatabase(db.database);
-//		System.out.println("eeeee");
-//		
-//	}
+	/*public static void main(String args[]) throws IOException{
+		
+//		DBhelper db = new DBhelper("projectA_data", "projectA");
+//		String id = "8001";
+//		Vector<Document> test = db.FindManyEqualDocument(db.collection, "id", id);
+//		for(Document doc: test){
+//			ArrayList<String> tmp = new ArrayList<String>();
+//			tmp = doc.get("label", tmp);
+//			System.out.println(tmp.get(0));
+//		}
+//		System.out.println(test);
+		int tp = 1554, fp = 0, tn = 1127, fn = 2;
+		double a = (double)(tp + tn)/(double)(tp + fn + fp + tn);
+		System.out.println(a);
+		System.out.println(String.format("%.2f",a));
+	}*/
 	
-	protected static MongoDatabase database = null;
-	protected static MongoCollection<Document> collection = null;
+	public static MongoDatabase database = null;
+	public static MongoCollection<Document> collection = null;
 	
 	//¹¹Ôìº¯Êý
 	public DBhelper(String databaseName,String collectionName){
@@ -277,7 +286,7 @@ public class DBhelper {
 	public Vector<Document> FindManyEqualDocument(MongoCollection<Document> collection, String attribute, String value){
 		Vector<Document> res = new Vector<Document>();
 		FindIterable<Document> iter = collection.find(Filters.eq(attribute,value));
-		System.out.println("Find all documents with "+ attribute + " = " + value);
+		//System.out.println("Find all documents with "+ attribute + " = " + value);
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				res.add(doc);
@@ -327,7 +336,7 @@ public class DBhelper {
 	public Vector<Document> FindManyNotEqualDocument(MongoCollection<Document> collection, String attribute, String value){
 		Vector<Document> res = new Vector<Document>();
 		FindIterable<Document> iter = collection.find(Filters.ne(attribute,value));
-        System.out.println("Find all documents with "+ attribute + " != " + value);
+        //System.out.println("Find all documents with "+ attribute + " != " + value);
 		iter.forEach(new Block<Document>(){
 			public void apply(Document doc){
 				res.add(doc);

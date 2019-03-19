@@ -35,8 +35,13 @@ function loadview(){
 		type:"POST",
 		url:"/REDS/PlanMacro",
 		datetype:"text",
-		success:function(result){	
-			$("#basic_info").append(result.split("#####")[0]+" - "+result.split("#####")[1]);
+		success:function(result){
+			$("#basic_info").append(result.split("#####")[1]+" - "+result.split("#####")[2]);
+			$("#accuracy").append(result.split("#####")[3].split("&&&&&")[0]);
+			$("#precision").append(result.split("#####")[3].split("&&&&&")[1]);
+			$("#recall").append(result.split("#####")[3].split("&&&&&")[2]);
+			$("#f1").append(result.split("#####")[3].split("&&&&&")[3]);
+			$("#micro_average").append(result.split("#####")[3].split("&&&&&")[4]);
 		}
 	});
 }
@@ -52,7 +57,7 @@ function loadaccuracy(){
 }
 $("#leftplans").ready(function(){
 	loadleftplans();
-});
+}); 
 $("#basic_info").ready(function(){
 	loadview();
 });
@@ -148,7 +153,6 @@ $("#basic_info").ready(function(){
 						</li>						
 						<li><a href="DataManage.html"><i class="fa fa-file-text fa-fw"></i> Data Manage</a></li>
 						<li><a href="LabelManage.html"><i class="fa fa-tags fa-fw"></i> Label Manage</a></li>
-						<li><a href="RuleManage.html"><i class="fa fa-search fa-fw"></i> Rule Manage</a></li>
 						<li><a href="FilterManage.html"><i class="fa fa-filter fa-fw"></i> Filter Manage</a></li>
 					</ul>
                 </div>
@@ -198,10 +202,10 @@ $("#basic_info").ready(function(){
                         <div class="panel-heading">
                             <div class="row">
                                 <div class="col-xs-6">
-                                    <div class="medium">Percison</div>
+                                    <div class="medium">Precision</div>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0.89</div>
+                                    <div class="huge" id="precision"></div>
                                 </div>
                             </div>
                         </div>
@@ -215,7 +219,7 @@ $("#basic_info").ready(function(){
                                     <div class="medium">Recall</div>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0.59</div>
+                                    <div class="huge" id="recall"></div>
                                 </div>
                             </div>
                         </div>
@@ -229,27 +233,27 @@ $("#basic_info").ready(function(){
                                     <div class="medium">F-Score</div>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0.99</div>
+                                    <div class="huge" id="f1"></div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-6">
-                    <div class="panel panel-info">
-                        <div class="panel-heading">
-                            <div class="row">
-                                <div class="col-xs-12">
-                                    <div class="medium">Macro-average</div>
-                                </div>
-                                <div class="col-xs-9 text-right">
-                                    <div class="huge">0.99</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-2 col-md-6">
+<!--                 <div class="col-lg-2 col-md-6"> -->
+<!--                     <div class="panel panel-info"> -->
+<!--                         <div class="panel-heading"> -->
+<!--                             <div class="row"> -->
+<!--                                 <div class="col-xs-12"> -->
+<!--                                     <div class="medium">Macro-average</div> -->
+<!--                                 </div> -->
+<!--                                 <div class="col-xs-9 text-right"> -->
+<!--                                     <div class="huge">0.99</div> -->
+<!--                                 </div> -->
+<!--                             </div> -->
+<!--                         </div> -->
+<!--                     </div> -->
+<!--                 </div> -->
+                <div class="col-lg-4 col-md-6">
                     <div class="panel panel-success">
                         <div class="panel-heading">
                             <div class="row">
@@ -257,7 +261,7 @@ $("#basic_info").ready(function(){
                                     <div class="medium">Micro-average</div>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <div class="huge">0.99</div>
+                                    <div class="huge" id="micro_average"></div>
                                 </div>
                             </div>
                         </div>

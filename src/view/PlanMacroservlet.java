@@ -36,9 +36,11 @@ public class PlanMacroservlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		Project project=new Project();
-		String result=project.getProjectname()+"#####"+project.getCurrentplan();
-		System.out.println("!!!!"+result);
+		ProjectManager pm=new ProjectManager();	
+		Project project=new Project(pm.getProject());
+		String result=project.changePlanstoString();
+		result = result+"#####"+project.getProjectname()+"#####"+project.getCurrentplan()+"#####"+project.getScores();
+		System.out.println("Macroservlet:"+result);
 		out.println(result);
 		
 	}
