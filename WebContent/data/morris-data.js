@@ -1,7 +1,7 @@
 $(function() {
 	
 	new Morris.Donut({
-        element: 'morris-donut-chart',
+        element: 'wwwwww',//morris-donut-chart
         data: [{
             label: "Long sentence",
             value: 12
@@ -10,6 +10,9 @@ $(function() {
             value: 30
         }, {
             label: "Medium sentence",
+            value: 20
+        },{
+        	label: "Medium",
             value: 20
         }],
         resize: true

@@ -36,7 +36,7 @@ public class Mainservlet extends HttpServlet {
 		System.out.println("plan:"+plan);
 		Project p = new Project();
 		p.setCurrentplan(plan);
-		response.sendRedirect("/REDS/pages/PlanMacro.html");
+		response.sendRedirect("/REDS/pages/PlanMacro.html?index="+plan);
 		
 	}
 

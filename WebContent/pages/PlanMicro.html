@@ -10,7 +10,7 @@
 function loadleftplans(){
 	$.ajax({
 		type:"POST",
-		url:"/REDS/Overview",
+		url:"/REDS/PlanMicro",
 		datetype:"text",
 		success:function(result){
 			var plans = new Array()
@@ -30,10 +30,28 @@ function loadleftplans(){
 		}
 	});
 }
+function loadview(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/PlanMicro",
+		datatype:"text",
+		success:function(result){
+			$("#basic_info").append(result.split("#####")[1]+" - "+result.split("#####")[2]);
+			$("#accuracy").append(result.split("#####")[3].split("&&&&&")[0]);
+			$("#precision").append(result.split("#####")[3].split("&&&&&")[1]);
+			$("#recall").append(result.split("#####")[3].split("&&&&&")[2]);
+			$("#f1").append(result.split("#####")[3].split("&&&&&")[3]);
+			$("#micro_average").append(result.split("#####")[3].split("&&&&&")[4]);
+		}
+	});
+}
+
 $("#leftplans").ready(function(){
 	loadleftplans();
 });
-
+$("#basic_info").ready(function(){
+	loadview();
+});
 </script>
 <head>
 
@@ -145,8 +163,7 @@ $("#leftplans").ready(function(){
 		<div id="page-wrapper">
 			<div class="row">
 				<div class="col-lg-12">
-					<h1 class="page-header">
-						Project name - Plan name
+					<h1 class="page-header" id="basic_info">
 						<div class="btn-group">
 							<button type="button" class="btn btn-primary dropdown-toggle"
 								data-toggle="dropdown">
@@ -157,7 +174,9 @@ $("#leftplans").ready(function(){
 								<li><a href="#">Micro<i class="fa fa-angle-left  fa-fw"></i></a></li>
 							</ul>
 						</div>
-						<button type="button" class="btn btn-danger" style="float: right">Delete</button>
+						<form action="/REDS/DeletePlan" method="post">
+						<button type="submit" class="btn btn-danger" style="float: right">Delete</button>
+						</form>
 					</h1>
 				</div>
 				<!-- /.col-lg-12 -->
@@ -172,7 +191,7 @@ $("#leftplans").ready(function(){
 									<div class="medium">Accuracy</div>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">0.67</div>
+									<div class="huge" id="accuracy"></div>
 								</div>
 							</div>
 						</div>
@@ -186,7 +205,7 @@ $("#leftplans").ready(function(){
 									<div class="medium">Percison</div>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">0.89</div>
+									<div class="huge" id="precision"></div>
 								</div>
 							</div>
 						</div>
@@ -200,7 +219,7 @@ $("#leftplans").ready(function(){
 									<div class="medium">Recall</div>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">0.59</div>
+									<div class="huge" id="recall"></div>
 								</div>
 							</div>
 						</div>
@@ -214,13 +233,13 @@ $("#leftplans").ready(function(){
 									<div class="medium">F-Score</div>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">0.99</div>
+									<div class="huge" id="f1"></div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-2 col-md-6">
+<!-- 				<div class="col-lg-2 col-md-6">
 					<div class="panel panel-info">
 						<div class="panel-heading">
 							<div class="row">
@@ -233,8 +252,8 @@ $("#leftplans").ready(function(){
 							</div>
 						</div>
 					</div>
-				</div>
-				<div class="col-lg-2 col-md-6">
+				</div> -->
+				<div class="col-lg-4 col-md-6">
 					<div class="panel panel-success">
 						<div class="panel-heading">
 							<div class="row">
@@ -242,7 +261,7 @@ $("#leftplans").ready(function(){
 									<div class="medium">Micro-average</div>
 								</div>
 								<div class="col-xs-9 text-right">
-									<div class="huge">0.99</div>
+									<div class="huge" id="micro_average"></div>
 								</div>
 							</div>
 						</div>

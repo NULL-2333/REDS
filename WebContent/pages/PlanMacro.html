@@ -10,7 +10,7 @@
 function loadleftplans(){
 	$.ajax({
 		type:"POST",
-		url:"/REDS/Overview",
+		url:"/REDS/PlanMacro",
 		datetype:"text",
 		success:function(result){
 			var plans = new Array()
@@ -22,11 +22,38 @@ function loadleftplans(){
 			plans = plans.split("#");
 			plans.shift();
 			for (x in plans){
-				temp='<li><a href="PlanMacro.html">' + plans[x] + '</a></li>';
+				temp='<li><a href="/REDS/Main?plan='+plans[x]+'">' + plans[x] + '</a></li>';
 				$("#leftplans").append(temp); 
 			}
 			temp='<li><a href="NewPlan.html">New Plan</a></li>';
 			$("#leftplans").append(temp);
+		}
+	});
+}
+function loadgraph(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/PlanMacro",
+		datetype:"text",
+		success:function(result){
+			var temp=new Morris.Donut({
+		        element: 'morris_test',//morris-donut-chart
+		        data: [{
+		            label: "Long sentence",
+		            value: 12
+		        }, {
+		            label: "Short sentence",
+		            value: 30
+		        }, {
+		            label: "Medium sentence",
+		            value: 20
+		        },{
+		        	label: "Medium",
+		            value: 20
+		        }],
+		        resize: true
+		    });
+			$("#morris_test").append(temp);
 		}
 	});
 }
@@ -44,8 +71,10 @@ function loadview(){
 			$("#micro_average").append(result.split("#####")[3].split("&&&&&")[4]);
 		}
 	});
+
 }
-function loadaccuracy(){
+
+/* function loadaccuracy(){
 	$.ajax({
 		type:"POST",
 		url:"/REDS/PlanMacro",
@@ -54,12 +83,15 @@ function loadaccuracy(){
 			$("#accuracy").append(result.split("#####")[2]);
 		}
 	});
-}
+} */
 $("#leftplans").ready(function(){
 	loadleftplans();
 }); 
 $("#basic_info").ready(function(){
 	loadview();
+});
+$('#morris_test').ready(function(){
+	loadgraph();
 });
 </script>
 <head>
@@ -291,7 +323,7 @@ $("#basic_info").ready(function(){
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="morris-donut-chart"></div>
+                            <div id="morris_test"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>
@@ -361,7 +393,7 @@ $("#basic_info").ready(function(){
     <!-- Morris Charts JavaScript -->
     <script src="../vendor/raphael/raphael.min.js"></script>
     <script src="../vendor/morrisjs/morris.min.js"></script>
-    <script src="../data/morris-data.js"></script>
+   <!--  <script src="../data/morris-data.js"></script> -->
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/reds.js"></script>
