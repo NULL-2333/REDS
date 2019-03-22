@@ -197,6 +197,15 @@ public class Project {
 		System.out.println(str);
 		return str;
 	}
+	//get all the sensence in current plan from data, used in planmicro.html
+	public String getSentence(){
+		String str="[{id:\"8001\",text:\"The most common <e1>audits</e1> were about <e2>waste</e2> and recyclin...\""
+				+ ",label:[{\"relation_type:Message-Topic\"}]},{{id:\"8002\",text:\"The most common <e1>audits</e1> were about <e2>waste</e2> and recyclin...\""
+				+ ",label:[{\"relation_type:Product-Producer\"}]}}]";
+		//get all the ids in 
+		
+		return str;
+	}
 	public String getdes(){
 		DBhelper db = new DBhelper("AllProject",projectname);
 		Vector<Document> vd = db.FindAll();

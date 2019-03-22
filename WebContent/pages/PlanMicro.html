@@ -30,7 +30,7 @@ function loadleftplans(){
 		}
 	});
 }
-function loadview(){
+ function loadview(){
 	$.ajax({
 		type:"POST",
 		url:"/REDS/PlanMicro",
@@ -45,13 +45,65 @@ function loadview(){
 		}
 	});
 }
-
+$(function(){
+	$("#sentence tr").find("td:eq(4)").dblclick(function(){
+		var td=$(this);
+		var text =td.text();
+		var txt= $("<input type='text' class='edit_text'>").val(text);
+		txt.blur(function(){
+			var newText =$(this).val();
+			confirm("are you sure?");
+			$(this).remove();
+			td.text(newText);
+		});
+		td.text("");
+		td.append(txt);
+		txt.focus();
+	});
+});
+//  <!-- <tr class="odd gradeX">
+// 	<td>The most common &lt;e1&gt;audits&lt;/e1&gt; were
+// 		about &lt;e2&gt;waste&lt;/e2&gt; and recycling.</td>
+// 	<td>8001</td>
+// 	<td>Message-Topic</td>
+// 	<td>Message-Topic</td>
+// 	<td>"property1":"a","property2":"b","property3":null</td>
+// 	<td></td>
+// </tr> 
+ 
+// function loadsentense(){
+// 	$.ajax({
+// 		type:"POST",
+// 		url:"/REDS/PlanMicro",
+// 		datatype:"text",
+// 		success:function(result){
+// 			result=result.split("#####")[4];
+// 			if((typeof result=='object')&&result.constructor==Object){
+// 				obj=result;
+// 			}else{
+// 				obj=eval("("+result+")");
+// 			}
+// 			$.each(obj,function(index,object){
+// 				alert("get into load sentence");
+// 				$("#sentence").append('<tr class="odd gradeX"><td>'+object["text"]+'</td>');
+// 				$("#sentence").append('<td>'+object["id"]+'</td>');
+// 				$("#sentence").append('<td>'+object["relation_type"]+'</td>');
+// 				$("#sentence").append('<td>'+object["prediction"]+'</td>');
+// 				$("#sentence").append('<td><input type=text placeholder='+object["label"]+'></td>');
+// 			});
+			
+// 		}
+// 	});
+// } 
 $("#leftplans").ready(function(){
 	loadleftplans();
-});
+}); 
 $("#basic_info").ready(function(){
 	loadview();
 });
+// $("#sentence").ready(function(){
+// 	loadsentence();
+// });
 </script>
 <head>
 
@@ -401,7 +453,7 @@ $("#basic_info").ready(function(){
 										<th>Operate</th>
 									</tr>
 								</thead>
-								<tbody>
+								<tbody id="sentence">
 									<tr class="odd gradeX">
 										<td>The most common &lt;e1&gt;audits&lt;/e1&gt; were
 											about &lt;e2&gt;waste&lt;/e2&gt; and recycling.</td>

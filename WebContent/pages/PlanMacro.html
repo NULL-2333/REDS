@@ -36,23 +36,26 @@ function loadgraph(){
 		url:"/REDS/PlanMacro",
 		datetype:"text",
 		success:function(result){
+			result=[{label:"long",value:14},{label:"short",value:10}];
 			var temp=new Morris.Donut({
 		        element: 'morris_test',//morris-donut-chart
-		        data: [{
-		            label: "Long sentence",
-		            value: 12
-		        }, {
-		            label: "Short sentence",
-		            value: 30
-		        }, {
-		            label: "Medium sentence",
-		            value: 20
-		        },{
-		        	label: "Medium",
-		            value: 20
-		        }],
+// 		        data: [{
+// 		            label: "Long sentence",
+// 		            value: 12
+// 		        }, {
+// 		            label: "Short sentence",
+// 		            value: 30
+// 		        }, {
+// 		            label: "Medium sentence",
+// 		            value: 20
+// 		        },{
+// 		        	label: "Medium",
+// 		            value: 20
+// 		        }],
+				data:result,
 		        resize: true
 		    });
+			temp.
 			$("#morris_test").append(temp);
 		}
 	});
@@ -74,16 +77,6 @@ function loadview(){
 
 }
 
-/* function loadaccuracy(){
-	$.ajax({
-		type:"POST",
-		url:"/REDS/PlanMacro",
-		datetype:"text",
-		success:function(result){	
-			$("#accuracy").append(result.split("#####")[2]);
-		}
-	});
-} */
 $("#leftplans").ready(function(){
 	loadleftplans();
 }); 

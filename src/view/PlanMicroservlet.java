@@ -39,7 +39,7 @@ public class PlanMicroservlet extends HttpServlet {
 		ProjectManager pm=new ProjectManager();	
 		Project project=new Project(pm.getProject());
 		String result=project.changePlanstoString();
-		result = result+"#####"+project.getProjectname()+"#####"+project.getCurrentplan()+"#####"+project.getScores();
+		result = result+"#####"+project.getProjectname()+"#####"+project.getCurrentplan()+"#####"+project.getScores()+"#####"+project.getSentence();
 		System.out.println("Microservlet:"+result);
 		out.println(result);
 	}
