@@ -19,11 +19,11 @@ public class JsonBean{
 		public String text;
 		public String relation;
 		public String comment;
-		public Label label;
+		public ArrayList<String> label;
 	}
 	
-	public static class Label{
-		public String relation_type;
-	}
+//	public static class Label{
+//		public String relation_type;
+//	}
 	
 }
