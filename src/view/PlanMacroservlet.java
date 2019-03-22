@@ -40,8 +40,10 @@ public class PlanMacroservlet extends HttpServlet {
 		Project project=new Project(pm.getProject());
 		String result=project.changePlanstoString();
 		result = result+"#####"+project.getProjectname()+"#####"+project.getCurrentplan()+"#####"+project.getScores();
+		System.out.println(project.getLabelStat());
 		System.out.println("Macroservlet:"+result);
 		out.println(result);
+		
 		
 	}
 

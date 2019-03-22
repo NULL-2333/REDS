@@ -25,6 +25,7 @@ public class FileDao {
 	MyFile my_file=null;
 	List<MyFile> files=null;
 	public void UpFile(String filename, MyFile my_file, boolean flag){
+		System.out.println("UpFile!!!!!!!!");
 		//Relation re=new Relation();
 		String fileName=my_file.getFilePath()+"\\"+my_file.getFileName();
 		System.out.println(fileName);
@@ -51,10 +52,12 @@ public class FileDao {
         
         Gson gson = new Gson();
 		java.lang.reflect.Type type = new TypeToken<JsonBean>(){}.getType();
+		System.out.println(text);
 		JsonBean jsonBean = gson.fromJson(text, type);
 //		System.out.println(text);
 		jsonBean.file = filename;
 		Vector<Document> vd = DBhelper.Json2Document(jsonBean,flag);
+
 		//创建新的project 上传数据集
 		ProjectManager pm=new ProjectManager();
 		System.out.println("uploadservlet:"+pm.getProject());

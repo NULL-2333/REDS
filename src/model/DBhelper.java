@@ -113,8 +113,8 @@ public class DBhelper {
 					d.append("relation", jsonBean.data.get(i).relation);
 					d.append("comment", jsonBean.data.get(i).comment);
 					//String label = "";//jsonBean.data.get(i).label
-					List<String> label = new ArrayList<String>();
-					label.add("relation_type:" + jsonBean.data.get(i).label.relation_type);
+					ArrayList<String> label = new ArrayList<String>();
+					label = jsonBean.data.get(i).label;
 					d.append("label", label);
 					res.add(d);
 				}
@@ -151,43 +151,43 @@ public class DBhelper {
 			data.text = d.getString("text");
 			data.relation = d.getString("relation");
 			data.comment = d.getString("comment");
-			data.label = (Label) d.get("label");
+			data.label = (ArrayList<String>) d.get("label");
 			jb.data.add(data);
 		}
 		return jb;
 	}
 		
-	//JsonObject转Document
-	public static Document Json2Document(JsonObject jo){
-		Document d = new Document();
-		d.append("id", jo.get("id").getAsInt());
-		d.append("text", jo.get("text").toString());
-		d.append("relation_type", jo.get("relation_type").toString());
-		d.append("relation", jo.get("relation").toString());
-		d.append("comment", jo.get("comment").toString());
-		d.append("label", jo.get("label").toString());
-		return d;
-	}
-	//Document转JsonObject
-	public static JsonObject Document2Json(Document d){
-		JsonObject jo = new JsonObject();		
-		jo.addProperty("id", d.getString("id"));
-		jo.addProperty("text", d.getString("text").split("\"")[1]);
-		jo.addProperty("relation_type", d.getString("relation_type").split("\"")[1]);
-		jo.addProperty("relation", d.getString("relation").split("\"")[1]);
-		if(d.getString("comment").equals("null"))
-			jo.addProperty("comment", d.getString("comment"));
-		else{
-			jo.addProperty("comment", d.getString("comment").split("\"")[1]);
-		}
-		if(d.getString("label").equals("null"))
-			jo.addProperty("label", d.getString("label"));
-		else{
-			jo.addProperty("label", d.getString("label").split("\"")[1]);
-		}
-		//System.out.println(jo);
-		return jo;
-	}
+//	//JsonObject转Document
+//	public static Document Json2Document(JsonObject jo){
+//		Document d = new Document();
+//		d.append("id", jo.get("id").getAsInt());
+//		d.append("text", jo.get("text").toString());
+//		d.append("relation_type", jo.get("relation_type").toString());
+//		d.append("relation", jo.get("relation").toString());
+//		d.append("comment", jo.get("comment").toString());
+//		d.append("label", jo.get("label").toString());
+//		return d;
+//	}
+//	//Document转JsonObject
+//	public static JsonObject Document2Json(Document d){
+//		JsonObject jo = new JsonObject();		
+//		jo.addProperty("id", d.getString("id"));
+//		jo.addProperty("text", d.getString("text").split("\"")[1]);
+//		jo.addProperty("relation_type", d.getString("relation_type").split("\"")[1]);
+//		jo.addProperty("relation", d.getString("relation").split("\"")[1]);
+//		if(d.getString("comment").equals("null"))
+//			jo.addProperty("comment", d.getString("comment"));
+//		else{
+//			jo.addProperty("comment", d.getString("comment").split("\"")[1]);
+//		}
+//		if(d.getString("label").equals("null"))
+//			jo.addProperty("label", d.getString("label"));
+//		else{
+//			jo.addProperty("label", d.getString("label").split("\"")[1]);
+//		}
+//		//System.out.println(jo);
+//		return jo;
+//	}
 	
 	
 	//数据库连接

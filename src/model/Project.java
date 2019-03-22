@@ -60,6 +60,85 @@ public class Project {
 	public void setPlans(ArrayList<String> plans) {
 		this.plans = plans;
 	}
+	public ArrayList<String> getLabelStat(){
+		ArrayList<String> result = new ArrayList<String>();
+		ArrayList<String> labelArray = new ArrayList<String>();
+		ArrayList<String> labelName = new ArrayList<String>();
+		ArrayList<String> labelValueArray = new ArrayList<String>();
+		labelArray = this.getLabel();
+		int size = labelArray.size();
+		for(int i = 0; i < size; i++){
+			String[] elements = labelArray.get(i).split("##");
+			int labelSize = elements.length;			
+			for(int j = 1; j < labelSize; j++){
+				String name = elements[j].split(":")[0];
+				String value = elements[j].split(":")[1];
+				int name2Index = labelName.indexOf(name);
+				if(name2Index == -1){
+					labelName.add(name);
+					labelValueArray.add(value + "@@1" + "&&");
+				}
+				else {
+					String currentValueList = labelValueArray.get(name2Index);
+					String[] ValueList = currentValueList.split("&&");
+					int valueSize = ValueList.length;
+					boolean flag = false;
+					int place;
+					for(place = 0; place < valueSize; place++){
+						String valueName = ValueList[place].split("@@")[0];
+						if(valueName.equals(value)){
+							flag = true;
+							break;
+						}
+					}
+					if(flag == false) {
+						labelValueArray.set(name2Index, currentValueList + value + "@@1" + "&&");
+					}
+					else {
+						int valueNo = Integer.parseInt(ValueList[place].split("@@")[1]) + 1;
+						String current = "";
+						for(int k = 0; k < valueSize; k++){
+							if(place == k){
+								String tmp = ValueList[place].split("@@")[0];
+								current += tmp + "@@" + String.valueOf(valueNo) + "&&";
+							}else{
+								current += ValueList[k] + "&&";
+							}
+							
+						}
+						labelValueArray.set(name2Index, current);
+					}
+				}
+			}
+		}
+		int labelNum = labelName.size();
+		for(int i = 0; i < labelNum; i++){
+			result.add(labelName.get(i) + ":" + labelValueArray.get(i));
+		}
+		return result;
+	}
+	public ArrayList<String> getLabel(){
+		ArrayList<String> result = new ArrayList<String>();
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		Vector<Document> project_data = db_data.FindAll();
+		for(Document doc: project_data) {
+			
+			String id = doc.getString("id");
+			String single_result = id + "##";
+			ArrayList<String> labels = new ArrayList<String>();
+			labels = doc.get("label", labels);
+			int size = labels.size();
+			String label_type = "", value = "";
+			for(int i = 0; i < size; i++){
+				label_type = labels.get(i).split(":")[0];
+				value = labels.get(i).split(":")[1];
+				single_result += label_type + ":" + value + "##";
+			}
+			result.add(single_result);
+		}
+		return result;
+		
+	}
 	public String getScores(){
 		//计算4个指标，返回string，数据之间用"#####"隔开
 		String result=null;
