@@ -12,7 +12,7 @@ public class Project {
 	private static String currentplan;
 	private static boolean flag=false;
 	private ArrayList<String> plans = new ArrayList<String>();
-	
+	private static String displaylabel;
 	public Project(String projectname){
 		this.projectname=projectname;
 		DBhelper db = new DBhelper("AllProject",projectname);
@@ -59,6 +59,9 @@ public class Project {
 
 	public void setPlans(ArrayList<String> plans) {
 		this.plans = plans;
+	}
+	public void setdisplaylabel(String label){
+		this.displaylabel=label;
 	}
 	public ArrayList<String> getLabelStat(){
 		ArrayList<String> result = new ArrayList<String>();
@@ -111,11 +114,49 @@ public class Project {
 				}
 			}
 		}
+		//[relation_type:Message-Topic@@261&&Product-Producer@@231&&Instrument-Agency@@156&&Entity-Destination@@292&&Cause-Effect@@328&&Component-Whole@@310&&Member-Collection@@233&&other@@456&&Entity-Origin@@258&&Content-Container@@192&&, length:Short@@912&&Long@@902&&Medium@@903&&]
 		int labelNum = labelName.size();
 		for(int i = 0; i < labelNum; i++){
 			result.add(labelName.get(i) + ":" + labelValueArray.get(i));
 		}
 		return result;
+	}
+	public String label2json(ArrayList<String> labelstat){
+		System.out.println("project_displaylabel:"+this.displaylabel);
+		if(this.displaylabel==null){
+			this.setdisplaylabel("relation_type");
+		}
+		String result="[";
+		String temp="";
+		String[] str=null;
+		for(int i=0;i<labelstat.size();i++){
+			if(labelstat.get(i).split(":")[0].equals(this.displaylabel)){
+				temp=labelstat.get(i).split(":")[1];
+				str=temp.split("&&");
+				System.out.println("³¤¶È"+str.length);
+				for(int j=0;j<str.length;j++){
+					if(!result.equals("[")){
+						result+=",";
+					}
+					result=result+"{label:\""+str[j].split("@@")[0]+"\",value:"+str[j].split("@@")[1]+"}";
+				}
+				result+="]";
+				return result;
+			}
+		}
+		return "error";
+	}
+	public String getalllabels(ArrayList<String> labelstat){
+		String str = null;
+		for(int i=0;i<labelstat.size();i++){
+			if(str==null){
+				str=labelstat.get(i).split(":")[0];
+			}
+			else{
+				str=str+"&&"+labelstat.get(i).split(":")[0];
+			}			
+		}
+		return str;
 	}
 	public ArrayList<String> getLabel(){
 		ArrayList<String> result = new ArrayList<String>();
@@ -274,15 +315,6 @@ public class Project {
 		}
 		str+="]";
 		System.out.println(str);
-		return str;
-	}
-	//get all the sensence in current plan from data, used in planmicro.html
-	public String getSentence(){
-		String str="[{id:\"8001\",text:\"The most common <e1>audits</e1> were about <e2>waste</e2> and recyclin...\""
-				+ ",label:[{\"relation_type:Message-Topic\"}]},{{id:\"8002\",text:\"The most common <e1>audits</e1> were about <e2>waste</e2> and recyclin...\""
-				+ ",label:[{\"relation_type:Product-Producer\"}]}}]";
-		//get all the ids in 
-		
 		return str;
 	}
 	public String getdes(){

@@ -36,7 +36,10 @@ function loadgraph(){
 		url:"/REDS/PlanMacro",
 		datetype:"text",
 		success:function(result){
-			result=[{label:"long",value:14},{label:"short",value:10}];
+			var label=eval("("+result.split("#####")[4]+")");
+			var labels= new Array()
+			var t;
+			var x;
 			var temp=new Morris.Donut({
 		        element: 'morris_test',//morris-donut-chart
 // 		        data: [{
@@ -52,11 +55,18 @@ function loadgraph(){
 // 		        	label: "Medium",
 // 		            value: 20
 // 		        }],
-				data:result,
+				data:label,
 		        resize: true
 		    });
-			temp.
 			$("#morris_test").append(temp);
+			$("#attributes").empty();
+			labels=result.split("#####")[5].split("&&");
+			for (x in labels){
+				t='<li><a href="/REDS/Labeldisplay?label='+labels[x]+'">'+labels[x]+'<i class="fa fa-angle-left  fa-fw"></i></a>'
+				$("#attributes").append(t);
+			}
+			
+			
 		}
 	});
 }
@@ -72,6 +82,7 @@ function loadview(){
 			$("#recall").append(result.split("#####")[3].split("&&&&&")[2]);
 			$("#f1").append(result.split("#####")[3].split("&&&&&")[3]);
 			$("#micro_average").append(result.split("#####")[3].split("&&&&&")[4]);
+			
 		}
 	});
 
@@ -295,7 +306,7 @@ $('#morris_test').ready(function(){
             </div>
             <!-- /.row -->
             <div class="row">
-            	<div class="col-lg-8">
+            	<div class="col-lg-12">
             		<div class="panel panel-default">
                         <div class="panel-heading">
                             Donut Chart Example
@@ -305,11 +316,11 @@ $('#morris_test').ready(function(){
                                         Attribute
                                         <span class="caret"></span>
                                     </button>
-                                    <ul class="dropdown-menu pull-right" role="menu">
-                                        <li><a href="#">Length<i class="fa fa-angle-left  fa-fw"></i></a>
-                                        </li>
-                                        <li><a href="#">other attribute</a>
-                                        </li>
+                                    <ul class="dropdown-menu pull-right" role="menu" id="attributes">
+<!--                                         <li><a href="/REDS/Labeldisplay?label=length">Length<i class="fa fa-angle-left  fa-fw"></i></a> -->
+<!--                                         </li> -->
+<!--                                         <li><a href="#">other attribute</a> -->
+<!--                                         </li> -->
                                     </ul>
                                 </div>
                             </div>
@@ -323,49 +334,49 @@ $('#morris_test').ready(function(){
                     <!-- /.panel -->
             	</div>
                 <!-- /.col-lg-8 -->
-                <div class="col-lg-4">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <i class="fa fa-bell fa-fw"></i> Ralation Types
-                        </div>
-                        <!-- /.panel-heading -->
-                        <div class="panel-body">
-                            <div class="list-group">
-                                <a href="#" class="list-group-item">
-                                    Message-Topic
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    Product-Produce
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    Instrument-Agence
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    Entity-Destination
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    Cause-Effect
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    Component-Whole
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    Product-Produce
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    Member-Collection
-                                </a>
-                                <a href="#" class="list-group-item">
-                                    Component-Whole
-                                </a>
-                            </div>
-                            <!-- /.list-group -->
-                            <a href="#" class="btn btn-default btn-block">View All Relations</a>
-                        </div>
-                        <!-- /.panel-body -->
-                    </div>
-                    <!-- /.panel .chat-panel -->
-                </div>
+<!--                 <div class="col-lg-4"> -->
+<!--                     <div class="panel panel-default"> -->
+<!--                         <div class="panel-heading"> -->
+<!--                             <i class="fa fa-bell fa-fw"></i> Relation Types -->
+<!--                         </div> -->
+<!--                         /.panel-heading -->
+<!--                         <div class="panel-body"> -->
+<!--                             <div class="list-group" id="relations"> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Message-Topic -->
+<!--                                 </a> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Product-Produce -->
+<!--                                 </a> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Instrument-Agence -->
+<!--                                 </a> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Entity-Destination -->
+<!--                                 </a> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Cause-Effect -->
+<!--                                 </a> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Component-Whole -->
+<!--                                 </a> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Product-Produce -->
+<!--                                 </a> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Member-Collection -->
+<!--                                 </a> -->
+<!--                                 <a href="#" class="list-group-item"> -->
+<!--                                     Component-Whole -->
+<!--                                 </a> -->
+<!--                             </div> -->
+<!--                             /.list-group -->
+<!--                             <a href="#" class="btn btn-default btn-block">View All Relations</a> -->
+<!--                         </div> -->
+<!--                         /.panel-body -->
+<!--                     </div> -->
+<!--                     /.panel .chat-panel -->
+<!--                 </div> -->
                 <!-- /.col-lg-4 -->
             </div>
             <!-- /.row -->

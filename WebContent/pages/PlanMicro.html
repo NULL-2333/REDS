@@ -45,63 +45,72 @@ function loadleftplans(){
 		}
 	});
 }
-$(function(){
-	$("#sentence tr").find("td:eq(4)").dblclick(function(){
-		var td=$(this);
-		var text =td.text();
-		var txt= $("<input type='text' class='edit_text'>").val(text);
-		txt.blur(function(){
-			var newText =$(this).val();
-			confirm("are you sure?");
-			$(this).remove();
-			td.text(newText);
-		});
-		td.text("");
-		td.append(txt);
-		txt.focus();
-	});
-});
-//  <!-- <tr class="odd gradeX">
-// 	<td>The most common &lt;e1&gt;audits&lt;/e1&gt; were
-// 		about &lt;e2&gt;waste&lt;/e2&gt; and recycling.</td>
-// 	<td>8001</td>
-// 	<td>Message-Topic</td>
-// 	<td>Message-Topic</td>
-// 	<td>"property1":"a","property2":"b","property3":null</td>
-// 	<td></td>
-// </tr> 
- 
-// function loadsentense(){
-// 	$.ajax({
-// 		type:"POST",
-// 		url:"/REDS/PlanMicro",
-// 		datatype:"text",
-// 		success:function(result){
+// $(function(){
+// 	$("#sentence tr").find("td:eq(4)").dblclick(function(){
+// 		var td=$(this);
+// 		var text =td.text();
+// 		var txt= $("<input type='text' class='edit_text'>").val(text);
+// 		txt.blur(function(){
+// 			var newText =$(this).val();
+// 			confirm("are you sure?");
+// 			$(this).remove();
+// 			td.text(newText);
+// 		});
+// 		td.text("");
+// 		td.append(txt);
+// 		txt.focus();
+// 	});
+// });
+function loadsentence(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/PlanMicro",
+		datatype:"text",
+		success:function(result){
+// 			alert("get into load sentence");
 // 			result=result.split("#####")[4];
-// 			if((typeof result=='object')&&result.constructor==Object){
-// 				obj=result;
-// 			}else{
-// 				obj=eval("("+result+")");
-// 			}
-// 			$.each(obj,function(index,object){
-// 				alert("get into load sentence");
+// // 			if((typeof result=='object')&&result.constructor==Object){
+// // 				obj=result;
+// // 			}else{
+// // 				obj=eval("("+result+")");
+// // 			}
+// 			$("#sentence").empty();
+// 			var obj=[{id:"1",text:"aaaa",relation_type:"sdf",prediction:"sfd",label:"asdfdgd"}]
+// 			$.each(obj,function(index,object){				
 // 				$("#sentence").append('<tr class="odd gradeX"><td>'+object["text"]+'</td>');
 // 				$("#sentence").append('<td>'+object["id"]+'</td>');
 // 				$("#sentence").append('<td>'+object["relation_type"]+'</td>');
 // 				$("#sentence").append('<td>'+object["prediction"]+'</td>');
 // 				$("#sentence").append('<td><input type=text placeholder='+object["label"]+'></td>');
 // 			});
-			
-// 		}
-// 	});
-// } 
+			alert("aaaa");
+			$("#datatables").DataTable({
+				var data=[{
+					id:"8001",
+					text:"The most common <e1>audits</e1> were about <e2>waste",
+					relation_type:"Message-Topic",
+					prediction:"Message-Topic",
+					label:"123"
+				},{
+					id:"8002",
+					text:"The most common <e1>audits</e1> were about <e2>waste",
+					relation_type:"Message-Topic",
+					prediction:"Message-Topic",
+					label:"321"
+				}]
+				data:data,
+				//columns:[{data:id},{data:text},{data:relation_type}]
+			})
+		}
+	});
+} 
 $("#leftplans").ready(function(){
 	loadleftplans();
 }); 
 $("#basic_info").ready(function(){
 	loadview();
 });
-// $("#sentence").ready(function(){
+// $("sentence").ready(function(){
 // 	loadsentence();
 // });
 </script>
@@ -454,24 +463,24 @@ $("#basic_info").ready(function(){
 									</tr>
 								</thead>
 								<tbody id="sentence">
-									<tr class="odd gradeX">
-										<td>The most common &lt;e1&gt;audits&lt;/e1&gt; were
-											about &lt;e2&gt;waste&lt;/e2&gt; and recycling.</td>
-										<td>8001</td>
-										<td>Message-Topic</td>
-										<td>Message-Topic</td>
-										<td>"property1":"a","property2":"b","property3":null</td>
-										<td></td>
-									</tr>
-									<tr class="even gradeC">
-										<td>The &lt;e1&gt;company&lt;/e1&gt; fabricates plastic
-											&lt;e2&gt;chairs&lt;/e2&gt;.</td>
-										<td>8002</td>
-										<td>Product-Produce</td>
-										<td>Product-Produce</td>
-										<td>"property1":"a","property2":"b","property3":null</td>
-										<td></td>
-									</tr>
+<!-- 									<tr class="odd gradeX"> -->
+<!-- 										<td>The most common &lt;e1&gt;audits&lt;/e1&gt; were -->
+<!-- 											about &lt;e2&gt;waste&lt;/e2&gt; and recycling.</td> -->
+<!-- 										<td>8001</td> -->
+<!-- 										<td>Message-Topic</td> -->
+<!-- 										<td>Message-Topic</td> -->
+<!-- 										<td>"property1":"a","property2":"b","property3":null</td> -->
+<!-- 										<td></td> -->
+<!-- 									</tr> -->
+<!-- 									<tr class="even gradeC"> -->
+<!-- 										<td>The &lt;e1&gt;company&lt;/e1&gt; fabricates plastic -->
+<!-- 											&lt;e2&gt;chairs&lt;/e2&gt;.</td> -->
+<!-- 										<td>8002</td> -->
+<!-- 										<td>Product-Produce</td> -->
+<!-- 										<td>Product-Produce</td> -->
+<!-- 										<td>"property1":"a","property2":"b","property3":null</td> -->
+<!-- 										<td></td> -->
+<!-- 									</tr> -->
 								</tbody>
 							</table>
 						</div>
@@ -515,7 +524,7 @@ $("#basic_info").ready(function(){
         		"data" : null,
         		"render" : function(data, type,row) {
         		var id = '"' + row.id + '"';
-        		var html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-arrow-up'></i> Add</a>"
+        		var html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-arrow-up'></i> Update</a>"
         		html += "<a href='javascript:void(0);' class='up btn btn-default btn-xs'><i class='fa fa-times'></i> Delete</a>"
         		return html;
         		}
