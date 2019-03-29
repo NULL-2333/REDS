@@ -69,7 +69,7 @@ function loadtext(){
 	$.ajax({
 		type:"POST",
 		url:"/REDS/test1",
-		datetype:"text",
+		datatype:"text",
 		success:function(obj){
 			var object=eval("("+obj+")");
 			var table=$("#dataTables").DataTable({				

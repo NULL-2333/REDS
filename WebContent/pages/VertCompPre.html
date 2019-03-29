@@ -11,7 +11,7 @@ function loadleftplans(){
 	$.ajax({
 		type:"POST",
 		url:"/REDS/Overview",
-		datetype:"text",
+		datatype:"text",
 		success:function(result){
 			var plans = new Array()
 			var x;
@@ -30,10 +30,64 @@ function loadleftplans(){
 		}
 	});
 }
+
+function loadpro(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/VertCompPre",
+		datatype:"text",
+		success:function(result){
+			var projects = new Array();
+			var x;
+			projects=result.split("&");
+			for(x in projects){
+				temp='<option>'+projects[x]+'</option>';
+				$("#pro").append(temp);
+			}
+			$("#pro").bind('change',function(){
+				$("#plan1").empty();
+				$("#plan2").empty();
+				var myselect = document.getElementById("pro");
+				var myIndex = myselect.selectedIndex;
+				var taxText = myselect.options[myIndex].text;
+				$.ajax({
+					type:"POST",
+					url:"/REDS/Plan",
+					data:{
+						index:taxText
+					},
+					datatype:"text",
+					success:function(result){
+						var plan=new Array();
+						var y;
+						var temp;
+						plan=result.split("&");
+						for (y in plan){
+							temp='<option>'+plan[y]+'</option>';
+							$("#plan1").append(temp);
+							$("#plan2").append(temp);
+						}
+					}
+				});
+			});
+		}
+	});
+}
+
+
+function submitComp(){
+	var project=document.getElementById("pro").options[document.getElementById("pro").selectedIndex].text;
+	var plan1=document.getElementById("plan1").options[document.getElementById("plan1").selectedIndex].text;
+	var plan2=document.getElementById("plan2").options[document.getElementById("plan2").selectedIndex].text;
+	window.location.href="/REDS/VertComp?project="+project+"&plan1="+plan1+"&plan2="+plan2;
+}
+
 $("#leftplans").ready(function(){
 	loadleftplans();
 });
-
+$("#vertcomp").ready(function(){
+	loadpro();
+});
 </script>
 <head>
 
@@ -136,36 +190,21 @@ $("#leftplans").ready(function(){
 
         <div id="page-wrapper">
 			<div class="row">
-				<div class="col-lg-4">
+				<div class="col-lg-4" id="vertcomp">
 					<h2 class="page-header">Vertical Comparison</h2>
 					<div class="form-group">
-						<label>Select a project</label> <select class="form-control">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
+						<label>Select a project</label> <select class="form-control" id="pro">
 						</select>
 					</div>
 					<div class="form-group">
-						<label>Select first plan</label> <select class="form-control">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
+						<label>Select first plan</label> <select class="form-control" id="plan1">
 						</select>
 					</div>
 					<div class="form-group">
-						<label>Select second plan</label> <select class="form-control">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
+						<label>Select second plan</label> <select class="form-control" id="plan2">
 						</select>
 					</div>
-					<button type="button" class="btn btn-info btn-lg btn-block">Compare</button>
+					<button type="button" onclick=submitComp() class="btn btn-info btn-lg btn-block">Compare</button>
 				</div>
 			</div>
             

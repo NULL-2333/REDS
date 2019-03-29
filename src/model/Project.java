@@ -337,8 +337,11 @@ public class Project {
 			info += "relation_type:\"" + relation_type + "\",";
 			String prediction = doc.getString("relation_type");
 			info += "prediction:\"" + prediction + "\",";
-			//String comment = doc_data.getString("comment");
-			//info += "comment:\"" + comment + "\",";
+			String comment = doc_data.getString("comment");
+			if(comment==null){
+				comment = "";
+			}
+			info += "comment:\"" + comment + "\",";
 			info += "label:\"";
 			for(String label: tmp){
 				info += label + ";";
@@ -391,7 +394,21 @@ public class Project {
 		String str = null;
 		return str;
 	}
-	
+//************************************
+//层级关系：Labels(database);projectname(当前project，collection)；{0："Length",1:"Long",2:"Short"}(document)	
+//判断this.projectname是否已经在Labels数据库中创建过记录
+//若有则直接读取Labels数据库中名为projectname的collection下的document，返回所有label的名字(&隔开)
+//若没有，则遍历project_data数据库，在Labels中创建projectname的collection并且把所有label与对应取值组成document	
+	public String labelmanage(){
+		String str=null;
+		return str;
+	}
+//***********************************
+//获得Labels数据库中，projectname的collection中，labelname对应的document，并且返回所有取值(包括labelname&隔开)	
+	public String getlabelvalue(String labelname){
+		String str=null;
+		return str;
+	}
 	//add plan
 	public boolean addPlan(String planname){
 		if(this.plans.add(planname)){
