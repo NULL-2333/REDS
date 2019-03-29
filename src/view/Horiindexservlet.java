@@ -1,8 +1,6 @@
 package view;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,19 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Project;
-import model.ProjectManager;
 
 /**
- * Servlet implementation class test1servlet
+ * Servlet implementation class Horiindexservlet
  */
-@WebServlet("/test1")
-public class test1servlet extends HttpServlet {
+@WebServlet("/Horiindex")
+public class Horiindexservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public test1servlet() {
+    public Horiindexservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +29,21 @@ public class test1servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("getting into test1");
-		response.setContentType("text/html");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		ProjectManager pm=new ProjectManager();	
-		Project project=new Project(pm.getProject());
-		String result=project.getText();
-		System.out.println("Text:"+result);
+		String project1=request.getQueryString().split("project1=")[1].split("&")[0];
+		String project2=request.getQueryString().split("project2=")[1].split("&")[0];
+		String plan1=request.getQueryString().split("plan1=")[1].split("&")[0];
+		String plan2=request.getQueryString().split("plan2=")[1].split("&")[0];
+		Project p = new Project();
+		p.setHoricomp(project1, project2, plan1, plan2);
+		if(p.horicomp()){
+			response.sendRedirect("/REDS/pages/HoriComp.html");
+		}
+		else{
+			response.sendRedirect("/REDS/Error");
+		}
 		
-		//String result="[{id:\"001\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"},{id:\"002\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"}]";
-		out.println(result);
+		
+		
 		
 	}
 

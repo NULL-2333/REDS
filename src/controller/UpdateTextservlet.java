@@ -1,8 +1,6 @@
-package view;
+package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -10,19 +8,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Project;
-import model.ProjectManager;
 
 /**
- * Servlet implementation class test1servlet
+ * Servlet implementation class UpdateTextservlet
  */
-@WebServlet("/test1")
-public class test1servlet extends HttpServlet {
+@WebServlet("/UpdateText")
+public class UpdateTextservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public test1servlet() {
+    public UpdateTextservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,19 +29,23 @@ public class test1servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("getting into test1");
-		response.setContentType("text/html");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		ProjectManager pm=new ProjectManager();	
-		Project project=new Project(pm.getProject());
-		String result=project.getText();
-		System.out.println("Text:"+result);
+		System.out.println("get into deletetext servlet");
+		String index=request.getQueryString().replace("%20", " ").replace("%3C", "<").replace("%3E",">");
+		System.out.println("total:"+index);
+		String id=index.split("id=")[1].split("&")[0];
+		//String text=index.split("text=")[1].split("&")[0];
+		String relation=index.split("relation=")[1].split("&")[0];
+		String prediction=index.split("prediction=")[1].split("&")[0];
+		String labels=index.split("labels=")[1];
+		System.out.println("id:"+id);
+		//System.out.println("text:"+text);
+		System.out.println("relation:"+relation);
+		System.out.println("prediction:"+prediction);
+		System.out.println("labels:"+labels);
 		
-		//String result="[{id:\"001\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"},{id:\"002\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"}]";
-		out.println(result);
-		
+		Project project=new Project();
+		project.updateText(id, relation, prediction, labels);
+		response.sendRedirect("/REDS/pages/PlanMicro.html");
 	}
 
 	/**

@@ -30,6 +30,62 @@ function loadleftplans(){
 		}
 	});
 }
+
+
+function loadchart(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/HoriComp",
+		datatype:"text",
+		success:function(result){
+			var scores
+			var temp=new Morris.Bar({
+				element:'bar_test',
+				//data:scores,
+				data:[{
+		            y: 'Accuracy',
+		            a: 1,
+		            b: 0.9
+		        }, {
+		            y: 'Recall',
+		            a: 0.6,
+		            b: 0.65
+		        }, {
+		            y: 'Percision',
+		            a: 0.5,
+		            b: 0.4
+		        }, {
+		            y: 'F-Score',
+		            a: 0.75,
+		            b: 0.65
+		        }, {
+		            y: 'MacroScore',
+		            a: 0.50,
+		            b: 0.40
+		        }],
+				xkey: 'y',
+		        ykeys: ['a', 'b'],
+		        labels: ['1111', '2222'],
+		        hideHover: 'auto',
+		        gridTextSize:11,
+		        resize: true
+			});
+			$("#bar_test").append(temp);
+		}
+	});
+}
+
+function loadtext(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/Horitext"
+	})
+}
+
+$("#bar_test").ready(function(){
+	loadchart();
+});
+
 $("#leftplans").ready(function(){
 	loadleftplans();
 });
@@ -270,7 +326,7 @@ $("#leftplans").ready(function(){
 						</div>
 						<!-- /.panel-heading -->
 						<div class="panel-body">
-							<div id="morris-bar-chart"></div>
+							<div id="bar_test"></div>
 						</div>
 						<!-- /.panel-body -->
 					</div>
@@ -289,7 +345,7 @@ $("#leftplans").ready(function(){
 							<tr>
 								<th>Sentence</th>
 								<th>Id</th>
-								<th>Label</th>
+								<th>Relation</th>
 								<th>Prediction1</th>
 								<th>Prediction2</th>
 							</tr>

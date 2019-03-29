@@ -32,6 +32,7 @@ public class PlanMicroservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("Microservlet");
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("UTF-8");
@@ -40,6 +41,7 @@ public class PlanMicroservlet extends HttpServlet {
 		Project project=new Project(pm.getProject());
 		String result=project.changePlanstoString();
 		result = result+"#####"+project.getProjectname()+"#####"+project.getCurrentplan()+"#####"+project.getScores();
+		//result=result+"#####"+project.getText();
 		System.out.println("Microservlet:"+result);
 		out.println(result);
 	}

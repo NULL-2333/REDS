@@ -34,7 +34,7 @@ function loadgraph(){
 	$.ajax({
 		type:"POST",
 		url:"/REDS/PlanMacro",
-		datetype:"text",
+		datatype:"text",
 		success:function(result){
 			var label=eval("("+result.split("#####")[4]+")");
 			var labels= new Array()
@@ -205,7 +205,7 @@ $('#morris_test').ready(function(){
       					<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
       						View <span class="caret"></span></button>
       					<ul class="dropdown-menu" role="menu">
-        					<li><a href="#">Macro<i class="fa fa-angle-left  fa-fw"></i></a></li>
+        					<li><a href="PlanMacro.html">Macro<i class="fa fa-angle-left  fa-fw"></i></a></li>
        			 			<li><a href="PlanMicro.html">Micro</a></li>
       					</ul>
     				</div>

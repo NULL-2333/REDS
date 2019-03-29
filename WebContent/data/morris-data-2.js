@@ -1,6 +1,6 @@
-$(function() {
+ $(function() {
     new Morris.Bar({
-        element: 'morris-bar-chart',
+        element: 'we',
         data: [{
             y: 'Accuracy',
             a: 1,

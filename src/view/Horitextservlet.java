@@ -13,16 +13,16 @@ import model.Project;
 import model.ProjectManager;
 
 /**
- * Servlet implementation class test1servlet
+ * Servlet implementation class Horitextservlet
  */
-@WebServlet("/test1")
-public class test1servlet extends HttpServlet {
+@WebServlet("/Horitext")
+public class Horitextservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public test1servlet() {
+    public Horitextservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,7 +32,7 @@ public class test1servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("getting into test1");
+		System.out.println("getting into horitext");
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("UTF-8");
@@ -41,10 +41,6 @@ public class test1servlet extends HttpServlet {
 		Project project=new Project(pm.getProject());
 		String result=project.getText();
 		System.out.println("Text:"+result);
-		
-		//String result="[{id:\"001\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"},{id:\"002\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"}]";
-		out.println(result);
-		
 	}
 
 	/**

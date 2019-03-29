@@ -2,6 +2,7 @@ package model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class ProjectManager {
@@ -40,12 +41,20 @@ public class ProjectManager {
 		return false;
 	}
 	public void deleteProject(String projectname){
-		System.out.println("calling deleteProject...");
 		DBhelper db=new DBhelper("AllProject",projectname);
 		db.DeleteCollection(db.collection);
 		db=new DBhelper(projectname+"_data");
 		db.DeleteDatabase(db.database);
 		db=new DBhelper(projectname+"_result");
 		db.DeleteDatabase(db.database);
+	}
+	public String getAllprojects(){		
+		DBhelper db=new DBhelper("AllProject");
+		ArrayList<String> projects= db.GetCollectionName();
+		String str = projects.get(0);
+		for(int i=1;i<projects.size();i++){
+			str=str+"&"+projects.get(i);
+		}
+		return str;
 	}
 }

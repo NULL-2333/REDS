@@ -2,6 +2,7 @@ package model;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Vector;
 
 import org.bson.Document;
@@ -11,6 +12,11 @@ public class Project {
 	private static String projectinfo;
 	private static String currentplan;
 	private static boolean flag=false;
+	private static String horiresult;
+	private static String project1;
+	private static String project2;
+	private static String plan1;
+	private static String plan2;
 	private ArrayList<String> plans = new ArrayList<String>();
 	private static String displaylabel;
 	public Project(String projectname){
@@ -56,7 +62,13 @@ public class Project {
 	public ArrayList<String> getPlans() {
 		return plans;
 	}
-
+	public void setHoricomp(String project1,String project2,String plan1,String plan2){
+		this.project1=project1;
+		this.project2=project2;
+		this.plan1=plan1;
+		this.plan2=plan2;
+		
+	}
 	public void setPlans(ArrayList<String> plans) {
 		this.plans = plans;
 	}
@@ -180,6 +192,33 @@ public class Project {
 		return result;
 		
 	}
+	public boolean deleteText(String id){
+		//删除currentplan下，对应id的document
+		DBhelper db_result = new DBhelper(projectname + "_result", currentplan);
+		boolean result = db_result.DeleteManyEqualDocument(db_result.collection, "id", id);
+		return result;
+	}
+	public boolean updateText(String id, String relation,String prediction,String labels){
+		//更新currentplan下,对应的document
+		DBhelper db_result = new DBhelper(projectname + "_result", currentplan);
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		Document doc_result = db_result.FindManyEqualDocument(db_result.collection, "id", id).get(0);
+		Document doc_data = db_data.FindManyEqualDocument(db_data.collection, "id", id).get(0);
+		Document newDocument = new Document();
+		newDocument.append("$set", new Document().append("relation", relation));
+		db_data.collection.updateOne(doc_data, newDocument);
+		
+		newDocument = new Document();
+		newDocument.append("$set", new Document().append("relation_type", prediction));
+		db_result.collection.updateOne(doc_result, newDocument);
+		
+		ArrayList<String> label_list = new ArrayList<String>(Arrays.asList(labels.split(";")));
+		newDocument = new Document();
+		newDocument.append("$set", new Document().append("label", label_list));
+		db_data.collection.updateOne(doc_data, newDocument);
+		
+		return true;
+	} 
 	public String getScores(){
 		//计算4个指标，返回string，数据之间用"#####"隔开
 		String result=null;
@@ -268,6 +307,91 @@ public class Project {
 				+ String.format("%.2f",micro_average);
 		return result;
 	}
+	public String getText(){
+		String info = "[";
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		DBhelper db_result = new DBhelper(projectname + "_result", currentplan);
+		Vector<Document> project_result = db_result.FindAll();
+		System.out.println(project_result.size());
+		db_data = new DBhelper(projectname + "_data", projectname);
+		for(Document doc: project_result){
+			info += "{";
+			String id = doc.getString("id");
+			info += "id:\"" + id + "\",";
+			Vector<Document> project_data = db_data.FindManyEqualDocument(db_data.collection, "id", id);
+			//System.out.println(project_data);
+			if(project_data.size() == 0){
+				System.out.println(projectname + "的Data数据库于Result数据库存在不匹配");
+				return "[]";
+			}
+			else if(project_data.size() > 1){
+				System.out.println(projectname + "的Result数据库存在相同id的情况");
+				return "[]";
+			}
+			Document doc_data = project_data.get(0);
+			String text = doc_data.getString("text");
+			info += "text:\"" + text + "\",";
+			ArrayList<String> tmp = new ArrayList<String>();
+			tmp = doc_data.get("label", tmp);
+			String relation_type = tmp.get(0).split(":")[1];
+			info += "relation_type:\"" + relation_type + "\",";
+			String prediction = doc.getString("relation_type");
+			info += "prediction:\"" + prediction + "\",";
+			//String comment = doc_data.getString("comment");
+			//info += "comment:\"" + comment + "\",";
+			info += "label:\"";
+			for(String label: tmp){
+				info += label + ";";
+			}
+			info += "\"},";
+		}
+		int length_of_info = info.length();
+		if(info.charAt(length_of_info - 1) == ','){
+			info = info.substring(0, length_of_info - 1);
+		}
+		info += "]";
+		return info;
+		
+	}
+//******************************
+//计算project1中plan1和project2中plan2的对应的5个值，并且将this.horiresult设置成
+//	格式(忽略换行、空格,仅修改数据)：
+/*	[{
+        y: 'Accuracy',
+        a: 1,
+        b: 0.9
+    }, {
+        y: 'Recall',
+        a: 0.6,
+        b: 0.65
+    }, {
+        y: 'Precision',
+        a: 0.5,
+        b: 0.4
+    }, {
+        y: 'F-Score',
+        a: 0.75,
+        b: 0.65
+    }, {
+        y: 'MacroScore',
+        a: 0.50,
+        b: 0.40
+    }]*/
+//project1, project2,plan1,plan2均为静态变量，直接用就行了
+	public boolean horicomp(){
+		
+		String str = null;
+		
+		return true;
+	}
+//****************************************
+//类似之前的getText，获取this.project1下plan1和this.project2下plan2中的文本，id，relation，prediction1和prediction2
+//格式还是之前的[{text:"aa",id:"001",relation_type:"sddf",prediction1:"11",predicton2:"22"},{},{}...]	
+	public String getHoritext(){
+		String str = null;
+		return str;
+	}
+	
 	//add plan
 	public boolean addPlan(String planname){
 		if(this.plans.add(planname)){
@@ -298,6 +422,16 @@ public class Project {
 			str = str + "#" + this.plans.get(i);
 		}
 		System.out.println(str);
+		return str;
+	}
+	//get all plans from a selected project
+	public String getAllplans(String selectedproject){	
+		DBhelper db=new DBhelper(selectedproject+"_result");
+		ArrayList<String> p=db.GetCollectionName();
+		String str=p.get(0);
+		for(int i=1;i<p.size();i++){
+			str=str+"&"+p.get(i);
+		}		
 		return str;
 	}
 	//get all document from the given collection
