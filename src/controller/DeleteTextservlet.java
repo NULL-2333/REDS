@@ -1,8 +1,6 @@
-package view;
+package controller;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -13,16 +11,16 @@ import model.Project;
 import model.ProjectManager;
 
 /**
- * Servlet implementation class DataManageservlet
+ * Servlet implementation class DeleteTextservlet
  */
-@WebServlet("/DataManage")
-public class DataManageservlet extends HttpServlet {
+@WebServlet("/DeleteText")
+public class DeleteTextservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DataManageservlet() {
+    public DeleteTextservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,18 +30,13 @@ public class DataManageservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("getting into datamanager");
-		response.setContentType("text/html");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
-		ProjectManager pm=new ProjectManager();	
-		Project project=new Project(pm.getProject());
-		String result=project.getText();
-		System.out.println("datamanager:"+result);
+		System.out.println("get into deletetext servlet");
+		String index=request.getQueryString().split("id=")[1];
+		System.out.println("id:"+index);
+		Project project=new Project();
+		project.deleteText(index);
+		response.sendRedirect("/REDS/pages/PlanMicro.html");
 		
-		//String result="[{id:\"001\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"},{id:\"002\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"}]";
-		out.println(result);
 	}
 
 	/**

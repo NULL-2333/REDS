@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import model.Project;
+import model.ProjectManager;
+
 /**
  * Servlet implementation class test1servlet
  */
@@ -29,16 +32,18 @@ public class test1servlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		System.out.println("getting into test1");
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
-		String first = request.getParameter("first");//从前端获取数据first
-		String second = request.getParameter("second");//从前端获取数据second
-		String result=first+second+"for test";
-		System.out.println(result);//用于测试 ，判断是否成功获取到数据；
-		out.println(result);//将数据传到前端
+		ProjectManager pm=new ProjectManager();	
+		Project project=new Project(pm.getProject());
+		String result=project.getText();
+		System.out.println("Text:"+result);
 		
+		//String result="[{id:\"001\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"},{id:\"002\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"}]";
+		out.println(result);
 		
 	}
 

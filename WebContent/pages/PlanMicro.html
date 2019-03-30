@@ -30,11 +30,13 @@ function loadleftplans(){
 		}
 	});
 }
+
+
 function loadview(){
 	$.ajax({
 		type:"POST",
 		url:"/REDS/PlanMicro",
-		datatype:"text",
+		datetype:"text",
 		success:function(result){
 			$("#basic_info").append(result.split("#####")[1]+" - "+result.split("#####")[2]);
 			$("#accuracy").append(result.split("#####")[3].split("&&&&&")[0]);
@@ -42,16 +44,95 @@ function loadview(){
 			$("#recall").append(result.split("#####")[3].split("&&&&&")[2]);
 			$("#f1").append(result.split("#####")[3].split("&&&&&")[3]);
 			$("#micro_average").append(result.split("#####")[3].split("&&&&&")[4]);
+			
 		}
 	});
-}
 
+}
+// $(function(){
+// 	$("#sentence tr").find("td:eq(4)").dblclick(function(){
+// 		var td=$(this);
+// 		var text =td.text();
+// 		var txt= $("<input type='text' class='edit_text'>").val(text);
+// 		txt.blur(function(){
+// 			var newText =$(this).val();
+// 			confirm("are you sure?");
+// 			$(this).remove();
+// 			td.text(newText);
+// 		});
+// 		td.text("");
+// 		td.append(txt);
+// 		txt.focus();
+// 	});
+// });
+function loadtext(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/test1",
+		datatype:"text",
+		success:function(obj){
+			var object=eval("("+obj+")");
+			var table=$("#dataTables").DataTable({				
+				processing:true,
+				order:[[1,"asc"]],
+				data:object,
+				columns:[
+					{data:"text"},
+					{data:"id"},
+					{data:"relation_type"},
+					{data:"prediction"},
+					{data:"label"},
+				],
+				columnDefs:[
+					{
+					targets:5,
+					data:null,
+					render:function(data,type,row){
+						var id='"'+row.id+'"';
+						var html = "<a id='"+row.id+"'class='delete btn btn-default btn-xs'  ><i class='fa fa-arrow-up'></i> Update</a>"
+			         	html += "<a href='/REDS/DeleteText?id="+data.id+"'  class='up btn btn-default btn-xs'><i class='fa fa-times'></i> Delete</a>"
+						return html;
+					}
+				}],
+				responsive:true,
+			});
+			$("#dataTables").on('dblclick','td',function(){
+				//table.cell(this).edit('bubble');
+				var td=$(this);
+				var text =td.text();
+				var txt= $("<input type='text' class='edit_text'>").val(text);
+				txt.blur(function(){
+				var newText =$(this).val();
+				$(this).remove();
+				td.text(newText);
+			});
+				td.text("");
+				td.append(txt);
+				txt.focus();
+			});
+			$("#dataTables").on('click','a',function(){
+				var id=$(this).parent().parent().children("td").eq(1).text();
+				var relation=$(this).parent().parent().children("td").eq(2).text();
+				var prediction=$(this).parent().parent().children("td").eq(3).text();
+				var labels=$(this).parent().parent().children("td").eq(4).text();
+				window.location.href="/REDS/UpdateText?id="+id+"&relation="+relation+"&prediction="+prediction+"&labels="+labels;
+			});
+		}
+		
+	})
+}
 $("#leftplans").ready(function(){
 	loadleftplans();
-});
+}); 
 $("#basic_info").ready(function(){
 	loadview();
 });
+
+$(document).ready(function(){
+	loadtext();
+	
+});
+
 </script>
 <head>
 
@@ -171,7 +252,7 @@ $("#basic_info").ready(function(){
 							</button>
 							<ul class="dropdown-menu" role="menu">
 								<li><a href="PlanMacro.html">Macro</a></li>
-								<li><a href="#">Micro<i class="fa fa-angle-left  fa-fw"></i></a></li>
+								<li><a href="PlanMicro.html">Micro<i class="fa fa-angle-left  fa-fw"></i></a></li>
 							</ul>
 						</div>
 						<form action="/REDS/DeletePlan" method="post">
@@ -393,34 +474,34 @@ $("#basic_info").ready(function(){
 								id="dataTables">
 								<thead>
 									<tr>
-										<th>Sentence</th>
+										<th>Text</th>
 										<th>Id</th>
-										<th>Label</th>
+										<th>Relation</th>
 										<th>Prediction</th>
-										<th>Attributes</th>
+										<th>Labels</th>
 										<th>Operate</th>
 									</tr>
 								</thead>
-								<tbody>
-									<tr class="odd gradeX">
-										<td>The most common &lt;e1&gt;audits&lt;/e1&gt; were
-											about &lt;e2&gt;waste&lt;/e2&gt; and recycling.</td>
-										<td>8001</td>
-										<td>Message-Topic</td>
-										<td>Message-Topic</td>
-										<td>"property1":"a","property2":"b","property3":null</td>
-										<td></td>
-									</tr>
-									<tr class="even gradeC">
-										<td>The &lt;e1&gt;company&lt;/e1&gt; fabricates plastic
-											&lt;e2&gt;chairs&lt;/e2&gt;.</td>
-										<td>8002</td>
-										<td>Product-Produce</td>
-										<td>Product-Produce</td>
-										<td>"property1":"a","property2":"b","property3":null</td>
-										<td></td>
-									</tr>
-								</tbody>
+ 								<tbody id="sentence">
+<!-- 									<tr class="odd gradeX"> -->
+<!-- 										<td>The most common &lt;e1&gt;audits&lt;/e1&gt; were -->
+<!-- 											about &lt;e2&gt;waste&lt;/e2&gt; and recycling.</td> -->
+<!-- 										<td>8001</td> -->
+<!-- 										<td>Message-Topic</td> -->
+<!-- 										<td>Message-Topic</td> -->
+<!-- 										<td>"property1":"a","property2":"b","property3":null</td> -->
+<!-- 										<td></td> -->
+<!-- 									</tr> -->
+<!-- 									<tr class="even gradeC"> -->
+<!-- 										<td>The &lt;e1&gt;company&lt;/e1&gt; fabricates plastic -->
+<!-- 											&lt;e2&gt;chairs&lt;/e2&gt;.</td> -->
+<!-- 										<td>8002</td> -->
+<!-- 										<td>Product-Produce</td> -->
+<!-- 										<td>Product-Produce</td> -->
+<!-- 										<td>"property1":"a","property2":"b","property3":null</td> -->
+<!-- 										<td></td> -->
+<!-- 									</tr> -->
+ 								</tbody>
 							</table>
 						</div>
 					</div>
@@ -455,35 +536,22 @@ $("#basic_info").ready(function(){
 	<!-- Custom Theme JavaScript -->
 	<script src="../dist/js/reds.js"></script>
 
-	<script>
-    $(document).ready(function() {
-        $('#dataTables').DataTable({
-        	"columnDefs" : [ {
-        		"targets" : 5,//操作按钮目标列
-        		"data" : null,
-        		"render" : function(data, type,row) {
-        		var id = '"' + row.id + '"';
-        		var html = "<a href='javascript:void(0);'  class='delete btn btn-default btn-xs'  ><i class='fa fa-arrow-up'></i> Add</a>"
-        		html += "<a href='javascript:void(0);' class='up btn btn-default btn-xs'><i class='fa fa-times'></i> Delete</a>"
-        		return html;
-        		}
-        	} ],
-            responsive: true,
-        });
-    });
-    </script>
+<script>
+    
+</script>
 
-	<script type="text/javascript">
+<script type="text/javascript">
 
 		function selectAll1()
 		{
+			alert("hi");
 			var isCheck = $("#SelectAll1").is(':checked'); //获得全选复选框是否选中
 			$("#Attribute1 input:checkbox").each(function () {
 					this.checked = isCheck;
 	        });
 
 		}
-	</script>
+</script>
 </body>
 
 </html>

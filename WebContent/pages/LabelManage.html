@@ -30,10 +30,24 @@ function loadleftplans(){
 		}
 	});
 }
+
+function loadlabels(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/LabelManage",
+		datatype:"text",
+		success:function(result){
+			alert(result);
+		}
+		
+	});
+}
 $("#leftplans").ready(function(){
 	loadleftplans();
 });
-
+$(document).ready(function(){
+	loadlabels();
+})
 </script>
 <head>
 

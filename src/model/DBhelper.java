@@ -33,22 +33,16 @@ import com.google.gson.reflect.TypeToken;
 
 public class DBhelper {
 	
-	/*public static void main(String args[]) throws IOException{
-		
-//		DBhelper db = new DBhelper("projectA_data", "projectA");
+//	public static void main(String args[]) throws IOException{
+//		
+//		DBhelper db = new DBhelper("Labels", "projectA");
 //		String id = "8001";
-//		Vector<Document> test = db.FindManyEqualDocument(db.collection, "id", id);
-//		for(Document doc: test){
-//			ArrayList<String> tmp = new ArrayList<String>();
-//			tmp = doc.get("label", tmp);
-//			System.out.println(tmp.get(0));
-//		}
-//		System.out.println(test);
-		int tp = 1554, fp = 0, tn = 1127, fn = 2;
-		double a = (double)(tp + tn)/(double)(tp + fn + fp + tn);
-		System.out.println(a);
-		System.out.println(String.format("%.2f",a));
-	}*/
+//		Vector<Document> test = new Vector<Document>();
+//		Document d = new Document();
+//		d.append("test", id);
+//		test.add(d);
+//		db.InsertManyDocument(db.collection, test);
+//	}
 	
 	public static MongoDatabase database = null;
 	public static MongoCollection<Document> collection = null;

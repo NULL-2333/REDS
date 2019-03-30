@@ -13,16 +13,16 @@ import model.Project;
 import model.ProjectManager;
 
 /**
- * Servlet implementation class DataManageservlet
+ * Servlet implementation class Horitextservlet
  */
-@WebServlet("/DataManage")
-public class DataManageservlet extends HttpServlet {
+@WebServlet("/Horitext")
+public class Horitextservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public DataManageservlet() {
+    public Horitextservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -32,7 +32,7 @@ public class DataManageservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		System.out.println("getting into datamanager");
+		System.out.println("getting into horitext");
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("UTF-8");
@@ -40,10 +40,7 @@ public class DataManageservlet extends HttpServlet {
 		ProjectManager pm=new ProjectManager();	
 		Project project=new Project(pm.getProject());
 		String result=project.getText();
-		System.out.println("datamanager:"+result);
-		
-		//String result="[{id:\"001\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"},{id:\"002\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"}]";
-		out.println(result);
+		System.out.println("Text:"+result);
 	}
 
 	/**

@@ -13,7 +13,7 @@ function loadleftplans(){
 		url:"/REDS/Overview",
 		datetype:"text",
 		success:function(result){
-			var plans = new Array()
+			var plans = new Array();
 			var x;
 			var temp;
 			$("#leftplans").empty();
@@ -30,10 +30,97 @@ function loadleftplans(){
 		}
 	});
 }
+
+function loadhead1(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/HoriCompPre",
+		datatype:"text",
+		success:function(result){
+			var projects = new Array();
+			var x;
+			projects=result.split("&");
+			for(x in projects){
+				temp='<option>'+projects[x]+'</option>';
+				$("#head11").append(temp);
+				$("#head21").append(temp);
+			}
+			$("#head11").bind('change',function(){				
+				/* alert($("head11").find("option:selected").text());
+				alert($("head11 option:selected").text()); */
+				var myselect1 = document.getElementById("head11");
+			    var myIndex1 = myselect1.selectedIndex;
+			    var taxText1 = myselect1.options[myIndex1].text;
+				$.ajax({
+					type:"POST",
+					url:"/REDS/Plan",
+					data:{
+						index:taxText1
+					},
+					datatype:"text",
+					success:function(result){
+						var plans1= new Array();
+						var y;
+						$("#head12").empty();
+						plans1=result.split("&");
+						for(y in plans1){
+							temp='<option>'+plans1[y]+'</option>';
+							$("#head12").append(temp);
+						}
+					}
+				});
+				
+			});
+			$("#head21").bind('change',function(){				
+				var myselect2 = document.getElementById("head21");
+			    var myIndex2 = myselect2.selectedIndex;
+			    var taxText2 = myselect2.options[myIndex2].text;
+				$.ajax({
+					type:"POST",
+					url:"/REDS/Plan",
+					data:{
+						index:taxText2
+					},
+					datatype:"text",
+					success:function(result){
+						var plans2= new Array();
+						var z;
+						$("#head22").empty();
+						plans2=result.split("&");
+						for(z in plans2){
+							temp='<option>'+plans2[z]+'</option>';
+							$("#head22").append(temp);
+						}
+					}
+				});
+				
+			});
+		}
+	});
+}
+
+function submitComp(){
+	var myselect11 = document.getElementById("head11");
+	var myIndex11 = myselect11.selectedIndex;
+	var project1 = myselect11.options[myIndex11].text;
+	var myselect12 = document.getElementById("head12");
+	var myIndex12 = myselect12.selectedIndex;
+	var plan1 = myselect12.options[myIndex12].text;
+	var myselect21 = document.getElementById("head21");
+	var myIndex21 = myselect21.selectedIndex;
+	var project2 = myselect21.options[myIndex21].text;
+	var myselect22 = document.getElementById("head22");
+	var myIndex22 = myselect22.selectedIndex;
+	var plan2 = myselect22.options[myIndex22].text;
+	window.location.href="/REDS/Horiindex?project1="+project1+"&plan1="+plan1+"&project2="+project2+"&plan2="+plan2;
+	
+}
 $("#leftplans").ready(function(){
 	loadleftplans();
 });
-
+$("#horicomp").ready(function(){
+	loadhead1();
+});
 </script>
 <head>
 
@@ -136,47 +223,27 @@ $("#leftplans").ready(function(){
 
         <div id="page-wrapper">
 			<div class="row">
-				<div class="col-lg-4">
+				<div class="col-lg-4" id="horicomp">
 					<h2 class="page-header">Horizontal Comparison</h2>
 					<div class="form-group">
 						<label>Select first project and plan</label> <select
-							class="form-control">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
+							class="form-control" id="head11">
 						</select>
 					</div>
 					<div class="form-group">
-						<select class="form-control">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
+						<select class="form-control" id="head12">
 						</select>
 					</div>
 					<div class="form-group">
 						<label>Select second project and plan</label> <select
-							class="form-control">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
+							class="form-control" id="head21">
 						</select>
 					</div>
 					<div class="form-group">
-						<select class="form-control">
-							<option>1</option>
-							<option>2</option>
-							<option>3</option>
-							<option>4</option>
-							<option>5</option>
+						<select class="form-control" id="head22">
 						</select>
 					</div>
-					<button type="button" class="btn btn-info btn-lg btn-block">Compare</button>
+					<button type="button" onclick=submitComp() class="btn btn-info btn-lg btn-block">Compare</button>
 				</div>
 			</div>
         </div>
