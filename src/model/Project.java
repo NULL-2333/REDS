@@ -227,6 +227,53 @@ public class Project {
 				+ String.format("%.2f",micro_average);
 		return result;
 	}
+	
+	public String getInfo(){
+		String info = "[";
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		DBhelper db_result = new DBhelper(projectname + "_result", currentplan);
+		Vector<Document> project_result = db_result.FindAll();
+		System.out.println(project_result.size());
+		db_data = new DBhelper(projectname + "_data", projectname);
+		for(Document doc: project_result){
+			info += "{";
+			String id = doc.getString("id");
+			info += "id:\"" + id + "\",";
+			Vector<Document> project_data = db_data.FindManyEqualDocument(db_data.collection, "id", id);
+			//System.out.println(project_data);
+			if(project_data.size() == 0){
+				System.out.println(projectname + "的Data数据库于Result数据库存在不匹配");
+				return "[]";
+			}
+			else if(project_data.size() > 1){
+				System.out.println(projectname + "的Result数据库存在相同id的情况");
+				return "[]";
+			}
+			Document doc_data = project_data.get(0);
+			String text = doc_data.getString("text");
+			info += "text:\"" + text + "\",";
+			ArrayList<String> tmp = new ArrayList<String>();
+			tmp = doc_data.get("label", tmp);
+			String relation_type = tmp.get(0).split(":")[1];
+			info += "relation_type:\"" + relation_type + "\",";
+			String prediction = doc.getString("relation_type");
+			info += "prediction:\"" + prediction + "\",";
+			String comment = doc_data.getString("comment");
+			info += "comment:\"" + comment + "\",";
+			info += "label:\"";
+			for(String label: tmp){
+				info += label + ";";
+			}
+			info += "\"},";
+		}
+		int length_of_info = info.length();
+		if(info.charAt(length_of_info - 1) == ','){
+			info = info.substring(0, length_of_info - 2);
+		}
+		info += "]";
+		return info;
+		
+	}
 	//add plan
 	public boolean addPlan(String planname){
 		if(this.plans.add(planname)){
