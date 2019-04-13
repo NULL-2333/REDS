@@ -87,10 +87,10 @@ function deletelabel(){
 	}
 }
 function deletelabelvalue(){
-	var l=$('input[name="values"]:checked').val();
-	if(l!=null){
-		var url="/REDS/Deletelabel?index="+l; 
-		location.href=url;
+	var l1=$('input[name="values"]:checked').val();
+	if(l1!=null){
+		var url1="/REDS/Deletelabelvalue?index="+l1; 
+		location.href=url1;
 	}
 }
 $("#leftplans").ready(function(){

@@ -684,20 +684,95 @@ public class Project {
 		System.out.println(str);
 		return str;
 	}
+	///!!!!!!!!!!!!!!!!!!注意不仅要修改_data数据库，还要修改Labels数据库
 	//当前project中的添加新的label
 	public void addlabel(String labelname){
+		DBhelper db_labels = new DBhelper("Labels", projectname);
+		Document d = new Document();
+		d.append("label", labelname);
+		db_labels.InsertOneDocument(db_labels.collection, d);
 		
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		
+		Vector<Document> docs = db_data.FindAll();
+		Document newDocument = new Document();
+		for(Document doc_data: docs){
+			newDocument.append("$push", new Document().append("label", labelname + ":null"));
+			db_data.collection.updateOne(doc_data, newDocument);
+		}
 	}
 	//删除label
 	public void deletelabel(String labelname){
+		DBhelper db_labels = new DBhelper("Labels", projectname);
+		db_labels.DeleteManyEqualDocument(db_labels.collection, "label", labelname);
 		
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		
+		Vector<Document> docs = db_data.FindAll();
+		Document newDocument = new Document();
+		for(Document doc_data: docs){
+			String id = doc_data.getString("id");
+			ArrayList<String> labels = (ArrayList<String>) doc_data.get("label");
+			for(String label: labels){
+				if(label.split(":")[0].equals(labelname)){
+					labels.remove(label);
+					break;
+				}
+			} 
+			newDocument.append("$set", new Document().append("label", labels));
+			Document searchQuery = new Document().append("id", id);  
+			db_data.collection.updateOne(searchQuery, newDocument);
+		}
 	}
 	//增加label值,当前的label为this.currentlabel
 	public void addlabelvalue(String value){
+		DBhelper db_labels = new DBhelper("Labels", projectname);
+		Document currentLabel = db_labels.FindManyEqualDocument(db_labels.collection, "label", currentlabel).get(0);
+		Document newDocument = new Document();
+		newDocument.append("$set", new Document().append("value" + String.valueOf(currentLabel.keySet().size() - 2), value));
+		db_labels.collection.updateOne(currentLabel, newDocument);
 		
 	}
 	//删除label值
 	public void deletelabelvalue(String value){
+		DBhelper db_labels = new DBhelper("Labels", projectname);
+		Document currentLabel = db_labels.FindManyEqualDocument(db_labels.collection, "label", currentlabel).get(0);
+		db_labels.DeleteManyEqualDocument(db_labels.collection, "label", currentlabel);
+		Document newLabelValueList = new Document();
+		int index = 0;
+		for(String key: currentLabel.keySet()){
+			if(key.equals("_id")) continue;
+			if(key.equals("label")){
+				newLabelValueList.append(key, currentLabel.getString(key));
+				continue;
+			}
+			String labelValue = currentLabel.getString(key);
+			if(labelValue.equals(value)){
+				continue;
+			}
+			else{
+				newLabelValueList.append(value + String.valueOf(index), labelValue);
+				index += 1;
+			}
+		}
+		db_labels.InsertOneDocument(db_labels.collection, newLabelValueList);
 		
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		Vector<Document> docs = db_data.FindAll();
+		Document newDocument = new Document();
+		for(Document doc_data: docs){
+			String id = doc_data.getString("id");
+			ArrayList<String> labels = (ArrayList<String>) doc_data.get("label");
+			for(String label: labels){
+				if(label.split(":")[0].equals(currentlabel) && label.split(":")[1].equals(value)){
+					labels.remove(label);
+					labels.add(currentlabel + ":null");
+					break;
+				}
+			}
+			newDocument.append("$set", new Document().append("label", labels));
+			Document searchQuery = new Document().append("id", id);  
+			db_data.collection.updateOne(searchQuery, newDocument);
+		}
 	}
 }
