@@ -38,34 +38,35 @@ function loadchart(){
 		url:"/REDS/HoriComp",
 		datatype:"text",
 		success:function(result){
-			var scores
+			var scores=eval("("+result.split("#####")[1]+")");
+			var name=eval("("+result.split("#####")[0]+")");
 			var temp=new Morris.Bar({
 				element:'bar_test',
-				//data:scores,
-				data:[{
-		            y: 'Accuracy',
-		            a: 1,
-		            b: 0.9
-		        }, {
-		            y: 'Recall',
-		            a: 0.6,
-		            b: 0.65
-		        }, {
-		            y: 'Percision',
-		            a: 0.5,
-		            b: 0.4
-		        }, {
-		            y: 'F-Score',
-		            a: 0.75,
-		            b: 0.65
-		        }, {
-		            y: 'MacroScore',
-		            a: 0.50,
-		            b: 0.40
-		        }],
+				data:scores,
+// 				data:[{
+// 		            y: 'Accuracy',
+// 		            a: 1,
+// 		            b: 0.9
+// 		        }, {
+// 		            y: 'Recall',
+// 		            a: 0.6,
+// 		            b: 0.65
+// 		        }, {
+// 		            y: 'Percision',
+// 		            a: 0.5,
+// 		            b: 0.4
+// 		        }, {
+// 		            y: 'F-Score',
+// 		            a: 0.75,
+// 		            b: 0.65
+// 		        }, {
+// 		            y: 'MacroScore',
+// 		            a: 0.50,
+// 		            b: 0.40
+// 		        }],
 				xkey: 'y',
 		        ykeys: ['a', 'b'],
-		        labels: ['1111', '2222'],
+		        labels: name,
 		        hideHover: 'auto',
 		        gridTextSize:11,
 		        resize: true

@@ -39,7 +39,7 @@ public class DataManageservlet extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		ProjectManager pm=new ProjectManager();	
 		Project project=new Project(pm.getProject());
-		String result=project.getText();
+		String result=project.dataManage();
 		System.out.println("datamanager:"+result);
 		
 		//String result="[{id:\"001\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"},{id:\"002\",text:\"this is test\",relation_type:\"a\",prediction:\"b\",label:\"c\"}]";

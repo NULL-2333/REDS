@@ -30,10 +30,36 @@ function loadleftplans(){
 		}
 	});
 }
+
+function loadchart(){
+	$.ajax({
+		type:"POST",
+		url:"/REDS/VertComp",
+		datatype:"text",
+		success:function(result){
+			var scores=eval("("+result.split("#####")[1]+")");
+			var name=eval("("+result.split("#####")[0]+")");
+			var temp=new Morris.Bar({
+				element:'bar_vert',
+				data:scores,
+				xkey: 'y',
+		        ykeys: ['a', 'b'],
+		        labels: name,
+		        hideHover: 'auto',
+		        gridTextSize:11,
+		        resize: true
+			});
+			$("#bar_vert").append(temp);
+		}
+	});
+}
+
 $("#leftplans").ready(function(){
 	loadleftplans();
 });
-
+$("#bar_vert").ready(function(){
+	loadchart();
+});
 </script>
 <head>
 
@@ -149,7 +175,7 @@ $("#leftplans").ready(function(){
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <div id="morris-bar-chart"></div>
+                            <div id="bar_vert"></div>
                         </div>
                         <!-- /.panel-body -->
                     </div>

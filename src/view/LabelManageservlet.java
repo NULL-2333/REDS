@@ -36,8 +36,7 @@ public class LabelManageservlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Project project=new Project();
-		System.out.println(project.getProjectname());
-		String result=project.getlabelvalue("relation_type");
+		String result=project.labelmanage();
 		out.println(result);
 		
 	}

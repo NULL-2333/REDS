@@ -12,16 +12,16 @@ import javax.servlet.http.HttpServletResponse;
 import model.Project;
 
 /**
- * Servlet implementation class VertiCompservlet
+ * Servlet implementation class LabelValueservlet
  */
-@WebServlet("/VertComp")
-public class VertCompservlet extends HttpServlet {
+@WebServlet("/LabelValue")
+public class LabelValueservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public VertCompservlet() {
+    public LabelValueservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -34,12 +34,12 @@ public class VertCompservlet extends HttpServlet {
 		response.setContentType("text/html");
 		request.setCharacterEncoding("utf-8");
 		response.setCharacterEncoding("UTF-8");
+		String labelname=request.getParameter("index").replaceAll("\n", "");
+		Project p=new Project();
+		p.setcurrentlabel(labelname);
+		String result=p.getlabelvalue(labelname);
 		PrintWriter out = response.getWriter();
-		Project project=new Project();
-		
-		String result="['"+project.getproject1()+" "+project.getplan1()+"','"+project.getproject2()+" "+project.getplan2()+"']";
-		result=result+"#####"+project.gethoriresult();
-		System.out.println("Horicomp:"+result);
+		System.out.println("labelservlet:"+result);
 		out.println(result);
 	}
 

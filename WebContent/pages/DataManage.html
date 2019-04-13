@@ -45,10 +45,13 @@ function loadtext(){
 				columns:[
 					{data:"text"},
 					{data:"id"},
-					{data:"relation_type"},
+					{data:"relation"},
 					{data:"comment"}
 				],
-				responsive:true
+				responsive:true,
+				"search":{
+					"regex":true,
+				}
 			})
 		}
 	});

@@ -10,18 +10,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import model.Project;
+import model.ProjectManager;
 
 /**
- * Servlet implementation class VertiCompservlet
+ * Servlet implementation class Addlabelservlet
  */
-@WebServlet("/VertComp")
-public class VertCompservlet extends HttpServlet {
+@WebServlet("/Addlabel")
+public class Addlabelservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public VertCompservlet() {
+    public Addlabelservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,16 +32,12 @@ public class VertCompservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("text/html");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
+		String labelname=request.getParameter("label_input");
+		System.out.println("addlabelservlet:"+labelname);
+		//调用project里的addlabel,
 		Project project=new Project();
-		
-		String result="['"+project.getproject1()+" "+project.getplan1()+"','"+project.getproject2()+" "+project.getplan2()+"']";
-		result=result+"#####"+project.gethoriresult();
-		System.out.println("Horicomp:"+result);
-		out.println(result);
+		project.addlabel(labelname);
+		response.sendRedirect("/REDS/pages/LabelManage.html");
 	}
 
 	/**

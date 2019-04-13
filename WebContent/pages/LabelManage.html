@@ -30,17 +30,68 @@ function loadleftplans(){
 		}
 	});
 }
-
+/* <div class="radio">
+<label> <input type="radio" name="optionsRadios"
+	id="optionsRadios1" value="option1" checked> Length
+</label>
+</div> */
 function loadlabels(){
 	$.ajax({
 		type:"POST",
 		url:"/REDS/LabelManage",
 		datatype:"text",
 		success:function(result){
-			alert(result);
+			var labels=new Array();
+			labels=result.split("&");
+			var x;
+			var temp;
+			for (x in labels){
+				temp='<div class="radio"><label><input type="radio" name="check" onclick=details() value="'+labels[x]+'">'+labels[x]+'</label></div>';
+				$("#labelname").append(temp);
+			}
 		}
 		
 	});
+}
+function details(){
+	var val=$('input[name="check"]:checked').val();
+	if(val!=null){
+		$.ajax({
+			type:"POST",
+			url:"/REDS/LabelValue",
+			data:{
+				index:val
+			},
+			datatype:"text",
+			success:function(result){
+				$("#labelvalue").empty();
+				var values=new Array();
+				values=result.split("&");
+				var x;
+				var temp;
+				values.shift();
+				for(x in values){
+					temp='<div class="radio"><label><input type="radio" name="values" value="'+values[x]+'">'+values[x]+'</label></div>';
+					$("#labelvalue").append(temp);
+				}
+			}
+		});
+	}
+}
+
+function deletelabel(){
+	var l=$('input[name="check"]:checked').val();
+	if(l!=null){
+		var url="/REDS/Deletelabel?index="+l; 
+		location.href=url;
+	}
+}
+function deletelabelvalue(){
+	var l=$('input[name="values"]:checked').val();
+	if(l!=null){
+		var url="/REDS/Deletelabel?index="+l; 
+		location.href=url;
+	}
 }
 $("#leftplans").ready(function(){
 	loadleftplans();
@@ -155,8 +206,8 @@ $(document).ready(function(){
 				<div class="col-lg-6">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<i class="fa fa-bell fa-fw"></i> Attributes
-							<button type="button" class="btn btn-outline btn-default"
+							<i class="fa fa-bell fa-fw"></i> Labels
+							<button type="button" onclick=deletelabel() class="btn btn-outline btn-default"
 								style="float: right">Delete</button>
 							<button type="button" class="btn btn-outline btn-default"
 								style="float: right" data-toggle="modal" data-target="#myModal1">Add</button>
@@ -164,24 +215,26 @@ $(document).ready(function(){
 								aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
+									<form action="/REDS/Addlabel" method="post">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal"
 												aria-hidden="true">&times;</button>
-											<h4 class="modal-title" id="myModalLabel">Add an
-												attribute</h4>
+											<h4 class="modal-title" id="myModalLabel">Add a new
+												label</h4>
 										</div>
 										<div class="modal-body">
 											<div class="form-group">
-												<label>Name</label> <input class="form-control">
+												<label>Name</label> <input class="form-control" name="label_input">
 											</div>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default"
 												data-dismiss="modal">Close</button>
 
-											<button type="button" class="btn btn-primary">
+											<button type="submit" class="btn btn-primary">
 												Ensure</button>
 										</div>
+										</form>>
 									</div>
 									<!-- /.modal-content -->
 								</div>
@@ -190,8 +243,8 @@ $(document).ready(function(){
 							<div class="clear"></div>
 						</div>
 						<!-- /.panel-heading -->
-						<div class="panel-body">
-							<div class="radio">
+						<div class="panel-body" id="labelname">
+							<!-- <div class="radio">
 								<label> <input type="radio" name="optionsRadios"
 									id="optionsRadios1" value="option1" checked> Length
 								</label>
@@ -200,17 +253,17 @@ $(document).ready(function(){
 								<label> <input type="radio" name="optionsRadios"
 									id="optionsRadios2" value="option2"> Relation Type
 								</label>
-							</div>
+							</div> -->
 						</div>
 						<!-- /.panel-body -->
 					</div>
 					<!-- /.panel .chat-panel -->
 				</div>
 				<div class="col-lg-6">
-					<div class="panel panel-default">
+ 					<div class="panel panel-default">
 						<div class="panel-heading">
 							<i class="fa fa-bell fa-fw"></i> Details
-							<button type="button" class="btn btn-outline btn-default"
+							<button type="button"  onclick=deletelabelvalue() class="btn btn-outline btn-default"
 								style="float: right">Delete</button>
 							<button type="button" class="btn btn-outline btn-default"
 								style="float: right" data-toggle="modal" data-target="#myModal2">Add</button>
@@ -218,6 +271,7 @@ $(document).ready(function(){
 								aria-labelledby="myModalLabel" aria-hidden="true">
 								<div class="modal-dialog">
 									<div class="modal-content">
+									<form action="/REDS/Addlabelvalue" method="post">
 										<div class="modal-header">
 											<button type="button" class="close" data-dismiss="modal"
 												aria-hidden="true">&times;</button>
@@ -225,42 +279,42 @@ $(document).ready(function(){
 										</div>
 										<div class="modal-body">
 											<div class="form-group">
-												<label>Name</label> <input class="form-control">
+												<label>Name</label> <input class="form-control" name="label_value_input">
 											</div>
 										</div>
 										<div class="modal-footer">
 											<button type="button" class="btn btn-default"
 												data-dismiss="modal">Close</button>
 
-											<button type="button" class="btn btn-primary">
+											<button type="submit" class="btn btn-primary">
 												Ensure</button>
 										</div>
 									</div>
-									<!-- /.modal-content -->
+									
 								</div>
-								<!-- /.modal -->
+								
 							</div>
 							<div class="clear"></div>
 						</div>
-						<!-- /.panel-heading -->
-						<div class="panel-body">
-							<div class="radio">
-								<label> <input type="radio" name="optionsRadios2"
-									id="optionsRadios1" value="option1" checked> Long
-								</label>
-							</div>
-							<div class="radio">
-								<label> <input type="radio" name="optionsRadios2"
-									id="optionsRadios2" value="option2"> Short
-								</label>
-							</div>
-							<div class="radio">
-								<label> <input type="radio" name="optionsRadios2"
-									id="optionsRadios3" value="option3"> Medium
-								</label>
-							</div>
+						
+						<div class="panel-body" id="labelvalue">
+<!-- 							<div class="radio"> -->
+<!-- 								<label> <input type="radio" name="optionsRadios2" -->
+<!-- 									id="optionsRadios1" value="option1" checked> Long -->
+<!-- 								</label> -->
+<!-- 							</div> -->
+<!-- 							<div class="radio"> -->
+<!-- 								<label> <input type="radio" name="optionsRadios2" -->
+<!-- 									id="optionsRadios2" value="option2"> Short -->
+<!-- 								</label> -->
+<!-- 							</div> -->
+<!-- 							<div class="radio"> -->
+<!-- 								<label> <input type="radio" name="optionsRadios2" -->
+<!-- 									id="optionsRadios3" value="option3"> Medium -->
+<!-- 								</label> -->
+<!-- 							</div> -->
 						</div>
-						<!-- /.panel-body -->
+						
 					</div>
 					<!-- /.panel .chat-panel -->
 				</div>

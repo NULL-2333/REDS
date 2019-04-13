@@ -17,6 +17,7 @@ public class Project {
 	private static String project2;
 	private static String plan1;
 	private static String plan2;
+	private static String currentlabel;
 	private ArrayList<String> plans = new ArrayList<String>();
 	private static String displaylabel;
 	public Project(String projectname){
@@ -51,6 +52,9 @@ public class Project {
 	public String getCurrentplan(){
 		return currentplan;
 	}
+	public String gethoriresult(){
+		return horiresult;
+	}
 	public String getProjectinfo() {
 		return projectinfo;
 	}
@@ -68,6 +72,21 @@ public class Project {
 		this.plan1=plan1;
 		this.plan2=plan2;
 		
+	}
+	public void setcurrentlabel(String labelname){
+		this.currentlabel=labelname;
+	}
+	public String getproject1(){
+		return project1;
+	}
+	public String getproject2(){
+		return project2;
+	}
+	public String getplan1(){
+		return plan1;
+	}
+	public String getplan2(){
+		return plan2;
 	}
 	public void setPlans(ArrayList<String> plans) {
 		this.plans = plans;
@@ -486,7 +505,6 @@ public class Project {
 				+ "{y: 'F-Score',a: " + plan1Result[3] + ",b: " + plan2Result[3] + "}, "
 				+ "{y: 'Micro-Score',a: " + plan1Result[4] + ",b: " + plan2Result[4] + "}]";
 		this.horiresult = result;
-		System.out.println(horiresult);
 		return true;
 	}
 //****************************************
@@ -497,6 +515,44 @@ public class Project {
 		
 		return str;
 	}
+	
+	
+	public String dataManage(){
+		String info = "[";
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		Vector<Document> project_data = db_data.FindAll();
+		System.out.println(project_data.size());
+		for(Document doc: project_data){
+			info += "{";
+			String id = doc.getString("id");
+			info += "id:\"" + id + "\",";
+			String text = doc.getString("text");
+			info += "text:\"" + text + "\",";
+			String relation = doc.getString("relation");
+			info += "relation:\"" + relation + "\",";			
+			ArrayList<String> tmp = new ArrayList<String>();
+			tmp = doc.get("label", tmp);
+			String relation_type = tmp.get(0).split(":")[1];
+			info += "relation_type:\"" + relation_type + "\",";
+			String comment = doc.getString("comment");
+			if(comment==null){
+				comment = "";
+			}
+			info += "comment:\"" + comment + "\",";
+			info += "label:\"";
+			for(String label: tmp){
+				info += label + ";";
+			}
+			info += "\"},";
+		}
+		int length_of_info = info.length();
+		if(info.charAt(length_of_info - 1) == ','){
+			info = info.substring(0, length_of_info - 1);
+		}
+		info += "]";
+		return info;
+		
+	}	
 //************************************
 //层级关系：Labels(database);projectname(当前project，collection)；{"label"："Length","value0":"Long","value1":"Short"}(document)	
 //判断this.projectname是否已经在Labels数据库中创建过记录
@@ -534,7 +590,7 @@ public class Project {
 				labelsStr += labelInfo.getString("label") + "&";
 			}
 		}
-		return labelsStr;
+		return labelsStr.substring(0,labelsStr.length()-1);
 	}
 //***********************************
 //获得Labels数据库中，projectname的collection中，labelname对应的document，并且返回所有取值(包括labelname&隔开)	
@@ -551,7 +607,7 @@ public class Project {
 				}
 			}
 		}
-		return labelWithValueStr;
+		return labelWithValueStr.substring(0, labelWithValueStr.length()-1);
 	}
 	//add plan
 	public boolean addPlan(String planname){
@@ -627,5 +683,21 @@ public class Project {
 		str+="]";
 		System.out.println(str);
 		return str;
+	}
+	//当前project中的添加新的label
+	public void addlabel(String labelname){
+		
+	}
+	//删除label
+	public void deletelabel(String labelname){
+		
+	}
+	//增加label值,当前的label为this.currentlabel
+	public void addlabelvalue(String value){
+		
+	}
+	//删除label值
+	public void deletelabelvalue(String value){
+		
 	}
 }

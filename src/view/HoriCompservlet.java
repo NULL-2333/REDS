@@ -37,7 +37,9 @@ public class HoriCompservlet extends HttpServlet {
 		response.setCharacterEncoding("UTF-8");
 		PrintWriter out = response.getWriter();
 		Project project=new Project();
-		String result="aaa";
+		
+		String result="['"+project.getproject1()+" "+project.getplan1()+"','"+project.getproject2()+" "+project.getplan2()+"']";
+		result=result+"#####"+project.gethoriresult();
 		System.out.println("Horicomp:"+result);
 		out.println(result);
 		

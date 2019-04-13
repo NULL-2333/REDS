@@ -1,8 +1,6 @@
 package view;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 import model.Project;
 
 /**
- * Servlet implementation class VertiCompservlet
+ * Servlet implementation class Deletelabelvalueservlet
  */
-@WebServlet("/VertComp")
-public class VertCompservlet extends HttpServlet {
+@WebServlet("/Deletelabelvalue")
+public class Deletelabelvalueservlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public VertCompservlet() {
+    public Deletelabelvalueservlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -31,16 +29,11 @@ public class VertCompservlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		response.setContentType("text/html");
-		request.setCharacterEncoding("utf-8");
-		response.setCharacterEncoding("UTF-8");
-		PrintWriter out = response.getWriter();
+		String value=request.getQueryString().split("index=")[1];
+		System.out.println(value);
 		Project project=new Project();
-		
-		String result="['"+project.getproject1()+" "+project.getplan1()+"','"+project.getproject2()+" "+project.getplan2()+"']";
-		result=result+"#####"+project.gethoriresult();
-		System.out.println("Horicomp:"+result);
-		out.println(result);
+		project.deletelabelvalue(value);
+		response.sendRedirect("/REDS/pages/LabelManage.html");
 	}
 
 	/**
