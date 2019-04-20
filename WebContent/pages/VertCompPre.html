@@ -180,7 +180,7 @@ $("#vertcomp").ready(function(){
 						</li>						
 						<li><a href="DataManage.html"><i class="fa fa-file-text fa-fw"></i> Data Manage</a></li>
 						<li><a href="LabelManage.html"><i class="fa fa-tags fa-fw"></i> Label Manage</a></li>
-						<li><a href="FilterManage.html"><i class="fa fa-filter fa-fw"></i> Filter Manage</a></li>
+						<!-- <li><a href="FilterManage.html"><i class="fa fa-filter fa-fw"></i> Filter Manage</a></li> -->
 					</ul>
                 </div>
                 <!-- /.sidebar-collapse -->
@@ -230,6 +230,13 @@ $("#vertcomp").ready(function(){
 
     <!-- Custom Theme JavaScript -->
     <script src="../dist/js/reds.js"></script>
+    	<script>
+		$(document).ready(function() {
+			$('#dataTables').DataTable({
+				responsive : true
+			});
+		});
+	</script>
 </body>
 
 </html>

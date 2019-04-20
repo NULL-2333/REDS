@@ -27,6 +27,7 @@ public class Project {
 		//System.out.println(db.GetCollectionName());
 		db=new DBhelper(projectname+"_result");
 		this.plans = db.GetCollectionName();
+		System.out.println("project:  "+this.plans);
 	}
 	public Project(){
 		
@@ -552,7 +553,79 @@ public class Project {
 		info += "]";
 		return info;
 		
-	}	
+	}
+	
+	
+	public String verticalData(){
+		String info = "[";
+		DBhelper db_plan1 = new DBhelper(projectname + "_result", plan1);
+		Vector<Document> plan1_data = db_plan1.FindAll();
+		
+		DBhelper db_plan2 = new DBhelper(projectname + "_result", plan2);
+		Vector<Document> plan2_data = db_plan2.FindAll();
+		
+		DBhelper db_data = new DBhelper(projectname + "_data", projectname);
+		Vector<Document> project_data = db_data.FindAll();
+		
+		db_plan2 = new DBhelper(projectname + "_result", plan2);
+		for(Document doc: plan1_data){
+			String id = doc.getString("id");
+			Vector<Document> plan2_data_tmp = db_plan2.FindManyEqualDocument(db_plan2.collection, "id", id);
+			//System.out.println(project_data);
+			if(plan2_data_tmp.size() == 0){
+				System.out.println(projectname + "的" + plan1 + "数据库与" + plan2 + "数据库存在不匹配");
+				return "[]";
+			}
+			else if(plan2_data_tmp.size() > 1){
+				System.out.println(projectname + "的" + plan1 + "与" + plan2 + "数据库存在相同id的情况");
+				return "[]";
+			}
+		}
+		
+		for(Document doc: plan1_data){
+			info += "{";
+			String id = doc.getString("id");
+			info += "id:\"" + id + "\",";
+			
+			Document doc_data = new Document();
+			Document doc_plan2 = new Document();
+			for(Document doc_data_element: project_data){
+				if(doc_data_element.getString("id").equals(id)){
+					doc_data = doc_data_element;
+					break;
+				}
+			}
+			for(Document doc_plan2_element: plan2_data){
+				if(doc_plan2_element.getString("id").equals(id)){
+					doc_plan2 = doc_plan2_element;
+					break;
+				}
+			}
+			String relation = doc_data.getString("relation");
+			info += "relation:\"" + relation + "\",";
+			relation = doc.getString("relation");
+			info += "relation1:\"" + relation + "\",";
+			relation = doc_plan2.getString("relation");
+			info += "relation2:\"" + relation + "\",";
+			
+			ArrayList<String> tmp = new ArrayList<String>();
+			tmp = doc_data.get("label", tmp);
+			String relation_type = tmp.get(0).split(":")[1];
+			info += "relation_type:\"" + relation_type + "\",";
+			relation_type = doc.getString("relation_type");
+			info += "relation_type1:\"" + relation_type + "\",";
+			relation_type = doc_plan2.getString("relation_type");
+			info += "relation_type2:\"" + relation_type + "\"";
+			
+			info += "},";
+		}
+		int length_of_info = info.length();
+		if(info.charAt(length_of_info - 1) == ','){
+			info = info.substring(0, length_of_info - 1);
+		}
+		info += "]";
+		return info;
+	}
 //************************************
 //层级关系：Labels(database);projectname(当前project，collection)；{"label"："Length","value0":"Long","value1":"Short"}(document)	
 //判断this.projectname是否已经在Labels数据库中创建过记录
@@ -635,10 +708,10 @@ public class Project {
 		String str="info";
 		for(int i=0;i<this.plans.size();i++){
 			//modified by rhys
-			if(this.plans.get(i).equals("info") || this.plans.get(i).equals("total"))	continue;
+			//if(this.plans.get(i).equals("info") || this.plans.get(i).equals("total"))	continue;
 			str = str + "#" + this.plans.get(i);
 		}
-		System.out.println(str);
+		System.out.println("project.changeplantostring:"+str);
 		return str;
 	}
 	//get all plans from a selected project
@@ -681,7 +754,7 @@ public class Project {
 			}
 		}
 		str+="]";
-		System.out.println(str);
+		System.out.println("getdes:"+str);
 		return str;
 	}
 	///!!!!!!!!!!!!!!!!!!注意不仅要修改_data数据库，还要修改Labels数据库
